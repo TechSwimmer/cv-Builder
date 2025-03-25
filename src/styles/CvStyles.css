@@ -1,0 +1,62 @@
+.cv-preview{
+    display: flex;
+    justify-content: space-around;
+    
+}
+.preview-section-left{
+    width: 30%;
+    background: wheat;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    height: 100%;
+}
+
+.preview-section-right{
+    width: 65%;
+    background: white;
+    padding: 10px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    height: 100%;
+}
+
+
+.preview-section-skill{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    width: 92%;
+    padding: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.preview-section-skill li{
+    width: 100%;
+    list-style: none;
+    text-align: left;
+}
+
+.preview-section-headers{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 92%;
+}
+
+.preview-section-summary{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.preview-section-education{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+
+}
+
+.preview-section-experience{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}

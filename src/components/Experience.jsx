@@ -1,0 +1,88 @@
+import React from "react";
+
+function Experience({ data, setData }) {
+
+  const addExperience = () => {
+    setData([
+      ...data,
+      { company: "", location: "", position: "", startDate: "", endDate: "" }
+    ])
+  }
+
+  const removeExperience = (index) => {
+    if(data.length <= 1) return;
+    const updatedExperience = [...data];
+    updatedExperience.splice(index, 1);
+    setData(updatedExperience)
+  }
+
+  const updateExperience = (index, field, value) => {
+    const updatedExperience = [...data];
+    updatedExperience[index] = {
+      ...updatedExperience[index],
+      [field]: value
+    };
+    setData(updatedExperience)
+  }
+
+
+
+
+  const formatDate = (dateString) => {
+    if (!dateString) return ""; // If no date selected, return empty
+    const date = new Date(dateString);
+    return `${date.toLocaleString("default", { month: "long" })} - ${date.getFullYear()}`;
+  };
+
+  return (
+    <div className="experience-section">
+
+      {data.map((exp, index) => (
+        <div key={index} className="experience-entry">
+          <h3>EMPLOYEMENT HISTORY</h3>
+          <input
+            type="text"
+            placeholder="Company Name"
+            value={exp.company}
+            onChange={(e) => updateExperience(index, "company", e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Position"
+            value={exp.position}
+            onChange={(e) => updateExperience(index, "position", e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Location"
+            value={exp.location}
+            onChange={(e) => updateExperience(index, "location", e.target.value)}
+          />
+
+          <input
+            type="month"
+            placeholder="Start Date"
+            value={exp.startDate || ""}
+            onChange={(e) => updateExperience(index, "startDate", e.target.value)}
+          />
+
+          <input
+            type="month"
+            placeholder="End Date"
+            value={exp.endDate || ""}
+            onChange={(e) => updateExperience(index, "endDate", e.target.value)}
+          />
+
+          <button className="remove-btn" onClick={() => removeExperience(index)}>Remove</button>
+          <button className="add-btn" onClick={addExperience}>Add Experience</button>
+        </div>
+      ))}
+
+      
+    </div>
+  );
+}
+
+export default Experience;
