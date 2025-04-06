@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 const Skills = ({data, setData}) => {
 
+    
+      // skills data
+      const [skills, setSkills] = useState([{ skill: "" }]);
+      
     const addSkill = () => {
         setData([
             ...data,
@@ -38,8 +42,8 @@ const Skills = ({data, setData}) => {
                         onChange={(e) => updateSkill(index, e.target.value)}
                     />
                     <div className="skills-container-btns">
-                    <button onClick={addSkill}>Add Skill</button>
-                    <button onClick={() => removeSkill(index)}>Remove</button>
+                    <button onClick={addSkill}> + </button>
+                    <button onClick={() => removeSkill(index)}>x</button>
                     </div>
                 </div>
             ))}

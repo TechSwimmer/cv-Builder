@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 
-function Experience({ data, setData }) {
+function Experience({ data=[], setData }) {
 
   const addExperience = () => {
     setData([
@@ -9,6 +9,7 @@ function Experience({ data, setData }) {
     ])
   }
 
+  
   const removeExperience = (index) => {
     if(data.length <= 1) return;
     const updatedExperience = [...data];
@@ -36,44 +37,50 @@ function Experience({ data, setData }) {
 
   return (
     <div className="experience-section">
-
+      <h3>EMPLOYEMENT HISTORY</h3>
       {data.map((exp, index) => (
         <div key={index} className="experience-entry">
-          <h3>EMPLOYEMENT HISTORY</h3>
+          
           <input
             type="text"
             placeholder="Company Name"
-            value={exp.company}
+            value={exp.company || ""}
             onChange={(e) => updateExperience(index, "company", e.target.value)}
           />
 
           <input
             type="text"
             placeholder="Position"
-            value={exp.position}
+            value={exp.position || ""}
             onChange={(e) => updateExperience(index, "position", e.target.value)}
           />
 
           <input
             type="text"
             placeholder="Location"
-            value={exp.location}
+            value={exp.location || ""}
             onChange={(e) => updateExperience(index, "location", e.target.value)}
           />
-
+          <div className="date-input">
+          <label>Start Date</label>
           <input
+            className="date-input-field"
             type="month"
             placeholder="Start Date"
             value={exp.startDate || ""}
             onChange={(e) => updateExperience(index, "startDate", e.target.value)}
           />
-
+          </div>
+          <div className="date-input">
+          <label>End Date</label>
           <input
+             className="date-input-field"
             type="month"
             placeholder="End Date"
             value={exp.endDate || ""}
             onChange={(e) => updateExperience(index, "endDate", e.target.value)}
           />
+          </div>
 
           <button className="remove-btn" onClick={() => removeExperience(index)}>Remove</button>
           <button className="add-btn" onClick={addExperience}>Add Experience</button>

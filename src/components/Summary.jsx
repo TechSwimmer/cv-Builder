@@ -1,5 +1,10 @@
-const Summary = ({data, setData}) => {
+import React, {useState} from "react";
 
+
+const Summary = ({data={}, setData}) => {
+    
+    // summary data
+    const [summary={}, setSummary] = useState({ summary: "" });
 
     return(
         <div className="summary-container">

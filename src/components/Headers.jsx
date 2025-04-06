@@ -1,5 +1,22 @@
 import React, { useState } from "react";
-const Headers = ({data,setData}) => {
+
+
+
+const Headers = ({data={},setData}) => {
+
+
+      // headers data
+      const [generalInfo, setGeneralInfo] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+        Github: "",
+        linkedin:"",
+        website:"",
+      });
+
+      
 
     return (
         <div className="headers-container">
@@ -28,6 +45,24 @@ const Headers = ({data,setData}) => {
                     placeholder="Location"
                     value={data.location}
                     onChange={(e) => setData({ ...data, location: e.target.value })}
+                />
+                  <input
+                    type="text"
+                    placeholder="Website"
+                    value={data.website}
+                    onChange={(e) => setData({ ...data, website: e.target.value })}
+                />
+                  <input
+                    type="text"
+                    placeholder="Github"
+                    value={data.github}
+                    onChange={(e) => setData({ ...data, github: e.target.value })}
+                />
+                  <input
+                    type="text"
+                    placeholder="Linked-In"
+                    value={data.linkedin}
+                    onChange={(e) => setData({ ...data, linkedin: e.target.value })}
                 />
             </div>
         </div>
