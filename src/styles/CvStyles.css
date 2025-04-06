@@ -1,62 +1,174 @@
-.cv-preview{
-    display: flex;
-    justify-content: space-around;
-    
-}
-.preview-section-left{
-    width: 30%;
-    background: wheat;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    height: 100%;
-}
-
-.preview-section-right{
-    width: 65%;
+:root {
+    /* Design Tokens */
+    --shadow-default: 0px 0px 10px rgba(0, 0, 0, 0.9);
+    --border-default: 1px solid #ccc;
+    --primary-font: 'Consolas', 'Courier New', monospace;
+    --header-font: 'Open Sans', sans-serif;
+    --skill-color: aqua;
+    --print-adjust: -webkit-print-color-adjust: exact; 
+                      print-color-adjust: exact;
+  }
+  
+  /* Base CV Styles */
+  .cv-preview {
+    width: 100%;
     background: white;
+    box-shadow: var(--shadow-default);
+    display: flex;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .cv-preview.full-width {
+    .preview-section-left { width: 35%; }
+    .preview-section-right { width: 65%; }
+  }
+  
+  /* Shared Section Styles */
+  [class^="preview-section-"] {
+    
+    box-shadow: var(--shadow-default);
     padding: 10px;
-    margin-bottom: 30px;
-    border-radius: 4px;
-    height: 100%;
+    margin: 5px;
+    
+    h3 { 
+      font-family: var(--header-font);
+      margin: 0.5em 0;
+    }
+    
+    p, li {
+      font-family: var(--primary-font);
+      font-size: 16px;
+      margin: 5px 0;
+    }
+  }
+  
+  /* Left Column Specific */
+  .preview-section-left {
+    width: 35%;
+    overflow: visible;
+    height: fit-content;
+    .preview-section-headers {
+      
+      
+      
+      p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        .icon {
+          font-size: 18px;
+          color: #333;
+        }
+      }
+    }
+  }
+  
+  /* Right Column Specific */
+  .preview-section-right {
+    width: 65%;
+    height: fit-content;
+  }
+  
+  /* Skill Styles */
+  .skill-list-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .skill-list-item{
+    list-style: none;
+    padding: 7px;
+    border: var(--border-default);
+    border-radius: 14px;
+    text-align: center;
+    font-weight: bolder;
+    background-color: var(--skill-color);
+    width: 74%;
+    margin: 5px;
+  }
+
+.skill-list-projects{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-
-
-.preview-section-skill{
+  
+  /* Entry Styles */
+  [class$="-entry-preview"] {
+    width: 97%;
+    box-shadow: var(--shadow-default);
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: left;
     align-items: flex-start;
-    margin-bottom: 10px;
-    width: 92%;
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.preview-section-skill li{
-    width: 100%;
-    list-style: none;
-    text-align: left;
-}
-
-.preview-section-headers{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    width: 92%;
-}
-
-.preview-section-summary{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
-
-.preview-section-education{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-
-}
-
-.preview-section-experience{
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
+  }
+  
+  /* Project Specific */
+  .project-skills ul {
+    display: flex;
+    flex-wrap: wrap;
+    
+    li {
+      list-style-type: none;
+      padding: 5px;
+      border-radius: 10px;
+    }
+  }
+  
+  .stronger-font {
+    
+    font-weight: bold;
+  }
+  
+  /* Print Optimization */
+  @media print {
+    body * { 
+      visibility: hidden;
+      text-rendering: optimizeLegibility !important;
+    }
+    
+    .cv-preview, 
+    .cv-preview * {
+      visibility: visible;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+     
+    }
+    
+    .full-preview-btns,
+    body::before,
+    body::after {
+      display: none !important;
+    }
+    
+.skill-list-item,
+  .skill-item,
+  [class^="preview-section-"] {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: inherit !important;
+  }
+    
+    .cv-preview h3, 
+    .cv-preview p, 
+    .cv-preview li,
+    .preview-section-experience h3,
+    .project-key-feature ul li {
+      letter-spacing: normal !important;
+     
+    }
+    .cv-text {
+       
+        word-spacing: 10px !important;
+        background-color: blue !important;white-space: pre-wrap;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+  }

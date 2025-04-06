@@ -1,3 +1,4 @@
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -8,11 +9,30 @@ body {
 
 }
 
+.form-navbar-container{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content:stretch ;
+  width: 50%;
+  flex-grow: 1;
+}
+
+.cv-navbar button{
+  width: 50%;
+  margin-bottom: 10px;
+  background: #464242;
+  color: #ffffff;
+}
+.cv-navbar button:hover{
+  font-size: large;
+}
+
 .app {
   min-width: 96%;
   margin:  auto;
   background: white;
-  padding: 10px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 100vw;
@@ -25,20 +45,29 @@ h1 {
 /* FLEX CONTAINER */
 .container {
   display: flex;
+  
   gap: 20px;
   width: 100%;
   justify-content: space-between;
-  height: 100vh;
   
+  height: 100vh;
+  align-items: stretch;
+}
+.form-container, .preview-container{
+  
+  min-height: 100vh; 
+  border: 1px solid #ccc;
+  padding: 10px;
+  overflow: auto;
 }
 
 /* FORM SECTION (LEFT) */
 .form-container {
-  width: 29vw;
+  width: 100%;
   background: #ffffff;
   padding: 2px;
   border-radius: 3px;
-  overflow-y:auto;
+  
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,14 +77,27 @@ h1 {
 
 /* PREVIEW SECTION (RIGHT) */
 .preview-container {
-  width: 67vw; 
+  width: 90%; 
   background: #f4f4f4;
   padding: 20px;
   border-radius: 8px;
-  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  overflow-y: auto;
+  margin-left: 35px;
+  margin-right: 35px;
+  
+  margin-bottom: 20px;
+  
+}
+
+.preview-container .full-width {
+  width: 100%;
+  align-items: stretch;
+ 
+  
 }
 
 /* FORM STYLING */
@@ -64,7 +106,7 @@ h1 {
 }
 
 input {
-  
+  display: block;
   width: 90%;
   padding: 7px;
   margin: 10px 0;
@@ -86,9 +128,10 @@ input {
 .summary-container{
   width:95%;
   margin-bottom: 20px;
+  margin-left: 6px;
   align-self: flex-start;
   padding: 5px;
-  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.3);
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,7 +140,7 @@ input {
 }
 .summary-container textarea{
   height: 130px;
-  width: 97%;
+  width: 90%;
   resize: none;
   padding: 3px;
   box-sizing: border-box;
@@ -107,10 +150,11 @@ input {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  margin-left: 6px;
   align-self: flex-start;
   align-items: center;
   width: 95%;
-  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.3);
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
   padding: 5px;
   border-radius: 5px;
 }
@@ -127,13 +171,14 @@ input {
 .education-section{
   margin-bottom: 18px;
   margin-top: 18px;
+  margin-left: 6px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-self: flex-start;
   align-items: center;
   width: 95%;
-  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.3);
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
   padding: 5px;
   border-radius: 5px;
 }
@@ -145,9 +190,10 @@ input {
   align-self: flex-start;
   align-items: center;
   width: 95%;
-  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.3);
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
   margin-bottom: 18px;
   margin-top: 18px;
+  margin-left: 6px;
   padding: 5px;
   border-radius: 5px;
 }
@@ -159,29 +205,41 @@ input {
   align-self: flex-start;
   align-items: center;
   width: 95%;
-  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.3);
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
   padding: 5px;
   border-radius: 5px;
+  margin-left: 6px;
 }
 .skills-container-btns{
   display: flex;
-  justify-content:space-around;
+  padding-top: 10px;
+  justify-content:space-evenly;
   align-items: center;
   width: 100%;
+  
 
 }
 .skills-container-btns button{
   padding: 5px;
-  border-radius: 4px;
+  border-radius: 50px;
   border: none;
   background: #464242;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+  width: 50px;
+  font-size: 1.2rem;
 } 
-.skills-container-input{
+.skill-container-input{
   width: 100%;
-  
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  background-color: #ccc;
+  border: #ffffff solid 2px;
+}
+.skill-container-input input{
+  margin-left: 10px;
 }
 
 .education-entry button{
@@ -193,13 +251,25 @@ input {
 
 .education-entry{
   width: 100%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.experience-entry{
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .submit-btn{
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 80px;
   width: 98%;
   align-self: flex-start;
   background: #464242;
@@ -216,4 +286,118 @@ button:hover{
   margin-bottom: 10px;
   background: #464242;
   color: #ffffff;
+}
+
+.download-btn{
+  width: 40%;
+  margin-top: auto;
+  margin-bottom: 40px;
+  background: #464242;
+  color: white;
+}
+.edit-btn{
+  width: 40%;
+  margin-top: auto;
+  margin-bottom: 40px;
+  background: #464242;
+  color: white;
+}
+
+
+.preview-container .full-preview-btns{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.full-preview-btns button{
+  width: 40%;
+  margin-top: auto;
+  margin-bottom: 40px;
+  background: #464242;
+  color: white;
+}
+
+
+.date-input{
+  width: 96%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  
+}
+
+.date-input-field{
+  width: 70%;
+}
+
+.projects-container{
+  margin-bottom: 18px;
+  margin-top: 18px;
+  margin-left: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-self: flex-start;
+  align-items: center;
+  width: 95%;
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.project-entry{
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.0);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.project-entry textarea{
+  height: 130px;
+  width: 92%;
+  resize: none;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.add-btn, .remove-btn{
+  width: 95%;
+  margin-bottom: 10px;
+  background: #464242;
+  color: #ffffff;
+}
+
+.projects-skills{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+}
+
+.projects-key-feature{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+}
+.projects-key-feature label{
+  width: 40%;
+}
+
+.projects-skills label{
+  width: 40% ;
+}
+
+.add-feat-btn{
+  width: 15%;
+ 
+  background: #464242;
+  color: #ffffff;
+}
+
+.projects-key-feature input{
+  width: 73%;
 }

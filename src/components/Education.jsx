@@ -1,12 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 
-function Education({ data, setData }) {
+function Education({ data=[], setData }) {
 
     // const formatDate = (dateString) => {
     //     if (!dateString) return ""; // If no date selected, return empty
     //     const date = new Date(dateString);
     //     return `${date.toLocaleString("default", { month: "long" })} - ${date.getFullYear()}`;
     //   };
+
+
+      // education data
+      const [education, setEducation] = useState([
+        { school: "", degree: "", startDate: "", endDate: "", location: "" }
+      ]);
 
       const addEducation = () => {
         setData([
@@ -45,37 +51,41 @@ function Education({ data, setData }) {
             placeholder="School Name"
             value={edu.school}
             onChange={(e) => updateEducation(index, "school", e.target.value)}
-          />
-
+          /> 
           <input
             type="text"
             placeholder="Degree/Field of Study"
             value={edu.degree}
             onChange={(e) => updateEducation(index, "degree", e.target.value)}
           />
-
           <input
             type="text"
             placeholder="location"
             value={edu.location}
             onChange={(e) => updateEducation(index, "location", e.target.value)}
           />
-
+          
           {/* Start Date */}
+          <div className="date-input">
           <label>Start Date:</label>
           <input
+             className="date-input-field"
             type="month"
             value={edu.startDate || ""}
             onChange={(e) => updateEducation(index, "startDate", e.target.value)}
           />
+          </div>
 
           {/* End Date */}
+          <div className="date-input">
           <label>End Date:</label>
           <input
+             className="date-input-field"
             type="month"
             value={edu.endDate || ""}
             onChange={(e) => updateEducation(index, "endDate", e.target.value)}
           />
+          </div>
 
           {/* Remove Button */}
           <button onClick={() => removeEducation(index)}>Remove</button>
