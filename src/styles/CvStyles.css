@@ -1,6 +1,6 @@
 :root {
     /* Design Tokens */
-    --shadow-default: 0px 0px 10px rgba(0, 0, 0, 0.9);
+    --shadow-default: 0 0 20px 4px rgba(0, 0, 0, 0.6);
     --border-default: 1px solid #ccc;
     --primary-font: 'Consolas', 'Courier New', monospace;
     --header-font: 'Open Sans', sans-serif;
@@ -13,9 +13,9 @@
   .cv-preview {
     width: 100%;
     background: white;
-    box-shadow: var(--shadow-default);
+    filter: drop-shadow(0 0 24px rgba(0, 0, 0, 0.6));
     display: flex;
-    padding: 20px;
+   
     overflow-y: auto;
   }
   
@@ -27,13 +27,15 @@
   /* Shared Section Styles */
   [class^="preview-section-"] {
     
-    box-shadow: var(--shadow-default);
-    padding: 10px;
-    margin: 5px;
+   
+    padding: 5px;;
+    margin: 4px;
     
     h3 { 
       font-family: var(--header-font);
       margin: 0.5em 0;
+      width: 100%;
+      border-bottom: 2px solid grey;
     }
     
     p, li {
@@ -48,6 +50,7 @@
     width: 35%;
     overflow: visible;
     height: fit-content;
+    
     .preview-section-headers {
       
       
@@ -69,6 +72,7 @@
   .preview-section-right {
     width: 65%;
     height: fit-content;
+    
   }
   
   /* Skill Styles */
@@ -80,7 +84,7 @@
   .skill-list-item{
     list-style: none;
     padding: 7px;
-    border: var(--border-default);
+   
     border-radius: 14px;
     text-align: center;
     font-weight: bolder;
@@ -98,12 +102,35 @@
   
   /* Entry Styles */
   [class$="-entry-preview"] {
-    width: 97%;
-    box-shadow: var(--shadow-default);
+    width: 99%;
+   
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    border-bottom: 1px dotted grey;
+    
+  }
+
+  .hobbies-description{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+
+  }
+
+  .hobby-entry {
+    display: flex;
+    justify-content: space-between;
+    
+    flex-direction: row;
+    width: 100%;
+    text-align: left;
+  }
+  .hobby-entry p {
+    width: 100%;
   }
   
   /* Project Specific */
@@ -125,6 +152,13 @@
   
   /* Print Optimization */
   @media print {
+
+    [class^="preview-section-"] {
+    
+      filter: drop-shadow(0 0 24px rgba(0, 0, 0, 0.6)) !important;
+    }
+
+
     body * { 
       visibility: hidden;
       text-rendering: optimizeLegibility !important;
@@ -167,7 +201,7 @@
     .cv-text {
        
         word-spacing: 10px !important;
-        background-color: blue !important;white-space: pre-wrap;
+        white-space: pre-wrap;
         white-space: pre-wrap;
         word-break: break-word;
       }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Skills = ({data, setData}) => {
+const Skills = ({data, setData,visible,setVisible}) => {
 
     
       // skills data
@@ -30,7 +30,20 @@ const Skills = ({data, setData}) => {
     }
 
     return (
+        
         <div className="skills-container">
+            <div className="toggle-visibility">
+                <label>Show Skills Section</label>
+                <input 
+                    type="checkbox"
+                    checked={visible}
+                    onChange={(e) => setVisible(e.target.checked)}
+                />
+                
+                
+            </div>
+            { visible && (
+                <>
             <h3>SKILLS</h3>
 
             {data.map((skillObj, index) => (
@@ -47,7 +60,10 @@ const Skills = ({data, setData}) => {
                     </div>
                 </div>
             ))}
+            </>
+        )}
         </div>
+   
     )
 }
 
