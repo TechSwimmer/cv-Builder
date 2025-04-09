@@ -84,7 +84,7 @@ input[type="number"] {
     box-shadow: 0 0 4px rgba(0,0,0,0.3);
   }
   
-  select {
+  Select {
     width:60%;
     height: 40px;
     border: 1px solid #ccc;

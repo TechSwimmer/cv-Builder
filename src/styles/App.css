@@ -10,12 +10,17 @@ body {
 }
 
 .form-navbar-container{
+  margin-top: 17px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content:stretch ;
+  justify-content: stretch;
   width: 50%;
   flex-grow: 1;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 100vh;
+  overflow: hidden; /* prevent overflow issues */
 }
 
 .cv-navbar button{
@@ -30,11 +35,12 @@ body {
 
 .app {
   min-width: 96%;
-  margin:  auto;
+  
   background: white;
-  padding: 20px;
+  
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
@@ -45,12 +51,12 @@ h1 {
 /* FLEX CONTAINER */
 .container {
   display: flex;
-  
+  padding: 5px;
   gap: 20px;
   width: 100%;
   justify-content: space-between;
   
-  height: 100vh;
+  height: 100%;
   align-items: stretch;
 }
 .form-container, .preview-container{
@@ -58,38 +64,94 @@ h1 {
   min-height: 100vh; 
   border: 1px solid #ccc;
   padding: 10px;
-  overflow: auto;
+  
 }
 
 /* FORM SECTION (LEFT) */
 .form-container {
-  width: 100%;
+  flex: 1;
+  overflow-y: scroll;
+  margin-right: 20px;
+  width: 97%;
   background: #ffffff;
-  padding: 2px;
-  border-radius: 3px;
   
+
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height:100%;
+}
+.form-container::-webkit-scrollbar {
+  width: 12px;               /* Vertical scrollbar width */
+  height: 10px;              /* Horizontal scrollbar height (optional) */
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: #f1f1f1;       /* Track color */
+  border-radius: 10px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background: #888;          /* Scroll thumb color */
+  border-radius: 10px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+  background: #555;    
+  cursor: pointer;      /* Scroll thumb on hover */
+}
+
+.form-section {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+ overflow: hidden;
+}
+.form-section-btn {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  height: 100px;
+  text-align: right;
+  z-index: 10;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.toggle-visibility{
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  
+  width: 100%;
+}
+.toggle-visibility label{
+  width: 70%;
+  padding-left: 10px;
+}
+.toggle-visibility input{
+  width: 25%;
+}
+.toggle-visibility input:hover{
+  cursor: pointer;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); ;
 }
 
 /* PREVIEW SECTION (RIGHT) */
 .preview-container {
-  width: 90%; 
+  width: 100%; 
   background: #f4f4f4;
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: stretch;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  margin-left: 35px;
-  margin-right: 35px;
+ 
   
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   
 }
 
@@ -121,7 +183,7 @@ input {
 
 .preview-section {
   background: white;
-  padding: 10px;
+  
   margin-bottom: 10px;
   border-radius: 4px;
 }
@@ -198,6 +260,33 @@ input {
   border-radius: 5px;
 }
 
+.education-achievements-form, .experience-achievements-form{
+  display: flex;
+  
+  justify-content: space-between;
+  align-items: center;
+  width: 93%;
+}
+
+.education-achievements-form input{
+  width: 65%;
+}
+.education-achievements-form button{
+  max-width: 20%;
+ 
+  background: #464242;
+  color: #ffffff;
+}
+.experience-achievements-form input{
+  width: 65%;
+}
+.experience-achievements-form button{
+  max-width: 20%;
+ 
+  background: #464242;
+  color: #ffffff;
+}
+
 .skills-container{
   display: flex;
   flex-direction: column;
@@ -268,6 +357,7 @@ input {
 }
 
 .submit-btn{
+
   margin-top: 15px;
   margin-bottom: 80px;
   width: 98%;
@@ -400,4 +490,42 @@ button:hover{
 
 .projects-key-feature input{
   width: 73%;
+}
+
+.hobbies-container-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 96%;
+  margin-top: 18px;
+  padding: 3px;
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9);
+}
+.hobby-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  
+}
+
+.hobby-entry textarea {
+  height: 130px;
+  width: 92%;
+  resize: none;
+  padding: 3px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.hobby-entry input{
+  width: 90%;
+}
+
+.hobbies-container-form button{
+  width: 95%;
+  margin-bottom: 10px;
+  background: #464242;
+  color: #ffffff;
 }

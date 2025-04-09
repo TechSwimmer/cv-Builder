@@ -13,7 +13,20 @@ import "./styles/App.css";
 
 
 function App() {
+
+  // hanbdling visibility for each section in preview 
+  const [visibleSections, setVisibleSections] = useState({
+    education: true,
+    experience: true,
+    projects: true,
+    skills: true,
+    summary: true,
+    hobbies:true,
+  });
  
+
+  
+
   const previewRef = useRef();
 
   const handleDownloadPDF = async () => {
@@ -22,7 +35,9 @@ function App() {
     setShowForm(false);
     
     // Small delay to allow DOM update
-    await new Promise(resolve => setTimeout(resolve,700));
+
+   
+    await new Promise(resolve => setTimeout(resolve,1000));
     
     const element = previewRef.current;
     element.style.boxShadow = 'none';
@@ -39,8 +54,8 @@ function App() {
     element.style.position = 'absolute';
     element.style.overflow = 'visible';
     element.style.height = 'auto';
-    element.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.9)';
     
+    element.scrollIntoView({ behavior: "auto", block: "start" });
     element.querySelectorAll('*').forEach(el => {
       if (el.textContent && el.textContent.includes(' ')) {
         el.style.whiteSpace = 'pre-wrap';
@@ -50,7 +65,7 @@ function App() {
   
     try {
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 1,
         logging: true,
         useCORS: true,
         
@@ -67,13 +82,13 @@ function App() {
           clonedDoc.querySelectorAll('*').forEach(el => {
             el.style.whiteSpace = 'pre';
             el.style.wordBreak = 'break-word';
-            el.style.boxShadow = window.getComputedStyle(el).boxShadow;
             el.style.filter = 'none';
             el.style.visibility = 'visible';
             el.style.opacity = '1';
             el.style.whiteSpace = 'pre-wrap';
             el.style.wordSpacing = 'normal';
             el.style.fontFamily = 'Consolas, monospace';
+           
           });
         }
       });
@@ -142,14 +157,15 @@ function App() {
 
   const [activeTab, setActiveTab] = useState("content");
   const [customStyles, setCustomStyles] = useState({
-    fontHeaderSize: "18px",
-    fontContentSize: "14px",
+    fontHeaderSize: "28px",
+    fontContentSize: "20px",
     textColorLeft: "#000000",
     textColorRight: "#000000",
     backgroundColorLeft: "#ffffff",
     backgroundColorRight: "#ffffff",
     skillTabColor: "aqua",
-    fontFamily: "Arial, sans-serif",
+    textColorSkillTab:"#000000",
+    fontFamily: "Lucida Console, monospace",
   });
 
   const updateStyles = (newStyles) => { 
@@ -170,11 +186,29 @@ function App() {
   
     summary: { summary: "" },
     education: [
-      { school: "", degree: "", startDate: "", endDate: "", location: "" },
+      { school: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+        location: "",
+        achievements: {
+          title: "Achievements",
+          points: [""]
+        }
+       },
     ],
     skills: [{ skill: "" }],
     experience: [
-      { company: "", position: "", startDate: "", endDate: "", location: "" },
+      { company: "",
+        position: "",
+        startDate: "", 
+        endDate: "", 
+        location: "",
+        achievements: {
+          title: "Achievements",
+          points: [""]
+        }
+       },
     ],
     projects: [
       {
@@ -187,6 +221,12 @@ function App() {
         link: "",
       },
     ],
+    hobbies: [
+      {
+        title: "listening Music",
+        description: "I enjoy listening to music,"
+      },
+    ]
   });
 
 
@@ -220,7 +260,7 @@ function App() {
           <div className="form-navbar-container">
             <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
             {activeTab === "content" && (
-            <FormSection formData={formData} setFormData={setFormData} onSubmit={handleSubmit}/>
+            <FormSection formData={formData} setFormData={setFormData} onSubmit={handleSubmit} visibleSections={visibleSections} setVisibleSections={setVisibleSections}/>
           )}
           {activeTab === "style" && <EditStyle customStyles={customStyles} setCustomStyles={setCustomStyles} updateStyles={updateStyles} />}
           </div>
@@ -229,7 +269,7 @@ function App() {
         {/* Right Side - Preview */}
         <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`} >
         
-          <Preview  ref={previewRef} {...formData} style={customStyles} />
+          <Preview  ref={previewRef} {...formData} style={customStyles} visibleSections={visibleSections} setVisibleSections={setVisibleSections}/>
           
           {activeTab === "preview" && (
           <div className="full-preview-btns">

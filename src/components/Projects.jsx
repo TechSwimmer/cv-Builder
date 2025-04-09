@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Projects = ({ projects=[], setProjects }) => {
+const Projects = ({ projects=[], setProjects,visible, setVisible }) => {
 
 
     const handleChange = (index, e) => {
@@ -49,7 +49,19 @@ const Projects = ({ projects=[], setProjects }) => {
 
     return (
         <div className="projects-container">
-            <h3>PROJECTS</h3>
+            <div className="toggle-visibility">
+                <label> Show Project Section</label>
+                <input 
+                    type="checkbox"
+                    checked={visible}
+                    onChange={(e) => setVisible(e.target.checked)}
+                />
+                
+                
+            </div>
+            { visible && (
+                <>
+                 <h3>PROJECTS</h3>
             {projects.map((project, index) => (
                 <div key={index} className="project-entry">
 
@@ -108,9 +120,13 @@ const Projects = ({ projects=[], setProjects }) => {
                         />
                     </div>
                     <button className="remove-btn" onClick={() => removeProject(index)}>Remove Project</button>
+                    <button className="add-btn" onClick={addProject}>Add Project</button>
                 </div>
             ))}
-            <button className="add-btn" onClick={addProject}>Add Project</button>
+                </>
+            )}
+           
+           
         </div>
     )
 }
