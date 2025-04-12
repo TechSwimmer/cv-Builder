@@ -20,7 +20,7 @@ function App() {
   const [showIntro, setShowIntro] = useState(true);
 
   const onFinish = () => {
-    window.location.href= "http://localhost:5173/";
+    window.location.href= "https://resume-baker.netlify.app/";
   }
 
   useEffect(() => {

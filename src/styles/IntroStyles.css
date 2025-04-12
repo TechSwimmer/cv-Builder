@@ -45,10 +45,10 @@
 }
 
 .first-intro-page h1{
-    margin-bottom: 70px;
+    margin-bottom: 40px;
 }
 .first-intro-page p {
-    font-size: 1.5rem;
+    font-size: 1rem;
     
 }
 
@@ -56,7 +56,7 @@
 .intro-second-page {
     z-index: 22;
     width: 90vw;
-    height: 90vh;
+    height: 70vh;
 
     
 }
@@ -65,16 +65,16 @@
     flex-direction: row;
     justify-content: space-around;
     
-    width: 60vw;
+    width: 100%;
 }
 
 .intro-form-info-text{
-    width: 30vw;
+    width: 40vw;
     align-items: center;
     height: 67vh;
 }
 .intro-form-info-text h2{
-    font-size: 1.9rem;
+    
     transition: transform 0.2s ease-in-out;
 }
 
@@ -83,15 +83,15 @@
 }
 
 .intro-form-info-text p{
-    font-size: 1.2rem;
-    padding: 6px;
+    
+    padding: 2px;
     font-weight: bold;
     transition: transform 0.2s ease-in-out;
 }
 
 .intro-form-info-text p:hover {
     font-weight: bolder;
-    transform: scale(1.1);
+    transform: scale(1.05);
     
 }
 .intro-form-info-text h2{
@@ -117,27 +117,27 @@
     width: 70vw;
 }
 
-.fourth-page-intro p{
-    font-size: 1rem;
-}
 
 .intro-form-preview-text{
     width: 30vw;
     height: 67vh;
 }
 .intro-form-preview-text p {
-    font-size: 1rem;
-    padding: 6px;
+    
+    padding: 2px;
     font-weight: bold;
     transition: transform 0.2s ease-in-out;
 }
 .intro-form-preview-text p:hover {
     font-weight: bolder;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 .intro-form-preview-text h2{
     width: 100%;
     border-bottom: 2px solid wheat;
+}
+.intro-form-preview-text h2:hover{
+    transform: scale(1.1);
 }
 .intro-form-preview-img{
     width: 45vw;
@@ -165,4 +165,7 @@
     color: #e2d2d2;
     transform: scale(1.1);
     background: #0e0c0c;
+}
+.fourth-page-intro p{
+    font-size: 1rem;
 }
