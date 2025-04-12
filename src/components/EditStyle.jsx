@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import "../styles/EditStyle.css";
+import "../styles/editStyle.css";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
 const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) => {
