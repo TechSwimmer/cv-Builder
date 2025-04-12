@@ -36,6 +36,7 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) =>
     return (
         <div>
             <div className="edit-style-container">
+            <div style={{ height: "210px", flexShrink: 0 }} />
                 <h2>Edit Style</h2>
 
                 {/* Font Size */}
@@ -46,7 +47,7 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) =>
                         name="fontHeaderSize"
                         value={fontSizeValueHeaders}
                         onChange={handleChange}
-                        min="28"
+                        min="26"
                         max="34"
                     />
                 </div>
@@ -57,7 +58,7 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) =>
                         name="fontContentSize"
                         value={fontSizeValueContent}
                         onChange={handleChange}
-                        min="20"
+                        min="18"
                         max="26"
                     />
                 </div>
