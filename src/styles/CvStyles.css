@@ -113,18 +113,19 @@
   }
 
   .hobbies-description{
-    width: 100%;
+    width: 98%;
     display: flex;
     flex-direction: column;
     justify-content: left;
     align-items: start;
+    padding-left: 10px;
 
   }
 
   .hobby-entry {
     display: flex;
     justify-content: space-between;
-    
+    margin-bottom: 18px;
     flex-direction: row;
     width: 100%;
     text-align: left;
@@ -132,6 +133,20 @@
   .hobby-entry p {
     width: 100%;
   }
+
+  .language-description{
+    padding-left: 10px;
+  }
+  .language-entry{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .custom-links {
+    list-style: none;
+  }
+
   
   /* Project Specific */
   .project-skills ul {

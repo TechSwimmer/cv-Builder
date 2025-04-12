@@ -1,0 +1,166 @@
+.intro-page-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+ 
+}
+
+.intro-content {
+    position: relative;
+    z-index: 22;
+    background-color: #464242;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    color: #ffffff;
+  }
+
+.intro-backdrop {
+    position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+
+  z-index: 10;
+  pointer-events: none;
+  border: 2px solid black;
+    
+}
+.intro-first-page {
+    position: relative;
+    z-index: 22; /* <-- MUST be higher than .intro-backdrop */
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+}
+
+.first-intro-page h1{
+    margin-bottom: 70px;
+}
+.first-intro-page p {
+    font-size: 1.5rem;
+    
+}
+
+
+.intro-second-page {
+    z-index: 22;
+    width: 90vw;
+    height: 90vh;
+
+    
+}
+.intro-form-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    width: 60vw;
+}
+
+.intro-form-info-text{
+    width: 30vw;
+    align-items: center;
+}
+.intro-form-info-text h2{
+    font-size: 1.9rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.intro-form-info-text h2:hover {
+    transform: scale(1.1);
+}
+
+.intro-form-info-text p{
+    font-size: 1.2rem;
+    padding: 6px;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+}
+
+.intro-form-info-text p:hover {
+    font-weight: bolder;
+    transform: scale(1.1);
+    
+}
+.intro-form-info-text h2{
+    width: 100%;
+    border-bottom: 2px solid wheat;
+}
+
+.intro-form-info-img{
+    width: 25vw;
+    height: 67vh;
+    object-fit: contain;
+    
+}
+.intro-form-info-img img{
+    width: 100%;
+    height: 100%;
+}
+.intro-form-preview{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    width: 70vw;
+}
+
+.fourth-page-intro p{
+    font-size: 1.4rem;
+}
+
+.intro-form-preview-text{
+    width: 30vw;
+}
+.intro-form-preview-text p {
+    font-size: 1.2rem;
+    padding: 6px;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+}
+.intro-form-preview-text p:hover {
+    font-weight: bolder;
+    transform: scale(1.1);
+}
+.intro-form-preview-text h2{
+    width: 100%;
+    border-bottom: 2px solid wheat;
+}
+.intro-form-preview-img{
+    width: 45vw;
+    height: 67vh;
+    object-fit: contain;
+}
+.intro-form-preview-img img{
+    width: 100%;
+    height: 100%;
+}
+.intro-third-page {
+    z-index: 22;
+}
+
+.intro-page-container button {
+    width: 40%;
+    margin: 10px;
+    background: #cababa;
+    color: #1f1717;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.intro-page-container button:hover {
+    cursor: pointer;
+    color: #e2d2d2;
+    transform: scale(1.1);
+    background: #0e0c0c;
+}
