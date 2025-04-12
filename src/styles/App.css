@@ -115,7 +115,7 @@ h1 {
   background: white;
   height: 100px;
   text-align: right;
-  z-index: 10;
+  
   border-top: 1px solid #ccc;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
 }
@@ -528,4 +528,105 @@ button:hover{
   margin-bottom: 10px;
   background: #464242;
   color: #ffffff;
+}
+
+.language-container-form{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 96%;
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9); 
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.language-container-form button{
+  width: 95%;
+  margin-bottom: 10px;
+  background: #464242;
+  color: #ffffff;
+}
+
+.language-entry-form{
+  width: 100%;
+  display: flex;
+  flex-direction: row ;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.language-entry-form input {
+  width: 60%;
+
+}
+
+.language-entry-form select{
+  width: 30%;
+}
+.custom-container-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  box-shadow: 5px 5px 10px rgba(0.2, 0, 0.2, 0.9); 
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.custom-container-form .list-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-container-form textarea {
+  
+  height: 130px;
+  width: 92%;
+  resize: none;
+  padding: 3px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+
+}
+
+.custom-form-contact {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.custom-form-phone {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.custom-form-email {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-container-form button{
+  width:100%;
+  margin-bottom: 10px;
+  background: #464242;
+  color: #ffffff;
+  
+}
+.custom-container-form .links {
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-container-form select{
+  border-radius: 10px;
 }

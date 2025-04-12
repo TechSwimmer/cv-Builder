@@ -9,7 +9,7 @@ const Hobbies = ({ data=[], setData, visible, setVisible }) => {
         setData([...data,{ title: "",description: ""}])
     };
 
-    const removeHobby = () => {
+    const removeHobby = (index) => {
         const updated = [...data];
         updated.splice(index, 1);
         setData(updated);

@@ -3,7 +3,7 @@ import Select from "react-select";
 import "../styles/EditStyle.css";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyle = ({ customStyles, setCustomStyles, updateStyles }) => {
+const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
@@ -131,6 +131,12 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles }) => {
                         onChange={handleChange}
                     />
                 </div>
+                
+            </div>
+            <div className="form-section-btn">
+                <button className="submit-btn" onClick={onSubmit}>
+                    Full Screen Preview
+                </button>
             </div>
         </div>
     );

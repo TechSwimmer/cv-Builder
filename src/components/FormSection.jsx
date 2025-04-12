@@ -7,6 +7,8 @@ import Skills from "./Skills"
 import Summary from "./Summary"
 import Projects from "./Projects"
 import Hobbies from "./Hobbies"
+import Languages from "./Languages"
+import Custom from "./Custom"
 
 
 const FormSection = ({ formData = {}, setFormData, onSubmit, visibleSections,setVisibleSections }) => {
@@ -63,11 +65,23 @@ const FormSection = ({ formData = {}, setFormData, onSubmit, visibleSections,set
                     visible={visibleSections.hobbies}
                     setVisible={((val) => setVisibleSections((prev) => ({...prev, hobbies:val})))}
                 />
+                <Languages
+                    data={formData.languages}
+                    setData= {(data) => handleDataChange("languages",data)}
+                    visible={visibleSections.languages}
+                    setVisible={((val) => setVisibleSections((prev) => ({...prev,languages:val})))}
+                    />
+                <Custom
+                    data={formData.custom}
+                    setData={(data) => handleDataChange("custom",data)}
+                    visible={visibleSections.custom}
+                    setVisible={(val) => setVisibleSections((prev) => ({...prev,custom:val}))}
+                    />
                 <div style={{ height: "210px", flexShrink: 0 }} />
             </div>
             <div className="form-section-btn">
                 <button className="submit-btn" onClick={onSubmit}>
-                    Submit
+                Full Screen Preview
                 </button>
             </div>
         </div>

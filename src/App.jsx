@@ -3,6 +3,9 @@ import { useReactToPrint } from "react-to-print";
 import Navbar from "./components/Navbar";
 import EditStyle from "./components/EditStyle";
 import Preview from "./components/Preview";
+import IntroPages from "./components/Intropages";
+import "./styles/IntroStyles.css"
+
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -14,7 +17,21 @@ import "./styles/App.css";
 
 function App() {
 
-  // hanbdling visibility for each section in preview 
+  const [showIntro, setShowIntro] = useState(true);
+
+  const onFinish = () => {
+    window.location.href= "http://localhost:5173/";
+  }
+
+  useEffect(() => {
+    const hasSeenIntro = localStorage.getItem("hasSeenIntro");
+
+    if(hasSeenIntro){
+      setShowIntro(false)
+    }
+   },[]);
+
+  // handling visibility for each section in preview 
   const [visibleSections, setVisibleSections] = useState({
     education: true,
     experience: true,
@@ -226,7 +243,24 @@ function App() {
         title: "listening Music",
         description: "I enjoy listening to music,"
       },
-    ]
+    ],
+    languages:[
+      {
+        language:"",
+        proficiency: "",
+      },
+    ],
+    custom: [
+      {
+        title: "",
+        type: "text", // "text" | "list" | "contact" | "links"
+        description: "",
+        listItems: [""],
+        phone: "",
+        email: "",
+        links: [""],
+      },
+    ],
   });
 
 
@@ -253,41 +287,60 @@ function App() {
   console.log(activeTab)
 
   return (
-    <div className="app">
-      <div className="container">
-        {/* Left Side - Forms */}
-        {showForm && (
-          <div className="form-navbar-container">
-            <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab === "content" && (
-            <FormSection formData={formData} setFormData={setFormData} onSubmit={handleSubmit} visibleSections={visibleSections} setVisibleSections={setVisibleSections}/>
+    <>
+  {/* Always render form + preview */}
+  <div className="app">
+    <div className="container">
+      {/* Left Side - Forms */}
+      {showForm && (
+        <div className="form-navbar-container">
+          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+          {activeTab === "content" && (
+            <FormSection
+              formData={formData}
+              setFormData={setFormData}
+              onSubmit={handleSubmit}
+              visibleSections={visibleSections}
+              setVisibleSections={setVisibleSections}
+            />
           )}
-          {activeTab === "style" && <EditStyle customStyles={customStyles} setCustomStyles={setCustomStyles} updateStyles={updateStyles} />}
-          </div>
-        )}
+          {activeTab === "style" && (
+            <EditStyle
+              customStyles={customStyles}
+              setCustomStyles={setCustomStyles}
+              onSubmit={handleSubmit}
+              updateStyles={updateStyles}
+            />
+          )}
+        </div>
+      )}
 
-        {/* Right Side - Preview */}
-        <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`} >
-        
-          <Preview  ref={previewRef} {...formData} style={customStyles} visibleSections={visibleSections} setVisibleSections={setVisibleSections}/>
-          
-          {activeTab === "preview" && (
+      {/* Right Side - Preview */}
+      <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
+        <Preview
+          ref={previewRef}
+          {...formData}
+          style={customStyles}
+          visibleSections={visibleSections}
+          setVisibleSections={setVisibleSections}
+        />
+
+        {activeTab === "preview" && (
           <div className="full-preview-btns">
             <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
-            <button className="edit-btn" onClick={() => handleEditClick()}>
-              Edit
-            </button>
+            <button className="edit-btn" onClick={handleEditClick}>Edit</button>
           </div>
         )}
-        </div>  
-        
-
-
-
-        
       </div>
     </div>
-  );
+  </div>
+
+  {/* Overlay the IntroPages only if active */}
+  {showIntro && (
+    <IntroPages onFinish={() => setShowIntro(false)} />
+  )}
+</>
+   );
 }
 
 export default App;
