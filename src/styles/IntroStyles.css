@@ -117,14 +117,14 @@
 }
 
 .fourth-page-intro p{
-    font-size: 1.4rem;
+    font-size: 1rem;
 }
 
 .intro-form-preview-text{
     width: 30vw;
 }
 .intro-form-preview-text p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 6px;
     font-weight: bold;
     transition: transform 0.2s ease-in-out;
