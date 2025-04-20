@@ -83,13 +83,7 @@ const Projects = ({ projects=[], setProjects,visible, setVisible }) => {
                     />
 
 
-                    <input
-                        type="text"
-                        name="category"
-                        placeholder="Project-category"
-                        value={project?.category || ""}
-                        onChange={(e) => handleChange(index, e)}
-                    />
+                   
                     <div className="projects-skills">
                         <label>Skills used :</label>
                         <input

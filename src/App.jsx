@@ -9,18 +9,52 @@ import "./styles/IntroStyles.css"
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-
+import PreviewDisplay from "./components/PreviewDisplay";
 import FormSection from "./components/FormSection";
 import "./styles/App.css";
+import Layout from "./components/Layout";
+import PreviewTwo from "./components/PreviewTwo";
+import PreviewThree from "./components/PreviewThree";
 // import { boxShadow } from "html2canvas/dist/types/css/property-descriptors/box-shadow";
 
 
 function App() {
+          const [previewComponent, setPreviewComponent] = useState(<Preview />);
+          const [currentLayout, setCurrentLayout] = useState('layout1');
+      
+          const handleLayoutClick = (layout) => {
+              setCurrentLayout(layout);
+              const layoutSlider = document.querySelector(".layout-slider");
+              layoutSlider.classList.toggle("show");
 
+              // render the corresponding preview component
+              if(layout === "layout2") {
+                setPreviewComponent(<PreviewTwo />)
+              }
+              else if(layout === "layout3") {
+                setPreviewComponent(<PreviewThree />)
+              }
+              else if(layout === "layout1"){
+                setPreviewComponent(<Preview/>)
+              }
+            };
+            
+            const handleMouseLeave = () => {
+              const layoutSlider = document.querySelector(".layout-slider");
+              layoutSlider.classList.remove("show");
+            };
+      
+            const handleMouseEnter = () => {
+              const layoutSlider = document.querySelector(".layout-slider");
+              layoutSlider.classList.add("show");
+            }
+      
+  
+ 
   const [showIntro, setShowIntro] = useState(true);
 
   const onFinish = () => {
-    window.location.href= "https://resume-baker.netlify.app/";
+    window.location.href= "http://localhost:5173/";
   }
 
   useEffect(() => {
@@ -183,6 +217,7 @@ function App() {
     skillTabColor: "aqua",
     textColorSkillTab:"#000000",
     fontFamily: "Lucida Console, monospace",
+    fontSize:"16px",
   });
 
   const updateStyles = (newStyles) => { 
@@ -199,6 +234,7 @@ function App() {
       Github: "",
       linkedin: "",
       website: "",
+      title:"",
     },
   
     summary: { summary: "" },
@@ -232,7 +268,7 @@ function App() {
         title: "",
         company: "",
         description: "",
-        category: "",
+        
         skillsUsed: [],
         keyFeatures: [],
         link: "",
@@ -317,12 +353,23 @@ function App() {
 
       {/* Right Side - Preview */}
       <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
-        <Preview
+        <PreviewDisplay
           ref={previewRef}
           {...formData}
           style={customStyles}
-          visibleSections={visibleSections}
+          visibleSections={visibleSections}                                                                           
+          previewComponent={previewComponent}
           setVisibleSections={setVisibleSections}
+          currentLayout={currentLayout}
+          handleLayoutClick={handleLayoutClick}
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+        />
+        <Layout 
+          currentLayout={currentLayout}
+          handleLayoutClick={handleLayoutClick}
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
         />
 
         {activeTab === "preview" && (

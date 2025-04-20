@@ -20,6 +20,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
     const handleChange = (e) => {
 
         const { name, value } = e.target;
+        console.log(`Value: ${value}`);
         setLocalData((prev) => {
             let updated = { ...prev, [name]: value };
 

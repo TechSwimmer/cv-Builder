@@ -47,7 +47,7 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) =>
                         name="fontHeaderSize"
                         value={fontSizeValueHeaders}
                         onChange={handleChange}
-                        min="26"
+                        min="22"
                         max="34"
                     />
                 </div>
@@ -58,7 +58,7 @@ const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) =>
                         name="fontContentSize"
                         value={fontSizeValueContent}
                         onChange={handleChange}
-                        min="18"
+                        min="14"
                         max="26"
                     />
                 </div>
