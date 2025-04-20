@@ -20,22 +20,22 @@
   }
   
   .cv-preview.full-width {
-    .preview-section-left { width: 35%; }
-    .preview-section-right { width: 65%; }
+    .preview-section-left { width: 40%; }
+    .preview-section-right { width: 60%; }
   }
   
   /* Shared Section Styles */
   [class^="preview-section-"] {
     
-   
-    padding: 5px;;
-    margin: 4px;
+     
+    padding: 5px;
+    
     
     h3 { 
       font-family: var(--header-font);
-      margin: 0.5em 0;
+      margin: 0.1em 0;
       width: 100%;
-      border-bottom: 2px solid grey;
+      
     }
     
     p, li {
@@ -44,10 +44,28 @@
       margin: 5px 0;
     }
   }
+
+  .preview-section-headers p {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .preview-sec-name{
+    width: 100%;
+    border-bottom: 0;
+   
+  }
+  .preview-sec-title{
+    width: 100%;
+    border-bottom: 2px solid grey;
+    margin-bottom: 40px;
+    
+  }
   
   /* Left Column Specific */
   .preview-section-left {
-    width: 35%;
+    width: 40%;
     overflow: visible;
     height: fit-content;
     
@@ -70,7 +88,7 @@
   
   /* Right Column Specific */
   .preview-section-right {
-    width: 65%;
+    width: 60%;
     height: fit-content;
     
   }
@@ -79,18 +97,20 @@
   .skill-list-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    
   }
   
   .skill-list-item{
+    
     list-style: none;
-    padding: 7px;
-   
-    border-radius: 14px;
+    padding: 7%;
+    align-self: flex-start;
+    border-radius: 10px;
     text-align: center;
-    font-weight: bolder;
+    font-weight: bold;
     background-color: var(--skill-color);
-    width: 74%;
-    margin: 5px;
+    width: 77%;
+    
   }
 
 .skill-list-projects{
@@ -136,11 +156,12 @@
 
   .language-description{
     padding-left: 10px;
+    
   }
   .language-entry{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    
   }
 
   .custom-links {
@@ -221,3 +242,169 @@
         word-break: break-word;
       }
   }
+
+
+  .preview-headings {
+    border-bottom: 2px solid grey;
+  }
+  .preview-sec-name-title{
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  /*----------------layout  btn's and slider styles----------------------------------*/
+
+  .layout-switcher {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .layout-btn {
+    background-color: rgb(114, 113, 111);
+    border: none;
+    opacity: 0.5;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    height: 90px;
+  }
+  
+  .layout-slider {
+    display: none;
+    position: absolute;
+    gap: 10px;
+    top: 0;
+    right: 0;
+    background-color: #706262;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 90px;
+  }
+  .show {
+    display: flex;
+  }
+  
+ 
+  .layout-option {
+    padding: 10px;
+    border: none;
+    background-color:wheat;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  
+  .layout-option:hover ~ .layout-slider {
+    display: flex;
+  }
+
+
+
+
+  .full-screen .layout-switcher {
+    display: none;
+  }
+
+
+  .preview-sec-name-title h3{
+    margin-bottom: 0;
+  }
+
+  .preview-sec-name-title h4{
+    margin-top: 3px;    
+  }
+
+
+  /*--------------------------styles for layout2--------------------------------*/
+
+  .cv-2-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .cv-2-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    
+  }
+
+
+  .cv-2-name h3{
+    margin-bottom: 0;
+  }
+
+  .cv-2-name h4{
+    margin-top: 0;
+  }
+  .cv-2-contact{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+  }
+
+
+  .skill-list-main-2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 15px;     
+  }
+ .skill-list-item-2{
+    
+  list-style: none;
+  padding: 7px;
+  align-self: flex-start;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--skill-color);
+  width: 20%;
+    
+  }
+
+  .language-description-2{
+    width: 100%;
+    
+  }
+
+  .language-entry-2{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 45%;
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .lang-hobby-2{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+  }
+  .hobbies-description-2{
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .cv-2-preview h3{
+    margin-bottom: 5px;
+  }
+
+ 
+
+
+
+  /*--------------------------------styles for layout 3----------------------------------------*/

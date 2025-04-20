@@ -15,7 +15,7 @@ const IntroPages = ({ onFinish }) => {
         else {
             localStorage.setItem("hasSeenIntro", "true");
             onFinish();
-            window.location.href = "https://resume-baker.netlify.app/";
+            window.location.href = "http://localhost:5173/";
         }
     }
 

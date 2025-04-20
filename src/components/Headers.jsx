@@ -14,6 +14,7 @@ const Headers = ({data={},setData}) => {
         Github: "",
         linkedin:"",
         website:"",
+        title:"",
       });
 
       
@@ -27,6 +28,12 @@ const Headers = ({data={},setData}) => {
                     placeholder="Name"
                     value={data.name}
                     onChange={(e) => setData({ ...data, name: e.target.value })}
+                />
+                <input
+                type="text"
+                placeholder="Title (ex:full-stack web dev"
+                value={data.title}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
                 />
                 <input
                     type="email"
