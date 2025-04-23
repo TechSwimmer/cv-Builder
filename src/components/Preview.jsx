@@ -30,11 +30,15 @@ const Preview = forwardRef((props, ref) => {
             <div className="preview-section-left" style={{ backgroundColor: style.backgroundColorLeft }}>
                 <div className="preview-section-headers" style={{ backgroundColor: style.backgroundColorLeft, color: style.textColorLeft }}>
                     <div className="preview-sec-name-title">
-                    <h3 style={{ fontSize: style.fontHeaderSize }} className="cv-text preview-sec-name">{generalInfo?.name || "YOUR NAME"}</h3>
+                    <h1   className="cv-text preview-sec-name">{generalInfo?.name || "YOUR NAME"}</h1>
                     {generalInfo.title && (
-                        <h4 style={{ fontSize: style.fontContentSize }} className="cv-text preview-sec-title">{generalInfo.title}</h4>
+                        <h3 style={{ fontSize: style.fontHeaderSize }} className="cv-text preview-sec-title">{generalInfo.title}</h3>
                     )}
                     </div>
+                    <div className="personal-info-1">
+                    <h3 style={{ fontSize: style.fontHeaderSize }} className="cv-text preview-headings">PERSONAL INFO</h3>
+
+                    
                     {generalInfo.email && (
                         <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamily }} className="cv-text">
                             <MdEmail className="icon" /> {generalInfo.email}
@@ -65,7 +69,7 @@ const Preview = forwardRef((props, ref) => {
                             <FaBriefcase className="icon" /> <a href={generalInfo.website} target="_blank" rel="noopener noreferrer">{generalInfo.website}</a>
                         </p>
                     )}
-
+                    </div>
                 </div>
 
                 {visibleSections?.education && (

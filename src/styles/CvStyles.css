@@ -54,18 +54,19 @@
   .preview-sec-name{
     width: 100%;
     border-bottom: 0;
-   
+    margin-top: 3px;
   }
   .preview-sec-title{
     width: 100%;
-    border-bottom: 2px solid grey;
-    margin-bottom: 40px;
+   
+ 
+    margin-top: 0;
     
   }
   
   /* Left Column Specific */
   .preview-section-left {
-    width: 40%;
+    width: 35%;
     overflow: visible;
     height: fit-content;
     
@@ -88,7 +89,7 @@
   
   /* Right Column Specific */
   .preview-section-right {
-    width: 60%;
+    width: 65%;
     height: fit-content;
     
   }
@@ -185,6 +186,9 @@
     
     font-weight: bold;
   }
+  .preview-headings{
+    border-bottom: 1px dotted black;
+  }
   
   /* Print Optimization */
   @media print {
@@ -195,9 +199,17 @@
     }
 
 
-    body * { 
+    body  { 
       visibility: hidden;
       text-rendering: optimizeLegibility !important;
+      
+        zoom: 0.8;
+        -moz-transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        transform: scale(0.8);
+      
     }
     
     .cv-preview, 
@@ -234,6 +246,10 @@
       letter-spacing: normal !important;
      
     }
+
+    .preview-headings{
+      border-bottom: 1px dotted black;
+    }
     .cv-text {
        
         word-spacing: 10px !important;
@@ -244,14 +260,18 @@
   }
 
 
-  .preview-headings {
-    border-bottom: 2px solid grey;
-  }
+  
   .preview-sec-name-title{
     display: flex;
     flex-direction: column;
+    
+    border-bottom: 1px dashed black;
   }
-
+  .preview-sec-name-title h1{
+    margin-bottom: 0;
+    text-align: left;
+  }
+  
 
   /*----------------layout  btn's and slider styles----------------------------------*/
 
@@ -310,9 +330,7 @@
   }
 
 
-  .preview-sec-name-title h3{
-    margin-bottom: 0;
-  }
+
 
   .preview-sec-name-title h4{
     margin-top: 3px;    
@@ -337,11 +355,11 @@
   }
 
 
-  .cv-2-name h3{
+  .cv-2-name h1{
     margin-bottom: 0;
   }
 
-  .cv-2-name h4{
+  .cv-2-name h3{
     margin-top: 0;
   }
   .cv-2-contact{
@@ -403,8 +421,87 @@
     margin-bottom: 5px;
   }
 
+  .cv-2-body{
+   padding-left:50px ;
+   padding-right:50px ;
+  }
  
-
-
+  .education-entry-preview-2{
+    border-bottom: 1px dotted black;
+  }
+      
+  .experience-entry-preview-2{
+    border-bottom: 1px dotted black;
+  }
 
   /*--------------------------------styles for layout 3----------------------------------------*/
+
+
+  .cv-preview-3{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .cv-3-left{
+    width: 60%;
+    border-right: 1px dotted black;
+  }
+
+  .cv-3-right{
+    width: 40%;
+    padding: 7px;
+  }
+
+  .language-entry-3{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 90%;
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .skill-list-main-3{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .skill-list-item-3{
+    list-style: none;
+    padding: 7%;
+    align-self: flex-start;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    background-color: var(--skill-color);
+    width: 77%;
+  }
+
+  .cv-preview-3 h3{
+    margin-top: 0;
+    border-bottom: 1px dotted black;
+  }
+
+  .cv-3-header h1{
+    margin-top:0 ;
+    margin-bottom:0 ;
+  }
+  .cv-3-header h3{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .cv-3-header{
+    border-bottom: 2px solid grey;
+    padding-top: 10px;
+    padding-bottom: 15px;
+  }
+
+  .experience-entry-preview-3{
+    border-bottom:1px dashed grey ;
+  }
+
+  .education-entry-preview-3{
+    border-bottom: 1px dashed grey;
+  }
