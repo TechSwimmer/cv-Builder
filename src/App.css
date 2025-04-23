@@ -6,7 +6,7 @@
 }
 body{
   zoom: 0.75;
-  -moz-transform: scale(075);
+  -moz-transform: scale(0.75);
   -webkit-transform: scale(0.75);
   -ms-transform: scale(0.75);
   -o-transform: scale(0.75);
