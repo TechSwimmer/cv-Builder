@@ -45,9 +45,7 @@ body {
   overflow: hidden;
 }
 
-h1 {
-  text-align: center;
-}
+
 /* FLEX CONTAINER */
 .container {
   display: flex;
@@ -177,9 +175,7 @@ input {
 }
 
 /* CV PREVIEW STYLING */
-.cv-preview h2 {
-  text-align: center;
-}
+
 
 .preview-section {
   background: white;
