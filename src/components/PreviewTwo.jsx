@@ -209,7 +209,7 @@ const PreviewTwo = forwardRef((props, ref) => {
 
             </div>
           )}
-          
+          <div className="language-hobby-2">
             {visibleSections?.languages && (
               <div className="language-description-2">
                 <h3 style={{ fontSize: style.fontHeaderSize }} className="preview-headings">LANGUAGES</h3>
@@ -234,10 +234,10 @@ const PreviewTwo = forwardRef((props, ref) => {
 
                 ))}
               </div>
-
+            
             )}
           
-
+          </div>
         </div>
       </div>
     </div>
