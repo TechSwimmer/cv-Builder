@@ -15,27 +15,41 @@ import "./styles/App.css";
 import Layout from "./components/Layout";
 import PreviewTwo from "./components/PreviewTwo";
 import PreviewThree from "./components/PreviewThree";
+
 // import { boxShadow } from "html2canvas/dist/types/css/property-descriptors/box-shadow";
 
+import layoutOne from "./images/layout1.png";
+import layoutTwo from "./images/layout2.png";
+import layoutThree from "./images/layout3.png";
+
+// import { image } from "html2canvas/dist/types/css/types/image";
 
 function App() {
+
+          const [image, setImage] = useState(layoutOne);
           const [previewComponent, setPreviewComponent] = useState(<Preview />);
           const [currentLayout, setCurrentLayout] = useState('layout1');
       
           const handleLayoutClick = (layout) => {
               setCurrentLayout(layout);
+              
               const layoutSlider = document.querySelector(".layout-slider");
               layoutSlider.classList.toggle("show");
 
+              
+
               // render the corresponding preview component
               if(layout === "layout2") {
-                setPreviewComponent(<PreviewTwo />)
+                setPreviewComponent(<PreviewTwo />);
+                setImage(layoutTwo)
               }
               else if(layout === "layout3") {
                 setPreviewComponent(<PreviewThree />)
+                setImage(layoutThree)
               }
               else if(layout === "layout1"){
                 setPreviewComponent(<Preview/>)
+                setImage(layoutOne)
               }
             };
             
@@ -49,7 +63,7 @@ function App() {
               layoutSlider.classList.add("show");
             }
       
-  
+            const images = {layoutOne, layoutTwo, layoutThree};
  
   const [showIntro, setShowIntro] = useState(true);
 
@@ -91,7 +105,7 @@ function App() {
     await new Promise(resolve => setTimeout(resolve,1000));
     
     const element = previewRef.current;
-    element.style.boxShadow = 'none';
+    // element.style.boxShadow = 'none';
     document.body.style.background = "#fff"
     
     // Temporary style adjustments for capture
@@ -370,6 +384,9 @@ function App() {
           handleLayoutClick={handleLayoutClick}
           handleMouseEnter={handleMouseEnter}
           handleMouseLeave={handleMouseLeave}
+          images={images}
+          image={image}
+          setImage={setImage}
         />
 
         {activeTab === "preview" && (

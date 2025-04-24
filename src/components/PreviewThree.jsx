@@ -21,7 +21,7 @@ const PreviewThree = forwardRef((props, ref) => {
   };
 
   return (
-    <>
+    <div className="cv-preview-container-3" ref={ref}>
       <div className="cv-3-header">
         {generalInfo.name && <h1 >{generalInfo.name}</h1>}
         {generalInfo.title && <h3 style={{ fontSize: style.fontContentSize }}>{generalInfo.title}</h3>}
@@ -109,7 +109,7 @@ const PreviewThree = forwardRef((props, ref) => {
                         {/* Display skills used */}
                         <div className="project-skills">
                           <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamily }}>Skills used:</p>
-                          <ul className="skill-list-projects">
+                          <ul className="skill-list-projects-3">
                             {proj?.skillsUsed?.length > 0 ? (
                               proj.skillsUsed.map((skill, i) => (
                                 <li key={i} className="skill-item cv-text" style={{ backgroundColor: style.skillTabColor, color: style.textColorSkillTab, fontSize: style.fontContentSize }}>{skill}</li>
@@ -151,21 +151,7 @@ const PreviewThree = forwardRef((props, ref) => {
               </div>
             )}
           </div>
-          {visibleSections?.hobbies && (
-
-
-            <div className="hobbies-description-3" style={{ color: style.textColorLeft }}>
-              <h3 style={{ fontSize: style.fontHeaderSize }} className="preview-headings" >HOBBIES & INTERESTS</h3>
-              {hobbies.map((hobby, index) => (
-                <div className="hobby-entry-3" key={index}>
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamily }} className="stronger-font">{hobby.title}</p>
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamily }}>{hobby.description}</p>
-                </div>
-
-              ))}
-            </div>
-
-          )}
+        
         </div>
         <div className="cv-3-right">
 
@@ -225,7 +211,7 @@ const PreviewThree = forwardRef((props, ref) => {
 
         </div>
       </div>
-    </>
+    </div>
   );
 });
 
