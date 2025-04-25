@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 
 
@@ -6,17 +6,6 @@ const Headers = ({data={},setData}) => {
 
 
       // headers data
-      const [generalInfo, setGeneralInfo] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        location: "",
-        Github: "",
-        linkedin:"",
-        website:"",
-        title:"",
-      });
-
       
 
     return (

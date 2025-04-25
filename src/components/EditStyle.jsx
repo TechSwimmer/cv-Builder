@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import "../styles/editStyle.css";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyle = ({ customStyles, setCustomStyles, updateStyles, onSubmit }) => {
+const EditStyle = ({ customStyles, setCustomStyles,  onSubmit }) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },

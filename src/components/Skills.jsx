@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Skills = ({data, setData,visible,setVisible}) => {
 
     
       // skills data
-      const [skills, setSkills] = useState([{ skill: "" }]);
+      
       
     const addSkill = () => {
         setData([

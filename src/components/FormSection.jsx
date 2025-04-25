@@ -1,8 +1,8 @@
-import React, {useState} from "react"
+import React from "react"
 import Headers from "./Headers"
 import Education from "./Education"
 import Experience from "./Experience"
-import Preview from "./Preview"
+
 import Skills from "./Skills"
 import Summary from "./Summary"
 import Projects from "./Projects"

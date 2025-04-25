@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef, useState } from "react";
+import React, { forwardRef } from "react";
 import { FaGithub, FaLinkedin, FaPhone, FaLocationArrow, FaBriefcase } from "react-icons/fa";
 import { MdEmail } from "react-icons/md"
 
@@ -10,10 +10,10 @@ import "../styles/CvStyles.css";
 const Preview = forwardRef((props, ref) => {
 
     const { style } = props;
-    const { visibleSections, setVisibleSections } = props;
+    
 
 
-    const { generalInfo, education, experience, summary, skills, className, projects, hobbies, languages, custom,currentLayout,handleLayoutClick, customStyles, updateStyles } = props;
+    const { generalInfo, education, experience, summary, skills, className, projects, hobbies, languages, custom,visibleSections } = props;
         const formatDate = (dateString) => {
             if (!dateString) return "Present";  // Default for empty values
             const date = new Date(dateString);
