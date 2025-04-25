@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Preview from "./Preview";
 
 // import { image } from "html2canvas/dist/types/css/types/image";
 
-    const Layout = ({ currentLayout, handleLayoutClick, handleMouseEnter, handleMouseLeave,images,image,setImage }) => {
+    const Layout = ({  handleLayoutClick, handleMouseEnter, handleMouseLeave,images,image }) => {
 
     
     return (

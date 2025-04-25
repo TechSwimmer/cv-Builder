@@ -176,12 +176,6 @@ function App() {
     }
   };
 
-  const handleGenerate = () => {
-
-    setTimeout(() => {
-      window.print();
-  }, 100);
-  };
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -401,7 +395,7 @@ function App() {
 
   {/* Overlay the IntroPages only if active */}
   {showIntro && (
-    <IntroPages onFinish={() => setShowIntro(false)} />
+    <IntroPages onFinish={onFinish}  />
   )}
 </>
    );

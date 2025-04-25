@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Languages = ({ data={}, setData, visible, setVisible }) => {
     const addLanguage = () => {

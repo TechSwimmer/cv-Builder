@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Hobbies = ({ data=[], setData, visible, setVisible }) => {
 
 
-    const [hobbies,setHobbies] = useState([]);
+
 
     const addHobby = () => {
         setData([...data,{ title: "",description: ""}])

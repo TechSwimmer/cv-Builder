@@ -22,7 +22,7 @@ const Projects = ({ projects=[], setProjects,visible, setVisible }) => {
     }
 
     const removeProject = (index) => {
-        if (data.length === 1) { return; }
+        if (projects.length === 1) { return; }
         const updatedProjects = [...projects];
         updatedProjects.splice(index, 1);
         setProjects(updatedProjects);

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 
 const Summary = ({ data = {}, setData, visible, setVisible }) => {
 
     // summary data
-    const [summary = {}, setSummary] = useState({ summary: "" });
+    
 
     return (
         <div className="summary-container">

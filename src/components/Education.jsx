@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Education({ data = [], setData, visible, setVisible }) {
 
-  // const formatDate = (dateString) => {
-  //     if (!dateString) return ""; // If no date selected, return empty
-  //     const date = new Date(dateString);
-  //     return `${date.toLocaleString("default", { month: "long" })} - ${date.getFullYear()}`;
-  //   };
+
 
 
   // education data

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Experience({ data = [], setData, visible, setVisible }) {
 
@@ -41,12 +41,6 @@ function Experience({ data = [], setData, visible, setVisible }) {
 
 
 
-
-  const formatDate = (dateString) => {
-    if (!dateString) return ""; // If no date selected, return empty
-    const date = new Date(dateString);
-    return `${date.toLocaleString("default", { month: "long" })} - ${date.getFullYear()}`;
-  };
 
   return (
     <div className="experience-section">
