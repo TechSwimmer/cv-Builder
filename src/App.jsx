@@ -1,5 +1,5 @@
 import React, { useRef, useState,useEffect } from "react";
-import { useReactToPrint } from "react-to-print";
+
 import Navbar from "./components/Navbar";
 import EditStyle from "./components/EditStyle";
 import Preview from "./components/Preview";
@@ -68,7 +68,7 @@ function App() {
   const [showIntro, setShowIntro] = useState(true);
 
   const onFinish = () => {
-    window.location.href= "http://localhost:5173/";
+    window.location.href= "https://resume-baker.netlify.app/";
   }
 
   useEffect(() => {
