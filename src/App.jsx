@@ -16,13 +16,13 @@ import Layout from "./components/Layout";
 import PreviewTwo from "./components/PreviewTwo";
 import PreviewThree from "./components/PreviewThree";
 
-// import { boxShadow } from "html2canvas/dist/types/css/property-descriptors/box-shadow";
+
 
 import layoutOne from "./images/layout1.png";
 import layoutTwo from "./images/layout2.png";
 import layoutThree from "./images/layout3.png";
 
-// import { image } from "html2canvas/dist/types/css/types/image";
+
 
 function App() {
 
