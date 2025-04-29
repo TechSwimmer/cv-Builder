@@ -4,7 +4,7 @@ import "../styles/editStyle.css";
 import Layout from "./Layout";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyle = ({ customStyles, setCustomStyles, onSubmit, currentLayout, handleLayoutClick, setCurrentLayout }) => {
+const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit, currentLayout, handleLayoutClick, setCurrentLayout }) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
@@ -177,4 +177,4 @@ const EditStyle = ({ customStyles, setCustomStyles, onSubmit, currentLayout, han
     );
 };
 
-export default EditStyle;
+export default EditStyleThree;

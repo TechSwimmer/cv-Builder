@@ -1,7 +1,11 @@
 import React, { useRef, useState,useEffect } from "react";
 
 import Navbar from "./components/Navbar";
+
 import EditStyle from "./components/EditStyle";
+import EditStyleTwo from "./components/EditStyleTwo";
+import EditStyleThree from "./components/EditStyleThree";
+
 import Preview from "./components/Preview";
 import IntroPages from "./components/Intropages";
 import "./styles/IntroStyles.css"
@@ -29,14 +33,68 @@ function App() {
           const [image, setImage] = useState(layoutOne);
           const [previewComponent, setPreviewComponent] = useState(<Preview />);
           const [currentLayout, setCurrentLayout] = useState('layout1');
-      
+          const [selectedEditStyle,setSelectedEditStyle] = useState(null);
+
+
+          const handleStylePage = (currentLayout) => {
+            if (currentLayout === 'layout1') {
+              setSelectedEditStyle('EditStyle')
+            }
+            else if (currentLayout === 'layout2'){
+              setSelectedEditStyle('EditStyleTwo')
+            }
+            else if (currentLayout === 'layout3'){
+              setSelectedEditStyle('EditStyleThree')
+            }
+          }
+          
+          const renderEditStyle = () => {
+            if (selectedEditStyle === 'EditStyle'){
+              return <EditStyle
+              customStyles={customStyles}
+              setCustomStyles={setCustomStyles}
+              onSubmit={handleSubmit}
+              updateStyles={updateStyles}
+              currentLayout={currentLayout}
+              setCurrentLayout={setCurrentLayout}
+              handleLayoutClick={handleLayoutClick}
+              />;
+            }
+            else if (selectedEditStyle === 'EditStyleTwo'){
+              return <EditStyleTwo
+              customStyles={customStyles}
+              setCustomStyles={setCustomStyles}
+              onSubmit={handleSubmit}
+              updateStyles={updateStyles}
+              currentLayout={currentLayout}
+              setCurrentLayout={setCurrentLayout}
+              handleLayoutClick={handleLayoutClick}
+              />
+            }
+            else if (selectedEditStyle === 'EditStyleThree'){
+              return <EditStyleThree
+              customStyles={customStyles}
+              setCustomStyles={setCustomStyles}
+              onSubmit={handleSubmit}
+              updateStyles={updateStyles}
+              currentLayout={currentLayout}
+              setCurrentLayout={setCurrentLayout}
+              handleLayoutClick={handleLayoutClick}
+              />
+          }
+          else {
+            return null;
+          }
+        }
+
+
           const handleLayoutClick = (layout) => {
               setCurrentLayout(layout);
               
               const layoutSlider = document.querySelector(".layout-slider");
               layoutSlider.classList.toggle("show");
 
-              
+              handleStylePage(layout)
 
               // render the corresponding preview component
               if(layout === "layout2") {
@@ -216,15 +274,21 @@ function App() {
 
   const [activeTab, setActiveTab] = useState("content");
   const [customStyles, setCustomStyles] = useState({
+    fontNameSize:"34px",
     fontHeaderSize: "28px",
     fontContentSize: "20px",
     textColorLeft: "#000000",
     textColorRight: "#000000",
+    textColorHeader: "#000000",
+    textColorContent: "#000000",
     backgroundColorLeft: "#ffffff",
     backgroundColorRight: "#ffffff",
+    backgroundColorHeader: "#ffffff",
+    backgroundColorContent: "#ffffff",
     skillTabColor: "aqua",
     textColorSkillTab:"#000000",
-    fontFamily: "Lucida Console, monospace",
+    fontFamilyHeader: "Lucida Console, monospace",
+    fontFamilyContent: "Lucida Console, monospace",
     fontSize:"16px",
   });
 
@@ -338,7 +402,7 @@ function App() {
       {/* Left Side - Forms */}
       {showForm && (
         <div className="form-navbar-container">
-          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} handleStylePage={handleStylePage} currentLayout={currentLayout} />
           {activeTab === "content" && (
             <FormSection
               formData={formData}
@@ -348,14 +412,9 @@ function App() {
               setVisibleSections={setVisibleSections}
             />
           )}
-          {activeTab === "style" && (
-            <EditStyle
-              customStyles={customStyles}
-              setCustomStyles={setCustomStyles}
-              onSubmit={handleSubmit}
-              updateStyles={updateStyles}
-            />
-          )}
+          {activeTab === "style" && 
+           renderEditStyle()
+          }
         </div>
       )}
 
