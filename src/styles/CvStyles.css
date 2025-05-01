@@ -335,9 +335,7 @@
   .layout-option:hover ~ .layout-slider {
     display: flex;
   }
-  .layout-option:hover{
-    
-  }
+
   
 
 
@@ -362,6 +360,31 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    border-radius: 10px
+  }
+
+  .cv-2-body{
+    border-radius: 10px;
+  }
+
+  .cv-2-content p {
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3px;
+  }
+
+  .cv-2-content h1{
+    border-radius: 10px 10px 0px 0px;
+    
+    padding: 10px;
+  }
+  .cv-2-content h3{
+    border-radius:10px;
+    padding: 5px;
+
   }
 
   .cv-2-name{
@@ -385,7 +408,10 @@
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    border-bottom: 1px solid black;
+    
+  }
+  .preview-section-experience-2-content{
+    border-radius: 5px;
   }
 
 
@@ -395,7 +421,8 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    gap: 15px;     
+    gap: 15px; 
+    border-radius: 10px;   
   }
  .skill-list-item-2{
     
@@ -420,8 +447,9 @@
     justify-content: space-between;
     margin-bottom: 10px;
     width: 100%;
-    padding: 5px;
+    
     margin: 5px;
+    border-radius: 10px;
   }
 
   .language-hobby-2{
@@ -432,8 +460,11 @@
   }
   .hobbies-description-2{
     width: 45%;
-    padding: 5px;
-    margin: 5px;
+    
+  }
+
+  .hobby-entry-2 {
+    border-radius: 10px;
   }
 
   .cv-2-preview h3{
@@ -445,13 +476,51 @@
    padding-right:50px ;
   }
  
-  .education-entry-preview-2{
-    border-bottom: 1px dotted black;
-  }
-      
   .experience-entry-preview-2{
-    border-bottom: 1px dotted black;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 6px;
   }
+  .education-entry-preview-2{
+    border-radius: 10px;
+    padding: 8px;
+    margin: 6px;
+  }
+
+  .project-entry-preview-2{
+    border-radius: 10px;
+    padding: 8px;
+    margin: 6px;
+  }
+  .preview-section-summary-2{
+    border-radius: 10px;
+    padding: 8px;
+    margin: 6px;
+  }
+  .preview-content-2{
+    border-radius: 10px;
+    padding: 8px;
+    margin: 6px;
+  }
+  .custom-links-2 {
+    list-style: none;
+    border-radius: 10px;
+    padding: 8px;
+  }
+
+  .custom-description-2{
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .custom-links-2{
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .custom-contact-2{
+    border-radius: 10px;
+    padding: 8px;
+  }
+
 
   /*--------------------------------styles for layout 3----------------------------------------*/
 
