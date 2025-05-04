@@ -214,7 +214,7 @@
     }
     
     .cv-preview, 
-    .cv-preview * {
+    .cv-2-preview * {
       visibility: visible;
       position: absolute;
       top: 0;
@@ -224,7 +224,15 @@
       padding: 0;
      
     }
-    
+    .cv-2-preview {
+      visibility: visible;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
     .full-preview-btns,
     body::before,
     body::after {
@@ -396,12 +404,22 @@
   }
 
 
-  .cv-2-name h1{
-    margin-bottom: 0;
+  .cv-2-name {
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
   }
 
   .cv-2-name h3{
     margin-top: 0;
+    margin-bottom: 0;
+  }
+  .cv-2-name h1{
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .cv-2-contact{
     display: flex;
@@ -520,6 +538,7 @@
     border-radius: 10px;
     padding: 8px;
   }
+
 
 
   /*--------------------------------styles for layout 3----------------------------------------*/
