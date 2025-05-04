@@ -191,7 +191,7 @@ function App() {
         scale: 1,
         logging: true,
         useCORS: true,
-        
+        scrollY: -window.scrollY,
         backgroundColor: null,
         allowTaint: true,
         ignoreElements: (el) => {
@@ -199,7 +199,7 @@ function App() {
           return el.classList.contains('no-print');
         },
         windowWidth: element.scrollWidth,
-        height: element.scrollHeight,
+        windowHeight: element.scrollHeight,
         onclone: (clonedDoc) => {
           // Ensure all elements are visible during capture
           clonedDoc.querySelectorAll('*').forEach(el => {
@@ -285,6 +285,7 @@ function App() {
     backgroundColorRight: "#ffffff",
     backgroundColorHeader: "#ffffff",
     backgroundColorContent: "#ffffff",
+    bodyBgColor: "aqua",
     skillTabColor: "aqua",
     textColorSkillTab:"#000000",
     fontFamilyHeader: "Lucida Console, monospace",

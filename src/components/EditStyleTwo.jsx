@@ -114,7 +114,8 @@ const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit, currentLayout, 
                         )}
                     />
                 </div>
-
+                 
+                             
                 <div className="color-input-container">
                         {/* Text Color */}
                         <label>Text Color: Headers</label>
@@ -138,7 +139,17 @@ const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit, currentLayout, 
                                 name="backgroundColorHeader"
                                 value={customStyles.backgroundColorHeader}
                                 onChange={handleChange} />
-                        </div><div className="color-input-container">
+                        </div>
+                        <div className="color-input-container">
+                        {/* Text Color */}
+                        <label>BG Color: Body</label>
+                        <input
+                            type="color"
+                            name="bodyBgColor"
+                            value={customStyles.bodyBgColor}
+                            onChange={handleChange} />
+                     </div>  
+                        <div className="color-input-container">
                             <label>Background Color:Content</label>
                             <input
                                 type="color"
