@@ -20,46 +20,57 @@ const PreviewThree = forwardRef((props, ref) => {
     return `${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
   };
 
+  // style for skill items
+  const skillItemStyle = { backgroundColor: style.skillTabColor, color: style.textColorSkillTab, fontSize: style.fontContentSize,fontFamily: style.fontFamilyHeader}
+  // style for regular <p> tags
+  const contentTextStyle = {fontSize: style.fontContentSizet,fontFamily: style.fontFamilyContent }
+  // styles for header content
+  const headerTextStyle = {fontSize: style.fontHeaderSize,fontFamily: style.fontFamilyHeader}
+  // styles for content tags <p> with classname stronger-font
+  const strongerContentText = {fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }
+
+
+
   return (
     <div className="cv-preview-container-3" ref={ref}>
       <div className="cv-3-header">
         {generalInfo.name && <h1 style={{ fontSize: style.fontNameSize,fontFamily: style.fontFamilyHeader }}>{generalInfo.name}</h1>}
-        {generalInfo.title && <h3 style={{ fontSize: style.fontContentSize,fontFamily: style.fontFamilyHeader }}>{generalInfo.title}</h3>}
+        {generalInfo.title && <h3 style={{ ...headerTextStyle}}>{generalInfo.title}</h3>}
       </div>
       <div className="cv-preview-3">
         <div className="cv-3-left" style={{ backgroundColor: style.backgroundColorLeft }} >
           <div className="cv-3-profile">
             {visibleSections?.summary && (
               <div className="preview-section-summary" style={{ color: style.textColorLeft }}>
-                <h3 style={{ fontSize: style.fontHeaderSize,fontFamily: style.fontFamilyHeader }} className="cv-text preview-headings">PROFILE</h3>
-                <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="cv-text">{summary?.summary || "Your summary"}</p>
+                <h3 style={{ ...headerTextStyle}} className="cv-text preview-headings">PROFILE</h3>
+                <p style={{ ...contentTextStyle }} className="cv-text">{summary?.summary || "Your summary"}</p>
               </div>
             )}
           </div>
           <div className="cv-3-experience">
             {visibleSections?.experience && (
               <div className="preview-section-experience-2" style={{ color: style.textColorLeft }}>
-                <h3 style={{ fontSize: style.fontHeaderSize,fontFamily: style.fontFamilyHeader  }} className="cv-text preview-headings">EMPLOYMENT HISTORY</h3>
+                <h3 style={{ ...headerTextStyle  }} className="cv-text preview-headings">EMPLOYMENT HISTORY</h3>
                 {experience.length > 0 ? (
                   experience.map((exp, index) => (
                     <div key={index} className="experience-entry-preview-3">
-                      <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}> {`${exp?.position || "Your position"}, ${exp?.company || "Your company"}`}</p>
-                      <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}><span>{exp?.location || "Your exp"}</span></p>
+                      <p className="stronger-font cv-text" style={{ ...strongerContentText }}> {`${exp?.position || "Your position"}, ${exp?.company || "Your company"}`}</p>
+                      <p className="cv-text" style={{ ...contentTextStyle }}><span>{exp?.location || "Your exp"}</span></p>
                       {exp.achievements && exp.achievements.points.length > 0 && (
                         <div className="exp-achievements-3">
-                          <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font">{exp.achievements.title}</p>
+                          <p style={{ ...strongerContentText }} className="stronger-font">{exp.achievements.title}</p>
                           <ul>
                             {exp.achievements.points.map((point, i) => (
-                              point && <li style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} key={i}>{point}</li>
+                              point && <li style={{ ...contentTextStyle }} key={i}>{point}</li>
                             ))}
                           </ul>
                         </div>
                       )}
-                      <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>{formatDate(exp?.startDate || "Start date")} — {formatDate(exp?.endDate || "End date")}</p>
+                      <p className="stronger-font cv-text" style={{ ...strongerContentText }}>{formatDate(exp?.startDate || "Start date")} — {formatDate(exp?.endDate || "End date")}</p>
                     </div>
                   ))
                 ) : (
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="cv-text">No experience details added yet.</p>
+                  <p style={{ ...contentTextStyle }} className="cv-text">No experience details added yet.</p>
                 )}
               </div>
             )}
@@ -67,28 +78,28 @@ const PreviewThree = forwardRef((props, ref) => {
           <div style={{ backgroundColor: style.backgroundColorLeft }} className="cv-3-education">
             {visibleSections.education && (
               <div className="preview-section-education-3" style={{ color: style.textColorLeft }}>
-                <h3 style={{ fontSize: style.fontHeaderSize, fontFamily: style.fontFamilyHeader }} className="cv-text preview-headings">EDUCATION</h3>
+                <h3 style={{ ...headerTextStyle }} className="cv-text preview-headings">EDUCATION</h3>
                 {education.length > 0 ? (
                   education.map((edu, index) => (
                     <div key={index} className="education-entry-preview-3">
-                      <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font cv-text">{`${edu?.school || "Your school"},${edu?.degree || "Your degree"} `}</p>
-                      <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="cv-text">{edu?.location || "School address"}</p>
+                      <p style={{ ...strongerContentText   }} className="stronger-font cv-text">{`${edu?.school || "Your school"},${edu?.degree || "Your degree"} `}</p>
+                      <p style={{ ...contentTextStyle }} className="cv-text">{edu?.location || "School address"}</p>
 
                       {edu.achievements && edu.achievements.points.length > 0 && (
                         <div className="edu-achievements-3">
-                          <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font">{edu.achievements.title}</p>
+                          <p style={{ ...strongerContentText }} className="stronger-font">{edu.achievements.title}</p>
                           <ul>
                             {edu.achievements.points.map((point, i) => (
-                              point && <li style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} key={i}>{point}</li>
+                              point && <li style={{ ...contentTextStyle }} key={i}>{point}</li>
                             ))}
                           </ul>
                         </div>
                       )}
-                      <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font cv-text"  >{formatDate(edu?.startDate || "start date")} — {formatDate(edu?.endDate || "end Date")}</p>
+                      <p style={{ ...strongerContentText }} className="stronger-font cv-text"  >{formatDate(edu?.startDate || "start date")} — {formatDate(edu?.endDate || "end Date")}</p>
                     </div>
                   ))
                 ) : (
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>No education details added yet.</p>
+                  <p style={{ ...contentTextStyle }}>No education details added yet.</p>
                 )}
               </div>
             )}
@@ -97,18 +108,18 @@ const PreviewThree = forwardRef((props, ref) => {
           <div style={{ backgroundColor: style.backgroundColorLeft }} className="cv-3-projects">
             {visibleSections?.projects && (
               <div className="preview-section-project" style={{ color: style.textColorLeft }}>
-                <h3 style={{ fontSize: style.fontHeaderSize, fontFamily: style.fontFamilyHeader }} className="cv-text preview-headings">PROJECTS</h3>
+                <h3 style={{ ...headerTextStyle }} className="cv-text preview-headings">PROJECTS</h3>
                 {projects.length > 0 ? (
                   projects.map((proj, index) => {
                     return (
                       <div key={index} className="project-entry-preview-3">
-                        <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>{proj?.title || "Your project title"}</p>
-                        <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="cv-text">{proj?.description || "Your project description"}</p>
+                        <p className="stronger-font cv-text" style={{ ...strongerContentText}}>{proj?.title || "Your project title"}</p>
+                        <p style={{ ...contentTextStyle }} className="cv-text">{proj?.description || "Your project description"}</p>
 
 
                         {/* Display skills used */}
                         <div className="project-skills">
-                          <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>Skills used:</p>
+                          <p className="stronger-font cv-text" style={{...strongerContentText}}>Skills used:</p>
                           <ul className="skill-list-projects-3">
                             {proj?.skillsUsed?.length > 0 ? (
                               proj.skillsUsed.map((skill, i) => (
@@ -121,7 +132,7 @@ const PreviewThree = forwardRef((props, ref) => {
 
                         {/* display key feature */}
                         <div className="project-key-feature">
-                          <p className="stronger-font cv-text" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>Key features:</p>
+                          <p className="stronger-font cv-text" style={{ ...strongerContentText }}>Key features:</p>
                           <ul className="feature-list">
                             {proj?.keyFeatures?.length > 0 ? (
                               proj.keyFeatures.map((feature, i) => (
@@ -131,7 +142,7 @@ const PreviewThree = forwardRef((props, ref) => {
                             )}
                           </ul>
                         </div>
-                        <p className="stronger-font" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>
+                        <p className="stronger-font" style={{ ...strongerContentText }}>
                           <strong>Project Link :</strong>{" "}
                           {proj.link ? (
                             <a href={proj.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>
@@ -146,7 +157,7 @@ const PreviewThree = forwardRef((props, ref) => {
                     );
                   })
 
-                ) : (<p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="cv-text">No projects added yet</p>)  // added feedback
+                ) : (<p style={{ ...contentTextStyle }} className="cv-text">No projects added yet</p>)  // added feedback
                 }
               </div>
             )}
@@ -157,24 +168,24 @@ const PreviewThree = forwardRef((props, ref) => {
 
           <div className="personal-info-3"  >
 
-            <div className="cv-3-contact">
-              <h3 style={{ fontSize: style.fontHeaderSize,fontFamily: style.fontFamilyContent }} className="cv-text preview-headings">PERSONAL INFO</h3>
-              {generalInfo.email && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><MdEmail /> {generalInfo.email}</p>}
-              {generalInfo.phone && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><FaPhone /> {generalInfo.phone}</p>}
-              {generalInfo.location && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><FaLocationArrow /> {generalInfo.location}</p>}
-              {generalInfo.github && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><FaGithub /> {generalInfo.github}</p>}
-              {generalInfo.linkedin && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><FaLinkedin /> {generalInfo.linkedin}</p>}
-              {generalInfo.website && <p style={{ fontSize: style.fontSize, color: style.color,fontFamily: style.fontFamilyContent }}><FaBriefcase /> {generalInfo.website}</p>}
+            <div className="cv-3-contact" style={{ color: style.textColorRight }}>
+              <h3 style={{ ...headerTextStyle }} className="cv-text preview-headings">PERSONAL INFO</h3>
+              {generalInfo.email && <p style={{ ...contentTextStyle }}><MdEmail /> {generalInfo.email}</p>}
+              {generalInfo.phone && <p style={{ ...contentTextStyle }}><FaPhone /> {generalInfo.phone}</p>}
+              {generalInfo.location && <p style={{ ...contentTextStyle }}><FaLocationArrow /> {generalInfo.location}</p>}
+              {generalInfo.github && <p style={{ ...contentTextStyle }}><FaGithub /> {generalInfo.github}</p>}
+              {generalInfo.linkedin && <p style={{ ...contentTextStyle }}><FaLinkedin /> {generalInfo.linkedin}</p>}
+              {generalInfo.website && <p style={{ ...contentTextStyle }}><FaBriefcase /> {generalInfo.website}</p>}
             </div>
           </div>
 
           <div className="cv-3-skills">
             {visibleSections?.skills && (
               <div className="preview-section-skill" style={{ color: style.textColorRight,backgroundColor: style.backgroundColorRight }}>
-                <h3 style={{ fontSize: style.fontHeaderSize,fontFamily: style.fontFamilyHeader }} className="cv-text preview-headings">SKILLS</h3>
+                <h3 style={{ ...headerTextStyle }} className="cv-text preview-headings">SKILLS</h3>
                 <ul className="skill-list-main-3">
                   {skills.map((skill, index) => (
-                    <li key={index} className="skill-list-item-3 cv-text" style={{ backgroundColor: style.skillTabColor, color: style.textColorSkillTab, fontSize: style.fontContentSize,fontFamily: style.fontFamilyHeader }}>{skill?.skill || "Your skill"}</li>
+                    <li key={index} className="skill-list-item-3 cv-text" style={{ ...skillItemStyle }}>{skill?.skill || "Your skill"}</li>
                   ))}
                 </ul>
               </div>
@@ -183,11 +194,11 @@ const PreviewThree = forwardRef((props, ref) => {
 
           {visibleSections?.languages && (
             <div className="language-description-3">
-              <h3 style={{ fontSize: style.fontHeaderSize,backgroundColor: style.backgroundColorRight,fontFamily: style.fontFamilyHeader }} className="preview-headings">LANGUAGES</h3>
+              <h3 style={{ ...headerTextStyle }} className="preview-headings">LANGUAGES</h3>
               {languages?.map((lang, index) => (
                 <div key={index} className="language-entry-3">
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font">{lang.language}</p>
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>{lang.proficiency}</p>
+                  <p style={{ ...strongerContentText }} className="stronger-font">{lang.language}</p>
+                  <p style={{ ...strongerContentText }}>{lang.proficiency}</p>
                 </div>
               ))}
             </div>
@@ -197,11 +208,11 @@ const PreviewThree = forwardRef((props, ref) => {
 
 
             <div className="hobbies-description-3" style={{ color: style.textColorRight,backgroundColor: style.backgroundColorRight }}>
-              <h3 style={{ fontSize: style.fontHeaderSize, fontFamily: style.fontFamilyHeader }} className="preview-headings" >HOBBIES & INTERESTS</h3>
+              <h3 style={{...headerTextStyle }} className="preview-headings" >HOBBIES & INTERESTS</h3>
               {hobbies.map((hobby, index) => (
                 <div className="hobby-entry-3" key={index}>
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }} className="stronger-font">{hobby.title}</p>
-                  <p style={{ fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent }}>{hobby.description}</p>
+                  <p style={{ ...strongerContentText }} className="stronger-font">{hobby.title}</p>
+                  <p style={{ ...contentTextStyle}}>{hobby.description}</p>
                 </div>
 
               ))}
