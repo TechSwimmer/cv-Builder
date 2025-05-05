@@ -21,7 +21,7 @@ const PreviewTwo = forwardRef((props, ref) => {
   const contentTextStyle = { fontSize: style.fontContentSize, color: style.textColorContent,fontFamily: style.fontFamilyContent, backgroundColor: style.backgroundColorContent }
   // styles for header content
   const headerTextStyle = {fontSize: style.fontHeaderSize, fontFamily: style.fontFamilyHeader, color: style.textColorHeader, backgroundColor: style.backgroundColorHeader}
-  // styles for content tags <p> with classname stronger-font
+  // styles for content tags <p> with c.lassname stronger-font
   const strongerContentText = {fontSize: style.fontContentSize, fontFamily: style.fontFamilyContent, color: style.textColorContent}
 
  return (
@@ -29,7 +29,7 @@ const PreviewTwo = forwardRef((props, ref) => {
       <div className="cv-2-content" style={{backgroundColor: style.bodyBgColor}}>
         <div className="cv-2-header" >
           <div className="cv-2-name" style={{ backgroundColor: style.backgroundColorHeader}}>
-            {generalInfo.name && <h1 className="preview-name-2" style={{ ...headerTextStyle }}>{generalInfo.name}</h1>}
+            {generalInfo.name && <h1 className="preview-name-2" style={{ fontSize: style.fontNameSize,fontFamily: style.fontFamilyHeader }}>{generalInfo.name}</h1>}
             {generalInfo.title && <h3 className="preview-title-2" style={{ ...headerTextStyle}}>{generalInfo.title}</h3>}
           </div>
           <div className="cv-2-contact">
