@@ -45,11 +45,119 @@ function App() {
 
           // state variables
           const [image, setImage] = useState(layoutOne);                         // image to be displayed as btn
-          const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
-          const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
-          const [selectedEditStyle,setSelectedEditStyle] = useState(null);       // current edit style page
-         
 
+          const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
+
+          const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
+
+          const [selectedEditStyle,setSelectedEditStyle] = useState(null);       // current edit style page
+
+          const [showIntro, setShowIntro] = useState(true);                      // handle visibility of intro pages
+
+          const [activeTab, setActiveTab] = useState("content");                 // toggle between editstyle and formsection page
+
+          const [showForm, setShowForm] = useState(true);                        // toggle full screen mode for preview
+
+          const [customStyles, setCustomStyles] = useState({                     // store all the styles for all the preview            
+            fontNameSize:"34px",
+            fontHeaderSize: "28px",
+            fontContentSize: "20px",
+            textColorLeft: "#000000",
+            textColorRight: "#000000",
+            textColorHeader: "#000000",
+            textColorContent: "#000000",
+            backgroundColorLeft: "#ffffff",
+            backgroundColorRight: "#ffffff",
+            backgroundColorHeader: "#ffffff",
+            backgroundColorContent: "#ffffff",
+            bodyBgColor: "aqua",
+            skillTabColor: "aqua",
+            textColorSkillTab:"#000000",
+            fontFamilyHeader: "Lucida Console, monospace",
+            fontFamilyContent: "Lucida Console, monospace",
+            fontSize:"16px",
+          });
+          const [visibleSections, setVisibleSections] = useState({
+            education: true,
+            experience: true,
+            projects: true,
+            skills: true,
+            summary: true,
+            hobbies:true,
+          });
+          const [formData, setFormData] = useState({
+            generalInfo: {
+              name: "",
+              email: "",
+              phone: "",
+              location: "",
+              Github: "",
+              linkedin: "",
+              website: "",
+              title:"",
+            },
+          
+            summary: { summary: "" },
+            education: [
+              { school: "",
+                degree: "",
+                startDate: "",
+                endDate: "",
+                location: "",
+                achievements: {
+                  title: "Achievements",
+                  points: [""]
+                }
+               },
+            ],
+            skills: [{ skill: "" }],
+            experience: [
+              { company: "",
+                position: "",
+                startDate: "", 
+                endDate: "", 
+                location: "",
+                achievements: {
+                  title: "Achievements",
+                  points: [""]
+                }
+               },
+            ],
+            projects: [
+              {
+                title: "",
+                company: "",
+                description: "",
+                
+                skillsUsed: [],
+                keyFeatures: [],
+                link: "",
+              },
+            ],
+            hobbies: [
+              {
+                title: "listening Music",
+                description: "I enjoy listening to music,"
+              },
+            ],
+            languages:[
+              {
+                language:"",
+                proficiency: "",
+              },
+            ],
+            custom: [
+              {
+                title: "",
+                type: "text", // "text" | "list" | "contact" | "links"
+                description: "",
+                listItems: [""],
+                phone: "",
+                email: "",
+                links: [""],
+              },
+            ],
+          });
 
           const handleStylePage = (currentLayout) => {
             if (currentLayout === 'layout1') {
@@ -138,7 +246,7 @@ function App() {
       
             const images = {layoutOne, layoutTwo, layoutThree};
  
-  const [showIntro, setShowIntro] = useState(true);
+ 
 
   const onFinish = () => {
     window.location.href= "https://resume-baker.netlify.app/";
@@ -153,14 +261,7 @@ function App() {
    },[]);
 
   // handling visibility for each section in preview 
-  const [visibleSections, setVisibleSections] = useState({
-    education: true,
-    experience: true,
-    projects: true,
-    skills: true,
-    summary: true,
-    hobbies:true,
-  });
+ 
  
 
   
@@ -287,105 +388,14 @@ function App() {
 
 
 
-  const [activeTab, setActiveTab] = useState("content");
-  const [customStyles, setCustomStyles] = useState({
-    fontNameSize:"34px",
-    fontHeaderSize: "28px",
-    fontContentSize: "20px",
-    textColorLeft: "#000000",
-    textColorRight: "#000000",
-    textColorHeader: "#000000",
-    textColorContent: "#000000",
-    backgroundColorLeft: "#ffffff",
-    backgroundColorRight: "#ffffff",
-    backgroundColorHeader: "#ffffff",
-    backgroundColorContent: "#ffffff",
-    bodyBgColor: "aqua",
-    skillTabColor: "aqua",
-    textColorSkillTab:"#000000",
-    fontFamilyHeader: "Lucida Console, monospace",
-    fontFamilyContent: "Lucida Console, monospace",
-    fontSize:"16px",
-  });
+ 
 
   const updateStyles = (newStyles) => { 
     setCustomStyles((prev) => ({...prev, ...newStyles}));
   };
-  const [showForm, setShowForm] = useState(true);
+ 
 
-  const [formData, setFormData] = useState({
-    generalInfo: {
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      Github: "",
-      linkedin: "",
-      website: "",
-      title:"",
-    },
-  
-    summary: { summary: "" },
-    education: [
-      { school: "",
-        degree: "",
-        startDate: "",
-        endDate: "",
-        location: "",
-        achievements: {
-          title: "Achievements",
-          points: [""]
-        }
-       },
-    ],
-    skills: [{ skill: "" }],
-    experience: [
-      { company: "",
-        position: "",
-        startDate: "", 
-        endDate: "", 
-        location: "",
-        achievements: {
-          title: "Achievements",
-          points: [""]
-        }
-       },
-    ],
-    projects: [
-      {
-        title: "",
-        company: "",
-        description: "",
-        
-        skillsUsed: [],
-        keyFeatures: [],
-        link: "",
-      },
-    ],
-    hobbies: [
-      {
-        title: "listening Music",
-        description: "I enjoy listening to music,"
-      },
-    ],
-    languages:[
-      {
-        language:"",
-        proficiency: "",
-      },
-    ],
-    custom: [
-      {
-        title: "",
-        type: "text", // "text" | "list" | "contact" | "links"
-        description: "",
-        listItems: [""],
-        phone: "",
-        email: "",
-        links: [""],
-      },
-    ],
-  });
+ 
 
 
   
