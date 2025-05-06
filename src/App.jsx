@@ -1,27 +1,40 @@
+// import essential react hooks for the App component
 import React, { useRef, useState,useEffect } from "react";
 
-import Navbar from "./components/Navbar";
+//import all the preview pages that are to be displayed 
+import Preview from "./components/Preview";
+import PreviewTwo from "./components/PreviewTwo";
+import PreviewThree from "./components/PreviewThree";
 
+// import the style pages for all the previews
 import EditStyle from "./components/EditStyle";
 import EditStyleTwo from "./components/EditStyleTwo";
 import EditStyleThree from "./components/EditStyleThree";
 
-import Preview from "./components/Preview";
-import IntroPages from "./components/Intropages";
-import "./styles/IntroStyles.css"
+// import the navbar component (btns to select formSection and EditStyle page)
+import Navbar from "./components/Navbar";
 
+// intropages shows a couple of pages to explain how to create a cv in this app
+import IntroPages from "./components/Intropages";
+
+// style pages for intropages and app.jsx
+import "./styles/IntroStyles.css"
+import "./styles/App.css";
+
+// FormSection is the form where user inputs the data i.e. to be displayed on the cv
+import FormSection from "./components/FormSection";
+
+// import html2canvas and jspdf to download the cv in PDF format
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
+// PreviewDisplay ensures that the correct preview is displayed with the appropriate data.
 import PreviewDisplay from "./components/PreviewDisplay";
-import FormSection from "./components/FormSection";
-import "./styles/App.css";
+
+// Layout.jsx helps us to display proper preview layout w.r.t. the clicked img btn
 import Layout from "./components/Layout";
-import PreviewTwo from "./components/PreviewTwo";
-import PreviewThree from "./components/PreviewThree";
 
-
-
+// import preview images to be displayed as btns where user can click and change the preview 
 import layoutOne from "./images/layout1.png";
 import layoutTwo from "./images/layout2.png";
 import layoutThree from "./images/layout3.png";
@@ -30,10 +43,12 @@ import layoutThree from "./images/layout3.png";
 
 function App() {
 
-          const [image, setImage] = useState(layoutOne);
-          const [previewComponent, setPreviewComponent] = useState(<Preview />);
-          const [currentLayout, setCurrentLayout] = useState('layout1');
-          const [selectedEditStyle,setSelectedEditStyle] = useState(null);
+          // state variables
+          const [image, setImage] = useState(layoutOne);                         // image to be displayed as btn
+          const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
+          const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
+          const [selectedEditStyle,setSelectedEditStyle] = useState(null);       // current edit style page
+         
 
 
           const handleStylePage = (currentLayout) => {
