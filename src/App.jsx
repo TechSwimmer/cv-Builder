@@ -1,5 +1,5 @@
 // import essential react hooks for the App component
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 //import all the preview pages that are to be displayed 
 import Preview from "./components/Preview";
@@ -43,245 +43,257 @@ import layoutThree from "./images/layout3.png";
 
 function App() {
 
-          // state variables
-          const [image, setImage] = useState(layoutOne);                         // image to be displayed as btn
+  // state variables
+  const [image, setImage] = useState(layoutOne);                         // image to be displayed as btn
 
-          const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
+  const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
 
-          const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
+  const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
 
-          const [selectedEditStyle,setSelectedEditStyle] = useState(null);       // current edit style page
+  const [selectedEditStyle, setSelectedEditStyle] = useState(null);       // current edit style page
 
-          const [showIntro, setShowIntro] = useState(true);                      // handle visibility of intro pages
+  const [showIntro, setShowIntro] = useState(true);                      // handle visibility of intro pages
 
-          const [activeTab, setActiveTab] = useState("content");                 // toggle between editstyle and formsection page
+  const [activeTab, setActiveTab] = useState("content");                 // toggle between editstyle and formsection page
 
-          const [showForm, setShowForm] = useState(true);                        // toggle full screen mode for preview
+  const [showForm, setShowForm] = useState(true);                        // toggle full screen mode for preview
 
-          const [customStyles, setCustomStyles] = useState({                     // store all the styles for all the preview            
-            fontNameSize:"34px",
-            fontHeaderSize: "28px",
-            fontContentSize: "20px",
-            textColorLeft: "#000000",
-            textColorRight: "#000000",
-            textColorHeader: "#000000",
-            textColorContent: "#000000",
-            backgroundColorLeft: "#ffffff",
-            backgroundColorRight: "#ffffff",
-            backgroundColorHeader: "#ffffff",
-            backgroundColorContent: "#ffffff",
-            bodyBgColor: "aqua",
-            skillTabColor: "aqua",
-            textColorSkillTab:"#000000",
-            fontFamilyHeader: "Lucida Console, monospace",
-            fontFamilyContent: "Lucida Console, monospace",
-            fontSize:"16px",
-          });
-          const [visibleSections, setVisibleSections] = useState({
-            education: true,
-            experience: true,
-            projects: true,
-            skills: true,
-            summary: true,
-            hobbies:true,
-          });
-          const [formData, setFormData] = useState({
-            generalInfo: {
-              name: "",
-              email: "",
-              phone: "",
-              location: "",
-              Github: "",
-              linkedin: "",
-              website: "",
-              title:"",
-            },
-          
-            summary: { summary: "" },
-            education: [
-              { school: "",
-                degree: "",
-                startDate: "",
-                endDate: "",
-                location: "",
-                achievements: {
-                  title: "Achievements",
-                  points: [""]
-                }
-               },
-            ],
-            skills: [{ skill: "" }],
-            experience: [
-              { company: "",
-                position: "",
-                startDate: "", 
-                endDate: "", 
-                location: "",
-                achievements: {
-                  title: "Achievements",
-                  points: [""]
-                }
-               },
-            ],
-            projects: [
-              {
-                title: "",
-                company: "",
-                description: "",
-                
-                skillsUsed: [],
-                keyFeatures: [],
-                link: "",
-              },
-            ],
-            hobbies: [
-              {
-                title: "listening Music",
-                description: "I enjoy listening to music,"
-              },
-            ],
-            languages:[
-              {
-                language:"",
-                proficiency: "",
-              },
-            ],
-            custom: [
-              {
-                title: "",
-                type: "text", // "text" | "list" | "contact" | "links"
-                description: "",
-                listItems: [""],
-                phone: "",
-                email: "",
-                links: [""],
-              },
-            ],
-          });
+  const [customStyles, setCustomStyles] = useState({                     // store all the styles for all the preview            
+    fontNameSize: "34px",
+    fontHeaderSize: "28px",
+    fontContentSize: "20px",
+    textColorLeft: "#000000",
+    textColorRight: "#000000",
+    textColorHeader: "#000000",
+    textColorContent: "#000000",
+    backgroundColorLeft: "#ffffff",
+    backgroundColorRight: "#ffffff",
+    backgroundColorHeader: "#ffffff",
+    backgroundColorContent: "#ffffff",
+    bodyBgColor: "aqua",
+    skillTabColor: "aqua",
+    textColorSkillTab: "#000000",
+    fontFamilyHeader: "Lucida Console, monospace",
+    fontFamilyContent: "Lucida Console, monospace",
+    fontSize: "16px",
+  });
+  const [visibleSections, setVisibleSections] = useState({                      // store  visibility values for specific sections 
+    education: true,
+    experience: true,
+    projects: true,
+    skills: true,
+    summary: true,
+    hobbies: true,
+  });
+  const [formData, setFormData] = useState({                                    // store the users's cv-data and change it using this state
+    generalInfo: {
+      name: "",
+      email: "",
+      phone: "",
+      location: "",
+      Github: "",
+      linkedin: "",
+      website: "",
+      title: "",
+    },
 
-          const handleStylePage = (currentLayout) => {
-            if (currentLayout === 'layout1') {
-              setSelectedEditStyle('EditStyle')
-            }
-            else if (currentLayout === 'layout2'){
-              setSelectedEditStyle('EditStyleTwo')
-            }
-            else if (currentLayout === 'layout3'){
-              setSelectedEditStyle('EditStyleThree')
-            }
-          }
-          
-          const renderEditStyle = () => {
-            if (selectedEditStyle === 'EditStyle'){
-              return <EditStyle
-              customStyles={customStyles}
-              setCustomStyles={setCustomStyles}
-              onSubmit={handleSubmit}
-              updateStyles={updateStyles}
-              currentLayout={currentLayout}
-              setCurrentLayout={setCurrentLayout}
-              handleLayoutClick={handleLayoutClick}
-              />;
-            }
-            else if (selectedEditStyle === 'EditStyleTwo'){
-              return <EditStyleTwo
-              customStyles={customStyles}
-              setCustomStyles={setCustomStyles}
-              onSubmit={handleSubmit}
-              updateStyles={updateStyles}
-              currentLayout={currentLayout}
-              setCurrentLayout={setCurrentLayout}
-              handleLayoutClick={handleLayoutClick}
-              />
-            }
-            else if (selectedEditStyle === 'EditStyleThree'){
-              return <EditStyleThree
-              customStyles={customStyles}
-              setCustomStyles={setCustomStyles}
-              onSubmit={handleSubmit}
-              updateStyles={updateStyles}
-              currentLayout={currentLayout}
-              setCurrentLayout={setCurrentLayout}
-              handleLayoutClick={handleLayoutClick}
-              />
-          }
-          else {
-            return null;
-          }
+    summary: { summary: "" },
+    education: [
+      {
+        school: "",
+        degree: "",
+        startDate: "",
+        endDate: "",
+        location: "",
+        achievements: {
+          title: "Achievements",
+          points: [""]
         }
+      },
+    ],
+    skills: [{ skill: "" }],
+    experience: [
+      {
+        company: "",
+        position: "",
+        startDate: "",
+        endDate: "",
+        location: "",
+        achievements: {
+          title: "Achievements",
+          points: [""]
+        }
+      },
+    ],
+    projects: [
+      {
+        title: "",
+        company: "",
+        description: "",
 
+        skillsUsed: [],
+        keyFeatures: [],
+        link: "",
+      },
+    ],
+    hobbies: [
+      {
+        title: "listening Music",
+        description: "I enjoy listening to music,"
+      },
+    ],
+    languages: [
+      {
+        language: "",
+        proficiency: "",
+      },
+    ],
+    custom: [
+      {
+        title: "",
+        type: "text", // "text" | "list" | "contact" | "links"
+        description: "",
+        listItems: [""],
+        phone: "",
+        email: "",
+        links: [""],
+      },
+    ],
+  });
 
-          const handleLayoutClick = (layout) => {
-              setCurrentLayout(layout);
-              
-              const layoutSlider = document.querySelector(".layout-slider");
-              layoutSlider.classList.toggle("show");
+  //  set the appropriate EditStyle component based on the selected layout
 
-              handleStylePage(layout)
-
-              // render the corresponding preview component
-              if(layout === "layout2") {
-                setPreviewComponent(<PreviewTwo />);
-                setImage(layoutTwo)
-              }
-              else if(layout === "layout3") {
-                setPreviewComponent(<PreviewThree />)
-                setImage(layoutThree)
-              }
-              else if(layout === "layout1"){
-                setPreviewComponent(<Preview/>)
-                setImage(layoutOne)
-              }
-            };
-            
-            const handleMouseLeave = () => {
-              const layoutSlider = document.querySelector(".layout-slider");
-              layoutSlider.classList.remove("show");
-            };
-      
-            const handleMouseEnter = () => {
-              const layoutSlider = document.querySelector(".layout-slider");
-              layoutSlider.classList.add("show");
-            }
-      
-            const images = {layoutOne, layoutTwo, layoutThree};
- 
- 
-
-  const onFinish = () => {
-    window.location.href= "https://resume-baker.netlify.app/";
+  const handleStylePage = (currentLayout) => {
+    if (currentLayout === 'layout1') {
+      setSelectedEditStyle('EditStyle')        // for layout1
+    }
+    else if (currentLayout === 'layout2') {
+      setSelectedEditStyle('EditStyleTwo')     // for layout2
+    }
+    else if (currentLayout === 'layout3') {
+      setSelectedEditStyle('EditStyleThree')   // for layout1
+    }
   }
 
+  // Function to render the correct EditStyle component based on selectedEditStyle state
+  const renderEditStyle = () => {
+    if (selectedEditStyle === 'EditStyle') {
+      return <EditStyle
+        customStyles={customStyles}
+        setCustomStyles={setCustomStyles}
+        onSubmit={handleSubmit}
+        updateStyles={updateStyles}
+        currentLayout={currentLayout}
+        setCurrentLayout={setCurrentLayout}
+        handleLayoutClick={handleLayoutClick}
+      />;
+    }
+    else if (selectedEditStyle === 'EditStyleTwo') {
+      return <EditStyleTwo
+        customStyles={customStyles}
+        setCustomStyles={setCustomStyles}
+        onSubmit={handleSubmit}
+        updateStyles={updateStyles}
+        currentLayout={currentLayout}
+        setCurrentLayout={setCurrentLayout}
+        handleLayoutClick={handleLayoutClick}
+      />
+    }
+    else if (selectedEditStyle === 'EditStyleThree') {
+      return <EditStyleThree
+        customStyles={customStyles}
+        setCustomStyles={setCustomStyles}
+        onSubmit={handleSubmit}
+        updateStyles={updateStyles}
+        currentLayout={currentLayout}
+        setCurrentLayout={setCurrentLayout}
+        handleLayoutClick={handleLayoutClick}
+      />
+    }
+    else {
+      return null;
+    }
+  }
+
+  // Function to handle layout selection when a layout button/image is clicked
+
+  const handleLayoutClick = (layout) => {
+    // Update the current layout state
+
+    setCurrentLayout(layout);
+
+    // Toggle the visibility of the layout slider menu
+
+    const layoutSlider = document.querySelector(".layout-slider");
+    layoutSlider.classList.toggle("show");
+
+    // Set the appropriate EditStyle component for the selected layout
+    handleStylePage(layout)
+
+    // Render the corresponding preview component and update the preview image
+    if (layout === "layout2") {
+      setPreviewComponent(<PreviewTwo />);            // set previewTwo
+      setImage(layoutTwo)                             //  update the preview page
+    }
+    else if (layout === "layout3") {
+      setPreviewComponent(<PreviewThree />)           // set previewThree
+      setImage(layoutThree)                           // update the preview page    
+    }
+    else if (layout === "layout1") {
+      setPreviewComponent(<Preview />)                // set preview  
+      setImage(layoutOne)                             // update the preview page
+    }
+  };
+
+  // Function to handle mouse enter and leave events
+  const handleMouseLeave = () => {
+    const layoutSlider = document.querySelector(".layout-slider");
+    layoutSlider.classList.remove("show");
+  };
+  // Function to handle mouse enter and leave events
+  const handleMouseEnter = () => {
+    const layoutSlider = document.querySelector(".layout-slider");
+    layoutSlider.classList.add("show");
+  }
+
+  // store all the preview images in a variable
+  const images = { layoutOne, layoutTwo, layoutThree };
+
+
+
+  const onFinish = () => {
+    window.location.href = "https://resume-baker.netlify.app/";   // guide the user back to the main page of app
+  }
+
+  // useEffect to check if the user has already seen the intro pages
+
   useEffect(() => {
+    // Retrieve the 'hasSeenIntro' flag from localStorage
     const hasSeenIntro = localStorage.getItem("hasSeenIntro");
 
-    if(hasSeenIntro){
+    // If the flag exists, hide the intro pages
+    if (hasSeenIntro) {
       setShowIntro(false)
     }
-   },[]);
+  }, []);
 
-  // handling visibility for each section in preview 
- 
- 
-
-  
-
+  // create a reference using useRef to print the cv in PDF format
   const previewRef = useRef();
 
   const handleDownloadPDF = async () => {
     // Ensure preview is visible and rendered
     setActiveTab("preview");
     setShowForm(false);
-    
+
     // Small delay to allow DOM update
 
-   
-    await new Promise(resolve => setTimeout(resolve,1000));
-    
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const element = previewRef.current;
     // element.style.boxShadow = 'none';
     document.body.style.background = "#fff"
-    
+
     // Temporary style adjustments for capture
     const originalStyles = {
       position: element.style.position,
@@ -289,11 +301,11 @@ function App() {
       height: element.style.height,
       boxShadow: element.style.boxShadow,
     };
-    
+
     element.style.position = 'absolute';
     element.style.overflow = 'visible';
     element.style.height = 'auto';
-    
+
     element.scrollIntoView({ behavior: "auto", block: "start" });
     element.querySelectorAll('*').forEach(el => {
       if (el.textContent && el.textContent.includes(' ')) {
@@ -301,7 +313,7 @@ function App() {
         el.style.wordSpacing = 'normal';
       }
     });
-  
+
     try {
       const canvas = await html2canvas(element, {
         scale: 1,
@@ -327,19 +339,19 @@ function App() {
             el.style.whiteSpace = 'pre-wrap';
             el.style.wordSpacing = 'normal';
             el.style.fontFamily = 'Consolas, monospace';
-           
+
           });
         }
       });
-  
+
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/png',1.0);
+      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-  
+
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');
-      
+
     } catch (error) {
       console.error("PDF generation failed:", error);
     } finally {
@@ -382,108 +394,93 @@ function App() {
     document.head.appendChild(style);
 
     return () => {
-        document.head.removeChild(style);
+      document.head.removeChild(style);
     };
-}, []);
+  }, []);
 
 
-
- 
-
-  const updateStyles = (newStyles) => { 
-    setCustomStyles((prev) => ({...prev, ...newStyles}));
+  // update the styles in the app
+  const updateStyles = (newStyles) => {
+    setCustomStyles((prev) => ({ ...prev, ...newStyles }));
   };
- 
 
- 
-
-
-  
-
-  // keep all existing state 
-  
-  
-   // This will capture the DOM element reliably
-
-
-
-
-
+  // display preview in full screen 
   const handleSubmit = () => {
     setShowForm(false);
     setActiveTab("preview")
   }
 
+  // display the form and preview sections
   const handleEditClick = () => {
     setShowForm(true);
     setActiveTab('content')
   }
-  console.log(activeTab)
-
+  
+  
   return (
     <>
-  {/* Always render form + preview */}
-  <div className="app">
-    <div className="container">
-      {/* Left Side - Forms */}
-      {showForm && (
-        <div className="form-navbar-container">
-          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} handleStylePage={handleStylePage} currentLayout={currentLayout} />
-          {activeTab === "content" && (
-            <FormSection
-              formData={formData}
-              setFormData={setFormData}
-              onSubmit={handleSubmit}
-              visibleSections={visibleSections}
-              setVisibleSections={setVisibleSections}
-            />
+      {/* Always render form + preview */}
+      <div className="app">
+        <div className="container">
+          {/* Left Side - Forms */}
+          {showForm && (
+            <div className="form-navbar-container">
+              <Navbar activeTab={activeTab} setActiveTab={setActiveTab} handleStylePage={handleStylePage} currentLayout={currentLayout} />
+              {activeTab === "content" && (
+                <FormSection
+                  formData={formData}
+                  setFormData={setFormData}
+                  onSubmit={handleSubmit}
+                  visibleSections={visibleSections}
+                  setVisibleSections={setVisibleSections}
+                />
+              )}
+              {activeTab === "style" &&
+                renderEditStyle()
+              }
+            </div>
           )}
-          {activeTab === "style" && 
-           renderEditStyle()
-          }
-        </div>
-      )}
 
-      {/* Right Side - Preview */}
-      <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
-        <PreviewDisplay
-          ref={previewRef}
-          {...formData}
-          style={customStyles}
-          visibleSections={visibleSections}                                                                           
-          previewComponent={previewComponent}
-          setVisibleSections={setVisibleSections}
-          currentLayout={currentLayout}
-          handleLayoutClick={handleLayoutClick}
-          handleMouseEnter={handleMouseEnter}
-          handleMouseLeave={handleMouseLeave}
-        />
-        <Layout 
-          currentLayout={currentLayout}
-          handleLayoutClick={handleLayoutClick}
-          handleMouseEnter={handleMouseEnter}
-          handleMouseLeave={handleMouseLeave}
-          images={images}
-          image={image}
-          setImage={setImage}
-        />
+          {/* Right Side - Preview */}
+          <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
+            <PreviewDisplay
+              ref={previewRef}
+              {...formData}
+              style={customStyles}
+              visibleSections={visibleSections}
+              previewComponent={previewComponent}
+              setVisibleSections={setVisibleSections}
+              currentLayout={currentLayout}
+              handleLayoutClick={handleLayoutClick}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+            />
+            <Layout
+              currentLayout={currentLayout}
+              handleLayoutClick={handleLayoutClick}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              images={images}
+              image={image}
+              setImage={setImage}
+            />
 
-        {activeTab === "preview" && (
-          <div className="full-preview-btns">
-            <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
-            <button className="edit-btn" onClick={handleEditClick}>Edit</button>
+            {activeTab === "preview" && (
+              <div className="full-preview-btns">
+                <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
+                <button className="edit-btn" onClick={handleEditClick}>Edit</button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-    </div>
-  </div>
 
-  {/* Overlay the IntroPages only if active */}
-  {showIntro && (
-    <IntroPages onFinish={onFinish}  />
-  )}
-</>
-   );
+      {/* Overlay the IntroPages only if active */}
+      {showIntro && (
+        <IntroPages onFinish={onFinish} />
+      )}
+    </>
+  );
 }
 
 export default App;
