@@ -335,8 +335,8 @@ function App() {
         },
         windowWidth: element.scrollWidth,                  // set window width
         windowHeight: element.scrollHeight,                // set window height
+        // Modify the cloned DOM before rendering, ensuring all styles are visible
         onclone: (clonedDoc) => {
-          // Ensure all elements are visible during capture
           clonedDoc.querySelectorAll('*').forEach(el => {
             el.style.whiteSpace = 'pre';
             el.style.wordBreak = 'break-word';
@@ -351,18 +351,25 @@ function App() {
         }
       });
 
+      // Initialize a new jsPDF instance (portrait, mm units, A4 size)
       const pdf = new jsPDF('p', 'mm', 'a4');
+
+      // Convert the canvas to an image (PNG format)
       const imgData = canvas.toDataURL('image/png', 1.0);
+
+      // Calculate proportional height for A4 paper
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
+      // Add the image to the PDF and save it
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');
 
     } catch (error) {
+      // Log any error that occurs during the PDF generation process
       console.error("PDF generation failed:", error);
     } finally {
-      // Restore original styles
+      // Restore original styles of the preview element and body
       element.style.boxShadow = '';
       document.body.style.background = '';
       Object.assign(element.style, originalStyles);
@@ -371,7 +378,10 @@ function App() {
 
 
   useEffect(() => {
+    // Create a <style> tag dynamically // Create a <style> tag dynamically
     const style = document.createElement("style");
+    // Set its contents to custom @media print CSS
+
     style.innerHTML = `
         @media print {
             body * {
@@ -398,8 +408,10 @@ function App() {
             }
         }
     `;
+    // Add this <style> tag to the document head
     document.head.appendChild(style);
 
+    // Cleanup function: remove the style when component unmounts
     return () => {
       document.head.removeChild(style);
     };
@@ -429,10 +441,16 @@ function App() {
       {/* Always render form + preview */}
       <div className="app">
         <div className="container">
-          {/* Left Side - Forms */}
+          {/* Left Side: Form and Navbar section, shown only if form is not hidden  */}
           {showForm && (
             <div className="form-navbar-container">
-              <Navbar activeTab={activeTab} setActiveTab={setActiveTab} handleStylePage={handleStylePage} currentLayout={currentLayout} />
+              {/* Navbar for switching tabs and selecting layout styles */}
+              <Navbar 
+                activeTab={activeTab} 
+                setActiveTab={setActiveTab} 
+                handleStylePage={handleStylePage} 
+                currentLayout={currentLayout} />
+              {/* Conditionally render form fields if the active tab is "content" */}
               {activeTab === "content" && (
                 <FormSection
                   formData={formData}
@@ -442,14 +460,16 @@ function App() {
                   setVisibleSections={setVisibleSections}
                 />
               )}
+              {/* Conditionally render style customization if the tab is "style" */}
               {activeTab === "style" &&
                 renderEditStyle()
               }
             </div>
           )}
 
-          {/* Right Side - Preview */}
+          {/* Right Side: Preview and layout thumbnails */}
           <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
+            {/* Resume preview area */}
             <PreviewDisplay
               ref={previewRef}
               {...formData}
@@ -462,6 +482,7 @@ function App() {
               handleMouseEnter={handleMouseEnter}
               handleMouseLeave={handleMouseLeave}
             />
+            {/* Layout selector thumbnails below preview */}
             <Layout
               currentLayout={currentLayout}
               handleLayoutClick={handleLayoutClick}
@@ -471,7 +492,7 @@ function App() {
               image={image}
               setImage={setImage}
             />
-
+            {/* Action buttons: Only show on "preview" tab */}.''
             {activeTab === "preview" && (
               <div className="full-preview-btns">
                 <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
@@ -482,7 +503,7 @@ function App() {
         </div>
       </div>
 
-      {/* Overlay the IntroPages only if active */}
+      {/* Optional intro overlay component, shown only on first visit */}
       {showIntro && (
         <IntroPages onFinish={onFinish} />
       )}
@@ -491,3 +512,23 @@ function App() {
 }
 
 export default App;
+
+
+
+// tabled structure of return statement
+
+
+// Feature	-------------------------- Purpose
+// showForm	-------------------------- Toggles visibility of the form section
+// activeTab	------------------------ Determines whether the user is editing content, styles, or previewing
+// previewRef	------------------------ Reference to the preview DOM node for generating a PDF
+// showIntro	------------------------ Displays an intro/tutorial overlay on first visit
+// handleDownloadPDF()	-------------- Triggered to generate and download the resume as PDF
+// handleEditClick()	---------------- Switches back to editing mode from preview
+// onfinish()	------------------------ Redirects to the main page of the app
+// handleSubmit()	--------------------- Switches to preview mode from form
+// handleMouseEnter() ---------------- Toggles visibility of the layout thumbnails
+// handleMouseLeave() ---------------- Toggles visibility of the layout thumbnails
+// handleLayoutClick() --------------- 
+// setVisibleSections ----------------- Sets the visibility of sections in the form
+// 
