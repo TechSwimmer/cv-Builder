@@ -280,19 +280,18 @@ function App() {
   // create a reference using useRef to print the cv in PDF format
   const previewRef = useRef();
 
+  // logic to download the preview component in PDF format
   const handleDownloadPDF = async () => {
     // Ensure preview is visible and rendered
     setActiveTab("preview");
     setShowForm(false);
 
     // Small delay to allow DOM update
-
-
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // get a reference to the preview DOM element
     const element = previewRef.current;
-    // element.style.boxShadow = 'none';
-    document.body.style.background = "#fff"
+
 
     // Temporary style adjustments for capture
     const originalStyles = {
@@ -302,11 +301,15 @@ function App() {
       boxShadow: element.style.boxShadow,
     };
 
+    // set values for temporary style adjustments
     element.style.position = 'absolute';
     element.style.overflow = 'visible';
     element.style.height = 'auto';
 
+    // Scroll the element into view before taking a snapshot
     element.scrollIntoView({ behavior: "auto", block: "start" });
+
+    // Fix potential line-breaking or white space issues for consistent text rendering
     element.querySelectorAll('*').forEach(el => {
       if (el.textContent && el.textContent.includes(' ')) {
         el.style.whiteSpace = 'pre-wrap';
@@ -314,20 +317,24 @@ function App() {
       }
     });
 
+
     try {
+      // take a snapshot of the DOM element using html2canvas 
       const canvas = await html2canvas(element, {
-        scale: 1,
-        logging: true,
-        useCORS: true,
-        scrollY: -window.scrollY,
-        backgroundColor: null,
-        allowTaint: true,
+        scale: 1,                         // scale factor is 1:1
+        logging: true,                    // enable logging for debugging
+        useCORS: true,                    // allow cross-origin images
+        scrollY: -window.scrollY,         // enable height based scrolling before screenshot
+        backgroundColor: null,            // bg transparent
+        allowTaint: true,                 // allow other cross-orighin content
+
+        // set logic to ignore elements in preview (if any)
         ignoreElements: (el) => {
           // Skip elements that might interfere
-          return el.classList.contains('no-print');
+          return el.classList.contains('no-print');        // elements with className ('.no-print') will not print
         },
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
+        windowWidth: element.scrollWidth,                  // set window width
+        windowHeight: element.scrollHeight,                // set window height
         onclone: (clonedDoc) => {
           // Ensure all elements are visible during capture
           clonedDoc.querySelectorAll('*').forEach(el => {
