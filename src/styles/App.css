@@ -265,19 +265,19 @@ input {
 }
 
 .education-achievements-form input{
-  width: 65%;
+  min-width: 65%;
 }
 .education-achievements-form button{
-  max-width: 15%;
+  width: 15%;
  
   background: #464242;
   color: #ffffff;
 }
 .experience-achievements-form input{
-  width: 65%;
+  min-width: 65%;
 }
 .experience-achievements-form button{
-  max-width: 20%;
+  width: 20%;
  
   background: #464242;
   color: #ffffff;
@@ -401,6 +401,8 @@ button:hover{
   margin-bottom: 40px;
   background: #464242;
   color: white;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 
@@ -465,9 +467,10 @@ button:hover{
 
 .projects-key-feature{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   width: 90%;
+  margin-bottom: 4vh;
 }
 .projects-key-feature label{
   width: 40%;
@@ -478,7 +481,7 @@ button:hover{
 }
 
 .add-feat-btn{
-  width: 15%;
+  width: 100%;
  
   background: #464242;
   color: #ffffff;
@@ -486,6 +489,15 @@ button:hover{
 
 .projects-key-feature input{
   width: 73%;
+}
+
+
+
+.key-features-list{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .hobbies-container-form{
@@ -626,4 +638,284 @@ button:hover{
 
 .custom-container-form select{
   border-radius: 10px;
+}
+
+.back-btn{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1); /* transparent */
+  color: rgb(112, 95, 95);
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 1000;
+  
+}
+
+.back-btn:hover{
+  color: black;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+
+
+@media screen and (max-width:840px) {
+
+  body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin:0;
+  width: 100vw;
+  height: auto;
+  overflow-y: scroll;
+
+  }
+
+  
+.app {
+
+  
+  background: white;
+  
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: auto;
+  width: 100vw;
+   
+}
+
+
+
+
+  .container{
+    flex-direction: column;
+    height:auto;
+    overflow-y: visible;
+    width: 100%;
+  }
+
+  .form-navbar-container,
+  .preview-container {
+    width: 96%;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .form-container {
+    flex: 1;
+    overflow-y: scroll;
+    margin-right: 20px;
+    width: 96vw;
+    background: #ffffff;
+  
+
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:100%;
+  }
+
+  .preview-container{
+    width: 91vw; 
+    background: #f4f4f4;
+   
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    min-height: 100vh;
+   
+  }
+
+  
+.back-btn{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1); /* transparent */
+  color: rgb(112, 95, 95);
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 1000;
+  
+}
+
+
+  .layout-switcher {
+    position: fixed;
+    bottom: 10px;
+    right: 5px;
+    z-index: 1000;
+    padding: 10px;
+  }
+  
+  .layout-slider {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    gap: 10px;
+    bottom: 100px;
+    right: 0;;
+    transform: translateY(-380px);
+    background-color: #706262;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 380vh;
+    
+   
+    
+  }
+
+  .layout-slider.show {
+    display: flex;
+    flex-direction: column;
+    height: 150vh;
+    width: 40vw;
+    
+   
+  }
+
+  .layout-option {
+    padding: 1px;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .layout-option img {
+    width: 100px;
+    max-width: 300px;
+    height:auto;
+    object-fit: contain;
+  }
+    
+
+
+  .layout-slider img{
+    height: 100%;
+  }
+
+  .layout-btn {
+    background-color: rgb(114, 113, 111);
+    border: none;
+    opacity: 0.8;
+    padding: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    height: 100px;
+    
+  }
+  .layout-btn img{
+    height: auto;
+    width: 60px;
+    max-width: 100px;
+    object-fit: contain;    
+  }
+  .selected-layout-img{
+    width: 100%;
+  }
+  .layout-option:hover ~ .layout-slider {
+    display: none !important;
+  }
+
+  .education-achievements-form {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 5vh;
+  }
+
+  .education-achievements-form input {
+    width: 96%;
+    margin-bottom: 10px;
+  }
+  .education-achievements-form button{
+    width: 100%;
+    margin-bottom: 10px;
+    background: #464242;
+    color: #ffffff;
+  }
+
+  .experience-achievements-form{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5vh;
+  }
+  
+  .experience-achievements-form input {
+    width: 96%;
+    margin-bottom: 10px;
+  }
+  .experience-achievements-form button{
+    width: 100%;
+    margin-bottom: 10px;
+    background: #464242;
+    color: #ffffff;
+  }
+
+  .projects-key-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .key-features-list{
+    width: 100%;
+  }
+
+  .full-preview-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .modal-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
 }

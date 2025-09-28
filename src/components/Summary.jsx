@@ -23,7 +23,7 @@ const Summary = ({ data = {}, setData, visible, setVisible }) => {
                     <h3>PROFILE</h3>
                     <textarea type="text"
                         placeholder="Summary"
-                        value={data.summary}
+                        value={data.summary || ""}
                         onChange={(e) => setData({ ...data, summary: e.target.value })} />
                 </>
             )}

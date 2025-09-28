@@ -66,19 +66,19 @@ function Education({ data = [], setData, visible, setVisible }) {
               <input
                 type="text"
                 placeholder="School Name"
-                value={edu.school}
+                value={edu.school || ""}
                 onChange={(e) => updateEducation(index, "school", e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Degree/Field of Study"
-                value={edu.degree}
+                value={edu.degree || ""}
                 onChange={(e) => updateEducation(index, "degree", e.target.value)}
               />
               <input
                 type="text"
                 placeholder="location"
-                value={edu.location}
+                value={edu.location || ""}
                 onChange={(e) => updateEducation(index, "location", e.target.value)}
               />
               <input
@@ -104,6 +104,7 @@ function Education({ data = [], setData, visible, setVisible }) {
                       const updatedPoints = [...(edu.achievements?.points || []), ""];
                       updateEducation(index, "achievements", { points: updatedPoints }, true);
                     }}
+                    className="add-achievement-button"
                   >
                     Add 
                   </button>

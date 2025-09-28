@@ -51,7 +51,7 @@ const Skills = ({data, setData,visible,setVisible}) => {
                     <input
                         type="text"
                         placeholder="add a skill"
-                        value={skillObj.skill}
+                        value={skillObj.skill || ""}
                         onChange={(e) => updateSkill(index, e.target.value)}
                     />
                     <div className="skills-container-btns">

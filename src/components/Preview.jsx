@@ -13,7 +13,7 @@ const Preview = forwardRef((props, ref) => {
     
 
 
-    const { generalInfo, education, experience, summary, skills, className, projects, hobbies, languages, custom,visibleSections } = props;
+    const { generalInfo = {}, education= [], experience, summary, skills, className, projects, hobbies, languages, custom,visibleSections } = props;
         const formatDate = (dateString) => {
             if (!dateString) return "Present";  // Default for empty values
             const date = new Date(dateString);
