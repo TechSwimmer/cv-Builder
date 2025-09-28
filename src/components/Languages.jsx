@@ -34,7 +34,7 @@ const Languages = ({ data={}, setData, visible, setVisible }) => {
                             <input
                                 type="text"
                                 placeholder="Language"
-                                value={lang.language}
+                                value={lang.language || ""}
                                 onChange={(e) => updateLanguage(index, "language", e.target.value)}
                             />
                             <select

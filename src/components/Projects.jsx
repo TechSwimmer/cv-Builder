@@ -94,13 +94,17 @@ const Projects = ({ projects=[], setProjects,visible, setVisible }) => {
                         />
                     </div>
                     <div className="projects-key-feature">
-                        <label>Key features :</label>
-                        <input
+                        <div className="key-features-list">
+                            <label>Key features :</label>
+                            <input
                             type="text"
                             placeholder="Enter a feature and press Add"
-                            value={newFeature}
+                            value={newFeature || ""}
                             onChange={(e) => setNewFeature(e.target.value)}
                         />
+                        </div>
+                        
+                       
                         <button type="button" className="add-feat-btn" onClick={() => addFeature(index)}>Add</button>
                     </div>
                     <div className="projects-skills">

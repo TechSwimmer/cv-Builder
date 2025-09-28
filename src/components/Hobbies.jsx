@@ -41,12 +41,12 @@ const Hobbies = ({ data=[], setData, visible, setVisible }) => {
                             <input
                                 type="text"
                                 placeholder="Hobby title"
-                                value={hobby.title}
+                                value={hobby.title || ""}
                                 onChange={(e) => updateHobby(index, "title", e.target.value)}
                             />
                             <textarea
                                 placeholder="Description"
-                                value={hobby.description}
+                                value={hobby.description || ""}
                                 onChange={(e) => updateHobby(index, "description", e.target.value)}
                             />
                                 <button onClick={() => removeHobby(index)}>Remove Hobby</button>

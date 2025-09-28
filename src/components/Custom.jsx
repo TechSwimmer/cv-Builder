@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 const Custom = ({ data, setData, visible, setVisible }) => {
 
     useEffect(() => {
-        if (!data.listItems) {
+        if (data && !data.listItems) {
           setData({ ...data, listItems: [] });
         }
       }, [data, setData]);
@@ -90,7 +90,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                         type="text"
                         placeholder="Heading"
                         name="title"
-                        value={data.title}
+                        value={data.title || ""}
                         onChange={handleChange}
                     />
 
@@ -115,7 +115,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                                 <input
                                     key={i}
                                     type="text"
-                                    value={data.listItems[i]}
+                                    value={data.listItems[i] || ""}
                                     onChange={(e) => handleListChange(e,i)}
                                 />
 
@@ -157,7 +157,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                                     key={i}
                                     type="text"
                                     placeholder="https://..."
-                                    value={link}
+                                    value={link || ""}
                                     onChange={(e) => handleLinkChange(e,i)}
                                 />
                             ))}

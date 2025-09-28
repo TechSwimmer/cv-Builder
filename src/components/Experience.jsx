@@ -91,7 +91,7 @@ function Experience({ data = [], setData, visible, setVisible }) {
                   <input
                     type="text"
                     placeholder={`Achievement ${pointIndex + 1}`}
-                    value={point}
+                    value={point || ""}
                     onChange={(e) => {
                       const updatedPoints = [...exp.achievements.points];
                       updatedPoints[pointIndex] = e.target.value;

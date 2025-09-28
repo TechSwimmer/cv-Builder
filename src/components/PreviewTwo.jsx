@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md"
 const PreviewTwo = forwardRef((props, ref) => {
   const { style } = props;
   
-  const { generalInfo, education, experience, summary, skills, visibleSections, projects, hobbies, languages, custom } = props;
+  const { generalInfo = {}, education = [], experience, summary, skills, visibleSections, projects, hobbies, languages, custom } = props;
 
   const formatDate = (dateString) => {
     if (!dateString) return "Present";  // Default for empty values

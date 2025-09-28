@@ -5,19 +5,35 @@ import PreviewTwo from './PreviewTwo';
 import PreviewThree from './PreviewThree';
 
 
-const PreviewDisplay = (props) => {
+const PreviewDisplay = ({currentLayout,visibleSections,...otherProps}) => {
+
+ 
 
     // props for Preview
-  const { previewComponent, ...otherProps } = props;
+  const getLayoutComponent = () => {
+    console.log("Rendering layout:", currentLayout);
+    switch (currentLayout) {
+      case 'layout1':
+        return <Preview visibleSections={visibleSections} {...otherProps} />
+      case 'layout2':
+        return <PreviewTwo visibleSections={visibleSections} {...otherProps} />
+      case 'layout3':
+        return  <PreviewThree visibleSections={visibleSections} {...otherProps} />
+      default:
+        return  null;
+    }
+  }
+
+   const layoutComponent = getLayoutComponent();
 
   
 
 
-  return (
-    <div>
-       {React.cloneElement(previewComponent, otherProps)}
-    </div>
-  );
+  return layoutComponent ? (
+  <>
+    {React.cloneElement(layoutComponent, { key: currentLayout })}
+  </>
+  ): null;
 };
 
 export default PreviewDisplay;
