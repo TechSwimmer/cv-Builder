@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AuthPage.css'
 import IntroPages from '../components/Intropages';
+import API from "../api.js"
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -23,7 +24,7 @@ const AuthPage = () => {
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const { data } = await axios.post(endpoint, { email, password,username });
+      const { data } = await API.post(endpoint, { email, password,username });
       console.log('Register payload:', { email, password, username });
 
       localStorage.setItem('token', data.token);
