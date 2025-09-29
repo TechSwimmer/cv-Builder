@@ -212,7 +212,7 @@ const CvBuilder = () => {
 
     useEffect(() => {
         if(cvId && token) {
-            axios.get(`/api/cv/${cvId}`, {
+            API.get(`/api/cv/${cvId}`, {
                 headers: { Authorization:`Bearer ${token}` },
             }).then(res => {
                const { formData:fetchedFormData, customStyles, visibleSections:fetchedVisibleSections,layout } = res.data;
