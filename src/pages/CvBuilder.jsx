@@ -464,7 +464,7 @@ const CvBuilder = () => {
         setShowForm(false);
 
         // Small delay to allow DOM update
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // get a reference to the preview DOM element
         const element = previewRef.current;
@@ -481,10 +481,11 @@ const CvBuilder = () => {
         // set values for temporary style adjustments
         element.style.position = 'absolute';
         element.style.overflow = 'visible';
-        element.style.height = 'auto';
+        element.style.height = element.scrollHeight + "px";
+        element.style.width = element.scrollWidth + "px";
 
         // Scroll the element into view before taking a snapshot
-        element.scrollIntoView({ behavior: "auto", block: "start" });
+        // element.scrollIntoView({ behavior: "auto", block: "start" });
 
         // Fix potential line-breaking or white space issues for consistent text rendering
         element.querySelectorAll('*').forEach(el => {
@@ -501,7 +502,7 @@ const CvBuilder = () => {
                 scale: 1,                         // scale factor is 1:1
                 logging: true,                    // enable logging for debugging
                 useCORS: true,                    // allow cross-origin images
-                scrollY: -window.scrollY,         // enable height based scrolling before screenshot
+                scrollY: 0,         // enable height based scrolling before screenshot
                 backgroundColor: null,            // bg transparent
                 allowTaint: true,                 // allow other cross-orighin content
 
@@ -528,8 +529,13 @@ const CvBuilder = () => {
                 }
             });
 
-            // Initialize a new jsPDF instance (portrait, mm units, A4 size)
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            // Initialize a new jsPDF instance 
+            const pxToMm = (px) => px * 0.264583;
+            const pageWidth = pxToMm(canvas.width)
+            const pageHeight = pxToMm(canvas.height)
+            const pdf = new jsPDF('p', 'mm', [pageWidth,pageHeight]);
+
+          
 
             // Convert the canvas to an image (PNG format)
             const imgData = canvas.toDataURL('image/png', 1.0);
@@ -539,7 +545,7 @@ const CvBuilder = () => {
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
             // Add the image to the PDF and save it
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
             pdf.save('resume.pdf');
 
         } catch (error) {
