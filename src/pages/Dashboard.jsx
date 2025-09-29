@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../api';
+import API from '../api.js';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import'../styles/dashboard.css'
@@ -14,7 +14,7 @@ const Dashboard = () => {
         const fetchCvs = async() => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await API.get(`/user/cvs`, {
+                const res = await API.get(`/api/user/cvs`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -32,7 +32,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchUser = async() => {
             try{
-                const res = await API.get('/auth/user', {
+                const res = await API.get('/api/auth/user', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -51,7 +51,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchCvs = async () => {
             try{
-                const res = await API.get('/cv/all');
+                const res = await API.get('/api/cv/all');
                 setCvs(res.data); 
             }
             catch(err) {
@@ -64,7 +64,7 @@ const Dashboard = () => {
     const deleteCv = async(id) => {
         try{
             console.log(id)
-            await API.delete(`/cv/${id}`, {
+            await API.delete(`/api/cv/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
