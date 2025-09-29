@@ -10,24 +10,8 @@ const Dashboard = () => {
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchCvs = async() => {
-            try {
-                const token = localStorage.getItem('token');
-                const res = await API.get(`/api/user/cvs`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setCvs(res.data);
-            }
-            catch(err) {
-                console.error('Failed to fetch cvs:', err);
-            }
-        };
 
-        fetchCvs();
-    }, []);
+    
 
     useEffect(() => {
         const fetchUser = async() => {
