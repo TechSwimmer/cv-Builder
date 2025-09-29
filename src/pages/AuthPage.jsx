@@ -25,7 +25,7 @@ const AuthPage = () => {
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const { data } = await API.post(endpoint, { email, password,username });
-      console.log('Register payload:', { email, password, username });
+      console.log('Register payload:', { email, username });
 
       localStorage.setItem('token', data.token);
       setMessage('Success!');
