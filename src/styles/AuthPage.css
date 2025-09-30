@@ -38,18 +38,18 @@
     color: black;
 }
 
-.intro-container {
-  width: 70vw;
-  max-width: 1000px;       /* or adjust based on your layout */
-  height: 85vh;            /* full screen height */
-  margin: 0 auto;           /* center horizontally */
-  padding: 20px;
-  
-  overflow: hidden;         /* prevents overflow from child */
-  position: relative;
-      /* optional: light bg */
-   /* optional: visual boundary */
-}
+  .intro-container {
+    width: 100vw;
+    
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
 
 
 .auth-container {
