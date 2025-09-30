@@ -8,23 +8,13 @@
     align-items:center;
 }
 
-.auth-container {
-    width: 34vw;
-    background-color: aqua;
-    border-radius: 10px;
-    padding: 2%;
-}
+
 
 .auth-container input {
     width: 90%;
     height: 3.5vh;
 }
-.intro-container {
- width: 63vw;
- 
- margin-left: 20px;
- border-radius: 10px;
-}
+
 .button-container{
   display: flex;
   flex-direction: column;
@@ -54,9 +44,12 @@
 
 .auth-container {
   width: 25vw;
+  background-color: aqua;
   margin: 80px 10px;
   text-align: center;
   font-family: Arial, sans-serif;
+  border-radius: 10px;
+  padding: 2%;
 }
 .auth-form {
   display: flex;
