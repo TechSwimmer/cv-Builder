@@ -210,7 +210,7 @@ const CvBuilder = () => {
 
     useEffect(() => {
         if(cvId && token) {
-            axios.get(`/api/cv/${cvId}`, {
+            API.get(`/api/cv/${cvId}`, {
                 headers: { Authorization:`Bearer ${token}` },
             }).then(res => {
                const { formData:fetchedFormData, customStyles, visibleSections:fetchedVisibleSections,layout } = res.data;
@@ -298,7 +298,7 @@ const CvBuilder = () => {
 
             if(cvId) {
                 // ======== UPDATE EXISTING CV ==========
-                const res = await API.put(`/cv/${cvId}`, payload, {
+                const res = await API.put(`/api/cv/${cvId}`, payload, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -308,7 +308,7 @@ const CvBuilder = () => {
             else{
                 // ========== CREATE NEW CV============
 
-                const res = await API.post('/cv/create', payload, {
+                const res = await API.post('/api/cv/create', payload, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
