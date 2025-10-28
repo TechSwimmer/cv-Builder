@@ -548,16 +548,24 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    
   }
-
+  .cv-preview-container-3{
+    visibility: visible;
+    width: 100%;
+  }
   .cv-3-left{
     width: 65%;
     border-right: 1px dotted black;
+    overflow: visible;
+    height: fit-content;
   }
 
   .cv-3-right{
     width: 35%;
    padding: 2px;
+   overflow: visible;
+   height: fit-content;
   }
 
   .cv-3-right p{
@@ -854,9 +862,12 @@
   .cv-3-left{
     width: 65%;
     border-right: 1px dotted black;
+    height: fit-content;
   }
   .cv-3-right{
     width: 35%;
+    overflow: visible;
+    height: fit-content;
     
   }
 
