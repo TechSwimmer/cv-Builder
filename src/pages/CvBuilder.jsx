@@ -6,10 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import API from '../../src/api'
 
-//import all the preview pages that are to be displayed 
-import Preview from "../components/Preview";
-import PreviewTwo from "../components/PreviewTwo";
-import PreviewThree from "../components/PreviewThree";
+
 
 // import the style pages for all the previews
 import EditStyle from "../components/EditStyle";
@@ -47,6 +44,7 @@ import layoutThree from "../images/layout3.png";
 
 
 const CvBuilder = () => {
+    
     const [searchParams] = useSearchParams();
     const cvId = searchParams.get('id');
     const navigate = useNavigate();
@@ -475,6 +473,7 @@ const CvBuilder = () => {
             position: element.style.position,
             overflow: element.style.overflow,
             height: element.style.height,
+            width:element.style.width,
             boxShadow: element.style.boxShadow,
         };
 
@@ -502,7 +501,10 @@ const CvBuilder = () => {
                 scale: 1,                         // scale factor is 1:1
                 logging: true,                    // enable logging for debugging
                 useCORS: true,                    // allow cross-origin images
-                scrollY: 0,         // enable height based scrolling before screenshot
+                scrollY: 0,                       // enable height based scrolling before screenshot
+                scrollX:0,
+                width:element.scrollWidth,
+                height:element.scrollHeight,
                 backgroundColor: null,            // bg transparent
                 allowTaint: true,                 // allow other cross-orighin content
 
@@ -515,6 +517,8 @@ const CvBuilder = () => {
                 windowHeight: element.scrollHeight,                // set window height
                 // Modify the cloned DOM before rendering, ensuring all styles are visible
                 onclone: (clonedDoc) => {
+
+
                     clonedDoc.querySelectorAll('*').forEach(el => {
                         el.style.whiteSpace = 'pre';
                         el.style.wordBreak = 'break-word';
@@ -545,7 +549,7 @@ const CvBuilder = () => {
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
             // Add the image to the PDF and save it
-            pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
             pdf.save('resume.pdf');
 
         } catch (error) {
@@ -560,45 +564,108 @@ const CvBuilder = () => {
     };
 
 
-    useEffect(() => {
-        // Create a <style> tag dynamically // Create a <style> tag dynamically
-        const style = document.createElement("style");
-        // Set its contents to custom @media print CSS
-
-        style.innerHTML = `
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .printable-area, .printable-area * {
-                visibility: visible;
-            }
-            .printable-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            /* Hide buttons when printing */
-            .full-preview-btns {
-                display: none !important;
-            }
-            /* Ensure proper page breaks */
-            .cv-preview {
-                page-break-after: avoid;
-            }
-        }
-    `;
-        // Add this <style> tag to the document head
-        document.head.appendChild(style);
-
-        // Cleanup function: remove the style when component unmounts
-        return () => {
-            document.head.removeChild(style);
-        };
-    }, []);
+//  useEffect(() => {
+//     const style = document.createElement("style");
+    
+//     style.innerHTML = `
+//     @media print {
+//         /* Hide everything by default */
+//         body * {
+//             visibility: hidden;
+//         }
+        
+//         /* Show all three preview layout types and their children */
+//         .cv-preview, 
+//         .cv-preview *,
+//         .cv-2-preview,
+//         .cv-2-preview *,
+//         .cv-preview-container-3,
+//         .cv-preview-container-3 * {
+//             visibility: visible !important;
+//         }
+        
+//         /* Position and size all preview layouts for printing */
+//         .cv-preview,
+//         .cv-2-preview, 
+//         .cv-preview-container-3 {
+//             position: absolute !important;
+//             left: 0 !important;
+//             top: 0 !important;
+//             width: 100% !important;
+//             height: auto !important;
+//             margin: 0 !important;
+//             padding: 0 !important;
+//             box-shadow: none !important;
+//             border: none !important;
+//             background: white !important;
+//         }
+        
+//         /* Ensure proper content sizing within previews */
+//         .cv-preview .preview-section-left,
+//         .cv-preview .preview-section-right,
+//         .cv-2-preview .cv-2-content,
+//         .cv-preview-container-3 .cv-preview-3{
+//             width: 100% !important;
+//             height: auto !important;
+//         }
+        
+//         /* Hide all UI controls during printing */
+//         .full-preview-btns,
+//         .layout-switcher,
+//         .layout-slider,
+//         .layout-btn,
+//         .cv-navbar,
+//         .form-section,
+//         .form-navbar-container,
+//         .back-btn,
+//         .edit-btn,
+//         .modal-overlay,
+//         .modal-box {
+//             display: none !important;
+//             visibility: hidden !important;
+//         }
+        
+//         /* Page break control for all layouts */
+//         .cv-preview,
+//         .cv-2-preview,
+//         .cv-preview-container-3 {
+//             page-break-after: avoid;
+//             page-break-inside: avoid;
+//         }
+        
+//         /* Ensure black text and white background for printing */
+//         .cv-preview *,
+//         .cv-2-preview *,
+//         .cv-preview-container-3 * {
+//             color: #000000 !important;
+//             background-color: #ffffff !important;
+//         }
+        
+//         /* Specific adjustments for Layout 2 */
+//         .cv-2-preview .cv-2-header,
+//         .cv-2-preview .cv-2-body {
+//             width: 100% !important;
+//             display: block !important;
+//         }
+        
+//         /* Specific adjustments for Layout 3 */
+//         .cv-preview-container-3 .cv-preview-3 .cv-3-left{
+//             width:65% !important;
+//             display: block !important;
+//         }
+//         .cv-preview-container-3 .cv-preview-3 .cv-3-right {
+//             width: 35% !important;
+//             display: block !important;
+//         }
+//     }
+//     `;
+    
+//     document.head.appendChild(style);
+    
+//     return () => {
+//         document.head.removeChild(style);
+//     };
+// }, []);
 
 
     // update the styles in the app
