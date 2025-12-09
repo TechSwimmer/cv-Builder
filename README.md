@@ -1,9 +1,10 @@
 # CV-BAKER: Full-Stack Resume Builder 🍞
 
-> A responsive and interactive full-stack application that allows users to create, customize, and download professional CVs with ease.
+> A modern, responsive, full-stack web application that enables users to **create, customize, save, edit, and download professional resumes** — all from the browser.
 
-**Live Demo:** https://resume-baker.netlify.app | **Source Code:** [GitHub Repository](https://github.com/TechSwimmer/cv-Builder)
+**🔗 Live Demo: https://resume-baker.netlify.app**    
 
+**🔗 Source Code: (GitHub repo link here)**    
 
 
 ## ✨ Highlights
@@ -18,7 +19,7 @@
 
 ### Prerequisites
 
-*   Node.js (version X.Y.Z or higher)
+*   Node.js (version 22.11.0 or higher)
 *   MongoDB (for local development)
 
 ### Installation & Local Development
@@ -50,21 +51,41 @@
 
 This project is built with the **MERN** stack and other key libraries:
 
-| Category | Technologies |
-| :--- | :--- |
-| **Frontend** | React, React Router DOM, CSS3, HTML5 |
-| **Backend** | Node.js, Express.js, MongoDB, Mongoose ODM |
-| **Authentication** | JWT, bcrypt |
-| **PDF Generation** | jsPDF, html2canvas |
-| **Development & Build** | Vite, Git |
+| Category       | Technologies             |
+| -------------- | ------------------------ |
+| Frontend       | React, React Router, CSS |
+| Backend        | Node.js, Express         |
+| Database       | MongoDB + Mongoose       |
+| Authentication | JWT + bcrypt             |
+| PDF Generation | jsPDF, html2canvas       |
+| Dev Tools      | Vite, Git                |
+
 
 ## 🏗️ Project Architecture
 
 ### Key Features & Implementation
 
-*   **Real-Time Preview Sync:** Utilized React state management (useState, useEffect, useRef) to synchronize form inputs with the live preview panel instantly.
-*   **Dynamic Styling Engine:** Developed a system that persists user style preferences (colors, fonts) in the database and applies them across different CV templates.
-*   **Client-Side PDF Generation:** Implemented a reliable export feature using jsPDF and html2canvas, ensuring visual fidelity between the screen preview and the final PDF.
+| Feature                       | Description                              |
+| ----------------------------- | ---------------------------------------- |
+| 🧠 Dual-Panel Interface       | Real-time preview updates as users type  |
+| 🧩 Multi-Template CV Layouts  | Choose from multiple clean templates     |
+| 🎨 Style Customization Engine | Edit colors, fonts, section visibility   |
+| 👤 JWT Secure Accounts        | Save & manage multiple CVs               |
+| 👀 Guest Mode                 | Try the tool without signing up          |
+| 📄 PDF Export                 | Download pixel-accurate resume instantly |
+| 💾 Auto Save                  | (If implemented / optional)              |
+
+
+### Core Engineering decisions
+
+| Problem                          | Solution                                     |
+| -------------------------------- | -------------------------------------------- |
+| Preserve styling per-template    | Store customStyles in DB                     |
+| Large PDF content rendering      | Used html2canvas + resolution scaling        |
+| Multi-layout switching           | Dynamic component injection via cloneElement |
+| Guest sessions without DB signup | Local state + no backend write               |
+
+
 
 ### Backend Overview
 
@@ -73,24 +94,25 @@ This project is built with the **MERN** stack and other key libraries:
 *   **Dual-Mode Auth:** Supports both persistent registered users and temporary guest sessions.
 
 ## 🧩 Repository Structure
+```
 cv-Builder/
-├── client/ # React frontend application
+├── client/               # React frontend application
 │ ├── src/
 │ ├── public/
 │ └── vite.config.js
-├── server/ # Node.js/Express backend API
+├── server/               # Node.js/Express backend API
 │ ├── index.js
-│ ├── models/ # MongoDB models
-│ ├── routes/ # API routes
-│ └── middleware/ # Auth middleware
-├── package.json
+│ ├── models/ 
+│ ├── routes/ 
+│ └── middleware/         
+├── package.json 
 └── README.md
-
-text
+```
 
 ## 📖 Usage Guide
 
-1.  **As a Guest:** Click "Enter as Guest" on the homepage to start building a CV immediately. You can download your CV as PDF but cannot save progress.
+1.  **As a Guest:** 
+    * Click "Enter as Guest" on the homepage to start building a CV immediately. You can download your CV as PDF but cannot save progress.
 2.  **As a Registered User:**
     *   Register/Log in to your account.
     *   Access your dashboard to view and manage all created CVs.
@@ -108,12 +130,12 @@ text
 ---
 
 ## 👨‍💻 Author
-NIKHIL PILLAI
-**Your Name**
-*   Portfolio: techdevnikhil.netlify.app
-*   LinkedIn: [your-linkedin-profile]
+**NIKHIL PILLAI**
+
+*   Portfolio: https://techdevnikhil.netlify.app
+*   LinkedIn: https://www.linkedin.com/in/techdevnikhil/
 *   GitHub: https://github.com/TechSwimmer
 
 ## 📄 License
 
-This project is licensed under the [Your Chosen License] License - see the LICENSE file for details.
+This project is licensed under the MIT license License - see the LICENSE file for details.
