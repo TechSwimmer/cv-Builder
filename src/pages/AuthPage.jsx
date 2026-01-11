@@ -16,6 +16,7 @@ const AuthPage = () => {
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
+
     setMessage('');
   }
 
@@ -24,7 +25,7 @@ const AuthPage = () => {
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const { data } = await API.post(endpoint, { email, password,username });
+      const { data } = await API.post(endpoint, { email,password,username });
       console.log('Register payload:', { email, username });
 
       localStorage.setItem('token', data.token);
@@ -61,7 +62,8 @@ const AuthPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             
           />
-          <input 
+          {!isLogin && (
+                <input 
             type='username'
             placeholder='Username'
             value={username}
@@ -69,6 +71,8 @@ const AuthPage = () => {
             onChange={(e) => setUsername(e.target.value)}
            
           />
+          )}
+      
           <div className='button-container'>
           <button className="auth-btn" type="submit">
             {isLogin ? 'Login' : 'Register'}

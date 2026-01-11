@@ -6,7 +6,7 @@ const generateToken = (userID) => jwt.sign({ id: userID }, process.env.JWT_SECRE
 export const register = async (req,res) => {
     const { email, password,username } = req.body
 
-    console.log(email,password,username)
+    console.log('registering user : ',email);
 
     try {
         const userExists = await User.findOne({ email });
@@ -51,13 +51,12 @@ export const getUserProfile = async (req, res) => {
         res.status(200).json({
             _id: user._id,
             email:user.email,
-            cvs: user.cvs,
             username: user.username,
         });
 
     }
     catch(err) {
-        res.status(500).json({mewssage: 'Server Error'});
+        res.status(500).json({message: 'Server Error', error: err.message});
     }
 }
 

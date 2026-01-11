@@ -4,7 +4,7 @@ import "../styles/editStyle.css";
 import Layout from "./Layout";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit, currentLayout, handleLayoutClick, setCurrentLayout }) => {
+const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit }) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
