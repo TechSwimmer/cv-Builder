@@ -17,10 +17,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true,'Username is required']
-    },
-    cvs: [{
-        type:mongoose.Schema.Types.ObjectId, ref:'cv'
-    }]
+    }
 
 },{ timestamps : true });
 

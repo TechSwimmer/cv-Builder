@@ -3,9 +3,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-import API from '../../src/api'
 
+// import the Axios instance for CRUD ops
+import API from '../../src/api'
 
 
 // import the style pages for all the previews
@@ -16,8 +16,6 @@ import EditStyleThree from "../components/EditStyleThree";
 // import the navbar component (btns to select formSection and EditStyle page)
 import Navbar from "../components/Navbar";
 
-// intropages shows a couple of pages to explain how to create a cv in this app
-import IntroPages from "../components/Intropages";
 
 // style pages for intropages and app.jsx
 import "../styles/IntroStyles.css"
@@ -210,12 +208,12 @@ const CvBuilder = () => {
 
     useEffect(() => {
         if(cvId && token) {
-            API.get(`/api/cv/${cvId}`, {
-                headers: { Authorization:`Bearer ${token}` },
-            }).then(res => {
-               const { formData:fetchedFormData, customStyles, visibleSections:fetchedVisibleSections,layout } = res.data;
+            API.get(`/api/cv/${cvId}`)
+                .then(res => {
+                const { formData:fetchedFormData, customStyles, visibleSections:fetchedVisibleSections,layout,title } = res.data;
 
-               setFormData(fetchedFormData);
+                setFormData(fetchedFormData);
+
 
                setCustomStyles(customStyles || {});
                setVisibleSections({
@@ -230,6 +228,7 @@ const CvBuilder = () => {
                 ...fetchedVisibleSections
                });
                setCurrentLayout(layout || 'layout 1')
+               setCvName(title || '');
                console.log(cvId)
                console.log(fetchedFormData,customStyles,visibleSections)
             })
@@ -255,36 +254,12 @@ const CvBuilder = () => {
     }, []);
 
 
-     // save cv to backend
-    
-    //   const saveCvtoBackend = async (data) => {
-    
-    
-    
-    //     try{
-    //       const res = await API.post('/cv/create', {
-    //         title:cvName,
-    //         data: formData,
-            
-    //         layout: currentLayout,
-    //         customStyles,
-    //         visibleSections,
-    //       },{
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem('token')}`
-    //         }
-    //       });
-    //       console.log('CV saved:', res.data);
-    //       alert('Cv saved to your account');
-    //       setShowSaveDialog(false)
-    //     }
-    //     catch(err) {
-    //       console.log('Error saving CV:', err.response?.data, err.message);
-    //     }
-    //   };
 
-
-      const saveCvtoBackend =  async(data) => {
+    const saveCvtoBackend =  async() => {
+        if (!formData || !currentLayout) {
+            alert('Please complete all required fields');
+            return;
+        }
         const payload = {
             title:cvName,
             data:formData,
@@ -292,32 +267,28 @@ const CvBuilder = () => {
             customStyles,
             visibleSections
         };
-
         try{
             const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('Please login to save CV');
+                    return;
+                }
+                if(cvId) {
+                    // ======== UPDATE EXISTING CV ==========
+                    
+                    const res = await API.put(`/api/cv/${cvId}`, payload,);
+                    alert('CV updated successfully!');
+                }
+         
+                else{
+                    // ========== CREATE NEW CV============
 
-            if(cvId) {
-                // ======== UPDATE EXISTING CV ==========
-                const res = await API.put(`/api/cv/${cvId}`, payload, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                alert('CV updated  successfully!');
-            }
-            else{
-                // ========== CREATE NEW CV============
+                    const res = await API.post('/api/cv/create', payload,);
+                    alert('New CV saved successfully!')
 
-                const res = await API.post('/api/cv/create', payload, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                alert('New CV saved successfully!')
-
-                // you may want to redirect or update cvId in URL
-                navigate(`/builder?id=${res.data._id}`)           // optional
-            }
+                    // you may want to redirect or update cvId in URL
+                    navigate(`/builder?id=${res.data._id}`)           // optional
+                }
 
             setShowSaveDialog(false);
         }
@@ -327,7 +298,7 @@ const CvBuilder = () => {
         }
 
 
-      };
+    };
 
     //  set the appropriate EditStyle component based on the selected layout
 
@@ -351,9 +322,6 @@ const CvBuilder = () => {
                 setCustomStyles={setCustomStyles}
                 onSubmit={handleSubmit}
                 updateStyles={updateStyles}
-                currentLayout={currentLayout}
-                setCurrentLayout={setCurrentLayout}
-                handleLayoutClick={handleLayoutClick}
             />;
         }
         else if (selectedEditStyle === 'EditStyleTwo') {
@@ -362,9 +330,6 @@ const CvBuilder = () => {
                 setCustomStyles={setCustomStyles}
                 onSubmit={handleSubmit}
                 updateStyles={updateStyles}
-                currentLayout={currentLayout}
-                setCurrentLayout={setCurrentLayout}
-                handleLayoutClick={handleLayoutClick}
             />
         }
         else if (selectedEditStyle === 'EditStyleThree') {
@@ -373,9 +338,6 @@ const CvBuilder = () => {
                 setCustomStyles={setCustomStyles}
                 onSubmit={handleSubmit}
                 updateStyles={updateStyles}
-                currentLayout={currentLayout}
-                setCurrentLayout={setCurrentLayout}
-                handleLayoutClick={handleLayoutClick}
             />
         }
         else {
@@ -395,16 +357,11 @@ const CvBuilder = () => {
         let layoutName = layout
         setCurrentLayout(layoutName)
         console.log(layout)
-        // Update the current layout state
-
-        
 
         // Toggle the visibility of the layout slider menu
-
+ 
         const layoutSlider = document.querySelector(".layout-slider");
         layoutSlider.classList.toggle("show");
-
-        
 
         // Render the corresponding preview component and update the preview image
         if (layout === "layout2") {
@@ -563,109 +520,6 @@ const CvBuilder = () => {
         }
     };
 
-
-//  useEffect(() => {
-//     const style = document.createElement("style");
-    
-//     style.innerHTML = `
-//     @media print {
-//         /* Hide everything by default */
-//         body * {
-//             visibility: hidden;
-//         }
-        
-//         /* Show all three preview layout types and their children */
-//         .cv-preview, 
-//         .cv-preview *,
-//         .cv-2-preview,
-//         .cv-2-preview *,
-//         .cv-preview-container-3,
-//         .cv-preview-container-3 * {
-//             visibility: visible !important;
-//         }
-        
-//         /* Position and size all preview layouts for printing */
-//         .cv-preview,
-//         .cv-2-preview, 
-//         .cv-preview-container-3 {
-//             position: absolute !important;
-//             left: 0 !important;
-//             top: 0 !important;
-//             width: 100% !important;
-//             height: auto !important;
-//             margin: 0 !important;
-//             padding: 0 !important;
-//             box-shadow: none !important;
-//             border: none !important;
-//             background: white !important;
-//         }
-        
-//         /* Ensure proper content sizing within previews */
-//         .cv-preview .preview-section-left,
-//         .cv-preview .preview-section-right,
-//         .cv-2-preview .cv-2-content,
-//         .cv-preview-container-3 .cv-preview-3{
-//             width: 100% !important;
-//             height: auto !important;
-//         }
-        
-//         /* Hide all UI controls during printing */
-//         .full-preview-btns,
-//         .layout-switcher,
-//         .layout-slider,
-//         .layout-btn,
-//         .cv-navbar,
-//         .form-section,
-//         .form-navbar-container,
-//         .back-btn,
-//         .edit-btn,
-//         .modal-overlay,
-//         .modal-box {
-//             display: none !important;
-//             visibility: hidden !important;
-//         }
-        
-//         /* Page break control for all layouts */
-//         .cv-preview,
-//         .cv-2-preview,
-//         .cv-preview-container-3 {
-//             page-break-after: avoid;
-//             page-break-inside: avoid;
-//         }
-        
-//         /* Ensure black text and white background for printing */
-//         .cv-preview *,
-//         .cv-2-preview *,
-//         .cv-preview-container-3 * {
-//             color: #000000 !important;
-//             background-color: #ffffff !important;
-//         }
-        
-//         /* Specific adjustments for Layout 2 */
-//         .cv-2-preview .cv-2-header,
-//         .cv-2-preview .cv-2-body {
-//             width: 100% !important;
-//             display: block !important;
-//         }
-        
-//         /* Specific adjustments for Layout 3 */
-//         .cv-preview-container-3 .cv-preview-3 .cv-3-left{
-//             width:65% !important;
-//             display: block !important;
-//         }
-//         .cv-preview-container-3 .cv-preview-3 .cv-3-right {
-//             width: 35% !important;
-//             display: block !important;
-//         }
-//     }
-//     `;
-    
-//     document.head.appendChild(style);
-    
-//     return () => {
-//         document.head.removeChild(style);
-//     };
-// }, []);
 
 
     // update the styles in the app

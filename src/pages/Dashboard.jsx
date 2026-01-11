@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api.js';
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import'../styles/dashboard.css'
 
@@ -10,17 +9,17 @@ const Dashboard = () => {
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
-
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+        navigate('/');
+        
+    }
+    }, []);
     
-
     useEffect(() => {
         const fetchUser = async() => {
             try{
-                const res = await API.get('/api/auth/user', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                });
+                const res = await API.get('/api/auth/user');
                 setUsername(res.data.username);
             }
             catch(err) {
@@ -48,11 +47,7 @@ const Dashboard = () => {
     const deleteCv = async(id) => {
         try{
             console.log(id)
-            await API.delete(`/api/cv/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
+            await API.delete(`/api/cv/${id}`);
 
             // Remove the deleted CV from the frontend  state
 
