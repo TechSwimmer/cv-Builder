@@ -1,30 +1,31 @@
 import Cv from "../models/Cv.js";
 
 
-// POST 
+// POST /api/cv/create -- Creates and stores a new CV linked to the logged-in user.
+// This endpoint always creates a new CV document.
+
 export const createCv = async (req, res) => {
     const { title, data, layout, customStyles, visibleSections } = req.body;
-    console.log('Incoming body:', req.body);
+    if (!data || !layout) {
+            return res.status(400).json({ message: 'Invalid CV data' });
+    }
     try {
         const newCv = await Cv.create({
-            user: req.user.id,
+            user: req.user._id,
             title,
             data,
             layout,
             customStyles,
             visibleSections,
-
         });
-        console.log(newCv);
         res.status(201).json(newCv);
     }
     catch (err) {
-       
         res.status(500).json( err.message );
     }
 };
 
-//GET /api/cv/all
+//GET /api/cv/all  --  get all the CVs of a authenticated user.
 
 export const getAllCvs = async (req, res) => {
     try {
@@ -32,21 +33,25 @@ export const getAllCvs = async (req, res) => {
         res.status(200).json(cvs);
     }
     catch (err) {
-        req.status(500).json({ error: err.message });
+        res.status(500).json({
+            message : 'Failed to create cv', 
+            error: err.message
+         });
     }
 }
     
 
 
-// GET /api/cv/:id
+// GET /api/cv/:id  --  get a specific CV for a authenticated user
 
 export const getSingleCv = async (req, res) => {
 
     try {
         const cv = await Cv.findById(req.params.id);
         if (!cv) return res.status(404).json({ message: 'CV not found' });
-        if (cv.user.toString() !== req.user._id.toString())
+        if (cv.user.toString() !== req.user._id.toString()){
             return res.status(403).json({ message: 'Unauthorized' });
+        }
         res.status(200).json({
             formData:cv.data,
             customStyles:cv.customStyles || {},
@@ -56,13 +61,16 @@ export const getSingleCv = async (req, res) => {
         });
     }
     catch (err) {
-        req.status(500).json({ error: err.message })
+        res.status(500).json({
+            message:  'failed to fetch the CV',
+            error: err.message
+        })
     }
 
 }
 
 
-// PUT /api/cv/:id
+// PUT /api/cv/:id  --  update a specific CV of an authorized user
 
 export const updateCv = async (req, res) => {
 
@@ -90,14 +98,19 @@ export const updateCv = async (req, res) => {
 };
 
 
-// DELETE /api/cv/:id
+// DELETE /api/cv/:id  --  delete a specific CV belonging to the authorized user
 
 export const deleteCv = async (req, res) => {
 
     try {
         const cv = await Cv.findById(req.params.id);
-        if (!cv || cv.user.toString() !== req.user._id.toString())
-            return res.status(403).json({ message: 'Unauthorized' });
+        if (!cv){
+            return res.status(404).json({ message: 'CV not found' });
+        }
+        else if(cv.user.toString() !== req.user._id.toString()){
+            return res.status(403).json({ message:'Unauthorized user' })
+        }
+           
 
         await Cv.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'CV deleted' });

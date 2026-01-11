@@ -13,6 +13,8 @@ import Custom from "./Custom"
 
 const FormSection = ({ formData = {}, setFormData, onSubmit, visibleSections,setVisibleSections }) => {
 
+
+    
     const handleDataChange = (section, updatedData) => {
         setFormData((prev) => ({
             ...prev,
