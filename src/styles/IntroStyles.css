@@ -4,7 +4,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     
  
@@ -52,18 +52,18 @@
 }
 
 
-.intro-second-page {
+.second-intro-page {
     
     width: 100%;
     height: 100%;
-
+    
     
 }
 .intro-form-info {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    
+    justify-content: space-between;
+    gap: 10px;
     width: 100%;
 }
 
@@ -122,13 +122,12 @@
 
 
 .intro-form-preview-text{
-    width: 25vw;
-    height: 67vh;
+    width: 24vw;
+    height: 65vh;
     margin-left: 22px;
 }
 .intro-form-preview-text p {
-    
-    padding: 2px;
+  
     font-weight: bold;
     transition: transform 0.2s ease-in-out;
 }
@@ -144,8 +143,8 @@
     transform: scale(1.1);
 }
 .intro-form-preview-img{
-    width: 45vw;
-    height: 67vh;
+    width: 43vw;
+    height: 65vh;
     object-fit: contain;
 }
 .intro-form-preview-img img{

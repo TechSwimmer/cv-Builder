@@ -3,8 +3,9 @@
     .auth-intro-container {
     display: flex;
     
+
     width: 100vw;
-    justify-content: center;
+    justify-content: space-between;
     align-items:center;
 }
 
@@ -54,9 +55,13 @@
 
 .auth-container {
   width: 25vw;
-  margin: 80px 10px;
+  margin: 80px 20px;
   text-align: center;
   font-family: Arial, sans-serif;
+  min-height: 53vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .auth-form {
   display: flex;
