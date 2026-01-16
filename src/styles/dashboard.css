@@ -35,37 +35,11 @@ button{
     background-color: grey;
     color: white;
 }
-
 .dashboard-navbar {
     display: flex;
     background-color: aqua  ;
     height: 70px;
-}
-.userinfo-navbar {
-    width: 65vw;
-    display: flex;
-    justify-content: center;
-    align-items: left;
-    
-}
-.userinfo-navbar h2{
     width: 100%;
-    font-size: 2rem;
-    font-weight: bolder;
-}
-
-.userinfo-btn-navbar{
-    width: 35vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center ;
-
-}
-.userinfo-btn-navbar button {
-    padding-left: 30px;
-    padding-right: 30px;
-    color: white;
 }
 
 .cv-card {

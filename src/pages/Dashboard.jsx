@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
 import'../styles/dashboard.css'
+import DashboardNavbar from '../components/DashboardNavbar.jsx';
 
 const Dashboard = () => {
     
@@ -76,12 +77,10 @@ const Dashboard = () => {
     return (
         <div className='dashboard'>
             <div className='dashboard-navbar'>
-                <div className='userinfo-navbar'>
-                     <h2> Welcome {`${username || 'Guest'}`}</h2>
-                </div>
-                <div className='userinfo-btn-navbar'>
-                    <button onClick={()=>handleLogout()}> Logout</button>
-                </div>
+               <DashboardNavbar
+               username = {username}
+               handleLogout = {handleLogout}
+               />
                 
             </div>
            
