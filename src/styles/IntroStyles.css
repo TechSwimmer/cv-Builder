@@ -25,6 +25,7 @@
 .intro-content {    
     display: flex;
     position: relative;
+    justify-content: center;
     z-index: 22;
     width: 90%;
     max-width: 1200px;
@@ -37,6 +38,7 @@
     box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.4),
         0 10px 20px rgba(0, 0, 0, 0.2);
+        
 }
 
 /* =========================
