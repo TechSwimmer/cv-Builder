@@ -1,106 +1,97 @@
+/* =========================
+   LAYOUT CONTAINER
+========================= */
 
-@media screen and (min-width: 1280px){
-    .auth-intro-container {
-    display: flex;
-    
-
-    width: 100vw;
-    justify-content: space-between;
-    align-items:center;
+.auth-intro-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
 }
 
+/* =========================
+   INTRO SECTION
+========================= */
+
+.intro-container {
+  width: 73vw;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   AUTH SECTION
+========================= */
+
 .auth-container {
-    width: 34vw;
-    background-color: aqua;
-    border-radius: 10px;
-    padding: 2%;
+  width: 23vw;
+  margin: 20px 10px;
+  padding: 20px;
+  background-color: aqua;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  min-height: 53vh;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .auth-container input {
-    width: 90%;
-    height: 3.5vh;
+  width: 94%;
+  height: 35px;
 }
-.intro-container {
- width: 63vw;
- 
- margin-left: 20px;
- border-radius: 10px;
-}
-.button-container{
+
+/* =========================
+   BUTTONS
+========================= */
+
+.button-container {
   display: flex;
   flex-direction: column;
-  width: 96%;
-  justify-content: space-between;
   gap: 6px;
 }
 
 .auth-btn {
-    background-color: rgb(222, 233, 233);
-    color: black;
-}
-
-  .intro-container {
-    width: 100vw;
-    
-    height: auto;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #f3f3f3;
-    border-radius: 10px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-
-
-
-.auth-container {
-  width: 25vw;
-  margin: 80px 20px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  min-height: 53vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.auth-input {
+  background-color: rgb(222, 233, 233);
+  color: black;
   padding: 10px;
-  font-size: 14px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
-.auth-button {
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 20px;
-  
+
+.auth-btn:hover {
+  background-color: #0e0c0c;
+  color: rgb(222, 233, 233);
+  transform: scale(1.05);
 }
+
+/* =========================
+   TEXT / MISC
+========================= */
 
 .auth-toggle {
   cursor: pointer;
   font-size: 14px;
   color: #007bff;
 }
+
 .auth-message {
   color: red;
   margin-top: 10px;
 }
-
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -110,96 +101,41 @@
 
 
 @media screen and (max-width: 1280px) {
-  .auth-intro-container {
+  body{
+    overflow-y: auto;
+  }
+ .auth-intro-container {
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    overflow-y: auto; /* Enable scrolling */
-    justify-content: flex-start;
     align-items: center;
     padding: 15px;
-    box-sizing: border-box;
-    gap: 15px; /* Spacing between intro and form */
-  }
-
-  .auth-container {
-    width: 90vw;
-    max-width: 400px;
-    background-color: aqua;
-    border-radius: 10px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-
-  .auth-container input {
-    width: 94%;
-    height: 25px;
-    margin-bottom: 10px;
-  }
-
-  .auth-btn {
-    background-color: rgb(222, 233, 233);
-    color: black;
-    padding: 10px 20px;
-    width: 100%;
+    gap: 15px;
+    min-height: auto;
   }
 
   .intro-container {
-    width: 100vw;
-    
-    height: auto;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #f3f3f3;
-    border-radius: 10px;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    width: 100%;
   }
 
-  
-   .auth-container {
-  width: 50vw;
-  margin: 40px 10px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
+  .auth-container {
+    width: 50vw;
+    margin: 25px 15px;
+  }
 
 
 }
 
 @media screen and (max-width: 840px) {
-  /* For phones */
-
-  .intro-container{
-    display: flex;
-    flex-direction: row;
+  .intro-container {
     width: 90vw;
   }
-  .auth-intro-container{
-    width: 100vw;
-  }
 
   .auth-container {
-    width: 100vw;
+    width: 80vw;
+    margin: 30px 20px;
   }
-  .auth-container {
-  width: 100vw;
-  margin: 80px 10px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
 
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+  .auth-btn {
+    width: 96%;
+  }
 }

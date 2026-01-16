@@ -14,7 +14,7 @@ import EditStyleTwo from "../components/EditStyleTwo";
 import EditStyleThree from "../components/EditStyleThree";
 
 // import the navbar component (btns to select formSection and EditStyle page)
-import Navbar from "../components/Navbar";
+import BuilderNavbar from "../components/BuilderNavbar";
 
 
 // style pages for intropages and app.jsx
@@ -42,7 +42,8 @@ import layoutThree from "../images/layout3.png";
 
 
 const CvBuilder = () => {
-    
+
+
     const [searchParams] = useSearchParams();
     const cvId = searchParams.get('id');
     const navigate = useNavigate();
@@ -63,8 +64,9 @@ const CvBuilder = () => {
 
     const [showForm, setShowForm] = useState(true);                        // toggle full screen mode for preview
 
+    const [username, setUserName] = useState('');
     // display the save and delete btn if the user is logged in else no save and del btns
-    const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const token = localStorage.getItem('token');
     
 
@@ -92,13 +94,13 @@ const CvBuilder = () => {
 
     const mobileStyles = {
         ...desktopStyles,
-        fontNameSize:"16px",
+        fontNameSize: "16px",
         fontHeaderSize: "12px",
         fontContentSize: "10px",
     };
 
     const [customStyles, setCustomStyles] = useState(desktopStyles)                     // store all the styles for all the preview            ;
-  
+
     const [visibleSections, setVisibleSections] = useState({                      // store  visibility values for specific sections 
         education: true,
         experience: true,
@@ -183,15 +185,19 @@ const CvBuilder = () => {
         ],
     });
 
-
+    useEffect(() => {
+        setActiveTab("content");
+        setShowForm(true);
+        handleStylePage("layout1");
+    }, []);
     // style w.r.t. screen size
     useEffect(() => {
 
         const updateStyles = () => {
-            if(window.innerWidth <= 840) {
+            if (window.innerWidth <= 840) {
                 setCustomStyles(mobileStyles)
             }
-            else{
+            else {
                 setCustomStyles(desktopStyles);
             }
         };
@@ -202,42 +208,43 @@ const CvBuilder = () => {
 
         // Listen to resize events
         window.addEventListener("resize", updateStyles);
-        return () => window.removeEventListener("resize",updateStyles);
-    },[]);
+        return () => window.removeEventListener("resize", updateStyles);
+    }, []);
 
 
     useEffect(() => {
-        if(cvId && token) {
+        if (cvId && token) {
             API.get(`/api/cv/${cvId}`)
                 .then(res => {
-                const { formData:fetchedFormData, customStyles, visibleSections:fetchedVisibleSections,layout,title } = res.data;
+                    const { formData: fetchedFormData, customStyles, visibleSections: fetchedVisibleSections, layout, title, username } = res.data;
 
-                setFormData(fetchedFormData);
+                    setFormData(fetchedFormData);
 
 
-               setCustomStyles(customStyles || {});
-               setVisibleSections({
-                summary:true,
-                education:true,
-                experience:true,
-                projects:true,
-                skills:true,
-                hobbies:true,
-                languages:true,
-                custom:true,
-                ...fetchedVisibleSections
-               });
-               setCurrentLayout(layout || 'layout 1')
-               setCvName(title || '');
-               console.log(cvId)
-               console.log(fetchedFormData,customStyles,visibleSections)
-            })
-            .catch(err => {
-                console.error('Failed to load CV:', err) 
-            });
+                    setCustomStyles(customStyles || {});
+                    setVisibleSections({
+                        summary: true,
+                        education: true,
+                        experience: true,
+                        projects: true,
+                        skills: true,
+                        hobbies: true,
+                        languages: true,
+                        custom: true,
+                        ...fetchedVisibleSections
+                    });
+                    setCurrentLayout(layout || 'layout 1')
+                    setCvName(title || '');
+                    setUserName(username)
+                    console.log(cvId)
+                    console.log(fetchedFormData, customStyles, visibleSections)
+                })
+                .catch(err => {
+                    console.error('Failed to load CV:', err)
+                });
 
         }
-    }, [cvId,token])
+    }, [cvId, token])
 
 
 
@@ -247,7 +254,7 @@ const CvBuilder = () => {
         console.log(token)
         const alertShown = sessionStorage.getItem('cvAlertShown');
 
-        if(!token) {
+        if (!token) {
             alert('You are browsing as a guest. Log in to save or delete CVs.');
             sessionStorage.setItem('cvAlertShown', 'true');
         }
@@ -255,44 +262,44 @@ const CvBuilder = () => {
 
 
 
-    const saveCvtoBackend =  async() => {
+    const saveCvtoBackend = async () => {
         if (!formData || !currentLayout) {
             alert('Please complete all required fields');
             return;
         }
         const payload = {
-            title:cvName,
-            data:formData,
-            layout:currentLayout,
+            title: cvName,
+            data: formData,
+            layout: currentLayout,
             customStyles,
             visibleSections
         };
-        try{
+        try {
             const token = localStorage.getItem('token');
-                if (!token) {
-                    alert('Please login to save CV');
-                    return;
-                }
-                if(cvId) {
-                    // ======== UPDATE EXISTING CV ==========
-                    
-                    const res = await API.put(`/api/cv/${cvId}`, payload,);
-                    alert('CV updated successfully!');
-                }
-         
-                else{
-                    // ========== CREATE NEW CV============
+            if (!token) {
+                alert('Please login to save CV');
+                return;
+            }
+            if (cvId) {
+                // ======== UPDATE EXISTING CV ==========
 
-                    const res = await API.post('/api/cv/create', payload,);
-                    alert('New CV saved successfully!')
+                const res = await API.put(`/api/cv/${cvId}`, payload,);
+                alert('CV updated successfully!');
+            }
 
-                    // you may want to redirect or update cvId in URL
-                    navigate(`/builder?id=${res.data._id}`)           // optional
-                }
+            else {
+                // ========== CREATE NEW CV============
+
+                const res = await API.post('/api/cv/create', payload,);
+                alert('New CV saved successfully!')
+
+                // you may want to redirect or update cvId in URL
+                navigate(`/builder?id=${res.data._id}`)           // optional
+            }
 
             setShowSaveDialog(false);
         }
-        catch(err) {
+        catch (err) {
             console.error('Error saving CV:', err.response?.data || err.message);
             alert('Failed to save CV');
         }
@@ -359,7 +366,7 @@ const CvBuilder = () => {
         console.log(layout)
 
         // Toggle the visibility of the layout slider menu
- 
+
         const layoutSlider = document.querySelector(".layout-slider");
         layoutSlider.classList.toggle("show");
 
@@ -376,11 +383,11 @@ const CvBuilder = () => {
         }
         else if (layout === "layout1") {
             // setPreviewComponent(<Preview />)                // set preview
-            layoutName = 'layout1' 
+            layoutName = 'layout1'
             setImage(layoutOne)                             // update the preview page
         }
 
-        
+
         // Set the appropriate EditStyle component for the selected layout
         handleStylePage(layoutName)
     };
@@ -430,7 +437,7 @@ const CvBuilder = () => {
             position: element.style.position,
             overflow: element.style.overflow,
             height: element.style.height,
-            width:element.style.width,
+            width: element.style.width,
             boxShadow: element.style.boxShadow,
         };
 
@@ -459,9 +466,9 @@ const CvBuilder = () => {
                 logging: true,                    // enable logging for debugging
                 useCORS: true,                    // allow cross-origin images
                 scrollY: 0,                       // enable height based scrolling before screenshot
-                scrollX:0,
-                width:element.scrollWidth,
-                height:element.scrollHeight,
+                scrollX: 0,
+                width: element.scrollWidth,
+                height: element.scrollHeight,
                 backgroundColor: null,            // bg transparent
                 allowTaint: true,                 // allow other cross-orighin content
 
@@ -494,9 +501,9 @@ const CvBuilder = () => {
             const pxToMm = (px) => px * 0.264583;
             const pageWidth = pxToMm(canvas.width)
             const pageHeight = pxToMm(canvas.height)
-            const pdf = new jsPDF('p', 'mm', [pageWidth,pageHeight]);
+            const pdf = new jsPDF('p', 'mm', [pageWidth, pageHeight]);
 
-          
+
 
             // Convert the canvas to an image (PNG format)
             const imgData = canvas.toDataURL('image/png', 1.0);
@@ -540,26 +547,39 @@ const CvBuilder = () => {
     }
 
 
-   
-
-
-
-
 
     return (
         <>
             {/* Always render form + preview */}
             <div className="app">
+                {/* Navbar for switching tabs and selecting layout styles */}
+                <div className="builder-navbar">
+                    <BuilderNavbar
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+
+                        handleStylePage={handleStylePage}
+                        currentLayout={currentLayout}
+                        isLoggedIn={isLoggedIn}
+                        handleLayoutClick={handleLayoutClick}
+                        handleDownloadPDF={handleDownloadPDF}
+                        showSaveDialog={showSaveDialog}
+                        setShowSaveDialog={setShowSaveDialog}
+                        showForm={showForm}
+                        setShowForm={setShowForm}
+                        navigateToDashboard={navigate}
+                        username={username}
+                        onSubmit = {handleSubmit}
+                    />
+                </div>
                 <div className="container">
+
+
                     {/* Left Side: Form and Navbar section, shown only if form is not hidden  */}
                     {showForm && (
                         <div className="form-navbar-container">
-                            {/* Navbar for switching tabs and selecting layout styles */}
-                            <Navbar
-                                activeTab={activeTab}
-                                setActiveTab={setActiveTab}
-                                handleStylePage={handleStylePage}
-                                currentLayout={currentLayout} />
+
+
                             {/* Conditionally render form fields if the active tab is "content" */}
                             {activeTab === "content" && (
                                 <FormSection
@@ -579,12 +599,7 @@ const CvBuilder = () => {
 
                     {/* Right Side: Preview and layout thumbnails */}
                     <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
-                        <button
-                            className="back-btn"
-                            onClick={() => navigate('/dashboard')}
-                        >
-                            Dashboard
-                        </button>
+                       
                         {/* Resume preview area */}
                         <PreviewDisplay
                             ref={previewRef}
@@ -594,7 +609,7 @@ const CvBuilder = () => {
                             // previewComponent={previewComponent}
                             setVisibleSections={setVisibleSections}
                             currentLayout={currentLayout}
-                            
+
                             handleLayoutClick={handleLayoutClick}
                             handleMouseEnter={handleMouseEnter}
                             handleMouseLeave={handleMouseLeave}
@@ -609,23 +624,23 @@ const CvBuilder = () => {
                             image={image}
                             setImage={setImage}
                         />
-                        {/* Action buttons: Only show on "preview" tab */}.''
+                        {/* Action buttons: Only show on "preview" tab */}
                         {activeTab === "preview" && (
                             <div className="full-preview-btns">
                                 <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
                                 {isLoggedIn && (
                                     <>
-                                    <button className="edit-btn" onClick={handleEditClick}>Delete</button>
-                                    <button onClick={() => setShowSaveDialog(true)}>
-                                   
-                                    Save CV
-                                </button>
-                                 </>
+                                       
+                                        <button onClick={() => setShowSaveDialog(true)}>
+
+                                            Save CV
+                                        </button>
+                                    </>
                                 )}
-                              
+
                                 <button className="edit-btn" onClick={handleEditClick}>Edit</button>
-                                
-                                
+
+
                             </div>
                         )}
                     </div>
@@ -641,14 +656,14 @@ const CvBuilder = () => {
                             onChange={(e) => setCvName(e.target.value)}
                             placeholder="e.g., Frontend Resume, Freelance C.V."
                         />
-                    <div className="modal-buttons">
-                        <button onClick={() => saveCvtoBackend()}>Save CV</button>
-                        <button onClick={() => setShowSaveDialog(false)}>Back</button>
-                    </div>
+                        <div className="modal-buttons">
+                            <button onClick={() => saveCvtoBackend()}>Save CV</button>
+                            <button onClick={() => setShowSaveDialog(false)}>Back</button>
+                        </div>
                     </div>
                 </div>
             )}
-           
+
         </>
     )
 }

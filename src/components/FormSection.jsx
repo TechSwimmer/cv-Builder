@@ -81,11 +81,7 @@ const FormSection = ({ formData = {}, setFormData, onSubmit, visibleSections,set
                     />
                 <div style={{ height: "210px", flexShrink: 0 }} />
             </div>
-            <div className="form-section-btn">
-                <button className="submit-btn" onClick={onSubmit}>
-                Full Screen Preview
-                </button>
-            </div>
+         
         </div>
     )
 

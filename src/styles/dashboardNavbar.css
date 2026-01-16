@@ -1,0 +1,20 @@
+.db-navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.dashboard-info{
+    display: flex;
+    justify-content: space-around;
+    margin-left: 10px;
+}
+.dashboard-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.dashboard-buttons button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
