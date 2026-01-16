@@ -168,11 +168,7 @@ const EditStyle = ({ customStyles, setCustomStyles, onSubmit}) => {
                 </div>
 
             </div>
-            <div className="form-section-btn">
-                <button className="submit-btn" onClick={onSubmit}>
-                    Full Screen Preview
-                </button>
-            </div>
+           
         </div>
     );
 };

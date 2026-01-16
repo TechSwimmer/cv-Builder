@@ -1,11 +1,13 @@
-
+:root {
+  --navbar-height: 65px;
+}
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin:0;
   width: 100vw;
   
-  overflow: hidden;
+  overflow-x: hidden;
 
 }
 
@@ -47,22 +49,33 @@ body {
 
 
 /* FLEX CONTAINER */
+.builder-navbar {
+   position: fixed;
+  top: 0;
+  left: 0;
+
+  height: var(--navbar-height);
+  width: 100%;
+
+  z-index: 1000;
+}
 .container {
   display: flex;
+  flex-direction: row;
   padding: 5px;
   gap: 20px;
   width: 100%;
   justify-content: space-between;
-  
+  padding-top: var(--navbar-height);
   height: 100%;
   align-items: stretch;
 }
 .form-container, .preview-container{
   
-  min-height: 100vh; 
+  height: calc(100vh - var(--navbar-height)); 
   border: 1px solid #ccc;
   padding: 10px;
-  
+  overflow-y: scroll;
 }
 
 /* FORM SECTION (LEFT) */
@@ -148,7 +161,7 @@ body {
   align-items: stretch;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  min-height: 100vh;
+  height: calc(100vh - var(--navbar-height));
   margin-bottom: 10px;
   
 }
@@ -352,15 +365,6 @@ input {
   align-items: center;
 }
 
-.submit-btn{
-
-  margin-top: 15px;
-  margin-bottom: 80px;
-  width: 98%;
-  align-self: flex-start;
-  background: #464242;
-  color: white;
-}
 
 button:hover{
   font-weight: bold;
@@ -374,36 +378,6 @@ button:hover{
   color: #ffffff;
 }
 
-.download-btn{
-  width: 40%;
-  margin-top: auto;
-  margin-bottom: 40px;
-  background: #464242;
-  color: white;
-}
-.edit-btn{
-  width: 40%;
-  margin-top: auto;
-  margin-bottom: 40px;
-  background: #464242;
-  color: white;
-}
-
-
-.preview-container .full-preview-btns{
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-.full-preview-btns button{
-  width: 40%;
-  margin-top: auto;
-  margin-bottom: 40px;
-  background: #464242;
-  color: white;
-  margin-left: 20px;
-  margin-right: 20px;
-}
 
 
 .date-input{
@@ -640,25 +614,9 @@ button:hover{
   border-radius: 10px;
 }
 
-.back-btn{
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1); /* transparent */
-  color: rgb(112, 95, 95);
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  z-index: 1000;
-  
-}
 
-.back-btn:hover{
-  color: black;
-}
+
+
 
 .modal-overlay {
   position: fixed;
@@ -718,7 +676,7 @@ button:hover{
 
 
   .container{
-    flex-direction: column;
+    
     height:auto;
     overflow-y: visible;
     width: 100%;
@@ -727,7 +685,7 @@ button:hover{
   .form-navbar-container,
   .preview-container {
     width: 96%;
-    height: 100%;
+    height: calc(100vh - var(--navbar-height));
     overflow-y: auto;
   }
 
@@ -757,27 +715,12 @@ button:hover{
     align-items: stretch;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    min-height: 100vh;
+    height: calc(100vh - var(--navbar-height));
    
   }
 
   
-.back-btn{
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1); /* transparent */
-  color: rgb(112, 95, 95);
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  z-index: 1000;
-  
-}
+
 
 
   .layout-switcher {
@@ -905,12 +848,6 @@ button:hover{
     width: 100%;
   }
 
-  .full-preview-btns {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
   .modal-buttons{
     display: flex;
     flex-direction: row;
