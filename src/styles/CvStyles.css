@@ -7,6 +7,7 @@
     --skill-color: aqua;
     --print-adjust: -webkit-print-color-adjust: exact; 
     --print-color-adjust: exact;
+     --navbar-height: 65px;
   }
   
   /* Base CV Styles */
@@ -233,12 +234,7 @@
       margin: 0;
       padding: 0;
     }
-    .full-preview-btns,
-    body::before,
-    body::after {
-      display: none !important;
-    }
-    
+ 
 .skill-list-item,
   .skill-item,
   [class^="preview-section-"] {
@@ -702,11 +698,7 @@
       margin: 0;
       padding: 0;
     }
-    .full-preview-btns,
-    body::before,
-    body::after {
-      display: none !important;
-    }
+
     
 .skill-list-item,
   .skill-item,
@@ -740,25 +732,26 @@
 
 
   .container{
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    
+      
+      flex-direction: row;
+      
+      padding-top: var(--navbar-height);
       height: auto;
     }
 
   .form-navbar-container {
+    
       height: auto;
       width: 100vw;
-      overflow-y: auto;
+      
     }
 
   .preview-container {
       height: auto;
-      width: 100vw;
+      width: 100%;
       padding: 0;
       margin: 0;
-      overflow-y: auto;
+      overflow-y: scroll;
       overflow-x: auto;
     }
 
