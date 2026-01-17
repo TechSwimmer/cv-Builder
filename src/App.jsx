@@ -13,12 +13,15 @@ function App() {
 
   return (
     <BrowserRouter>
+     <div className='app-scale'>
       <Routes>
+       
         <Route path='/' element={<AuthPage/>}/>
         <Route path='/builder' element={<CvBuilder/>}/>
         
         <Route path="/dashboard" element={<Dashboard />} /> 
       </Routes>
+      </div>
     </BrowserRouter>
   );
 }

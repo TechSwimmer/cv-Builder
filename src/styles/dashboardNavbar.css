@@ -12,6 +12,11 @@
     border-top-right-radius:10px ;
     border-bottom-right-radius:10px ;
     color: beige;
+    margin-top:5px ;
+    margin-bottom:5px ;
+}
+.dashboard-info h2{
+    font-size: 1.4rem;
 }
 .dashboard-buttons {
     display: flex;
