@@ -235,7 +235,7 @@ const CvBuilder = () => {
                     });
                     setCurrentLayout(layout || 'layout 1')
                     setCvName(title || '');
-                    setUserName(username)
+                    
                     console.log(cvId)
                     console.log(fetchedFormData, customStyles, visibleSections)
                 })
@@ -546,7 +546,14 @@ const CvBuilder = () => {
         setActiveTab('content')
     }
 
-
+     
+     useEffect(() => {
+            const storedUserName = localStorage.getItem('username');
+            if(storedUserName){
+                setUserName(storedUserName)
+            }
+        }, [])
+    
 
     return (
         <>
@@ -569,6 +576,7 @@ const CvBuilder = () => {
                         setShowForm={setShowForm}
                         navigateToDashboard={navigate}
                         username={username}
+                        setUserName = {setUserName}
                         onSubmit = {handleSubmit}
                     />
                 </div>

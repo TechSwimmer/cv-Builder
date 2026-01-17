@@ -29,6 +29,7 @@ const AuthPage = () => {
       console.log('Register payload:', { email, username });
 
       localStorage.setItem('token', data.token);
+      localStorage.setItem('username',data.user.username)
       setMessage('Success!');
       navigate('/dashboard');                     // redirect after Login/register
     }

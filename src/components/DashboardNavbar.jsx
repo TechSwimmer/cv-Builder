@@ -9,21 +9,22 @@ const DashboardNavbar = ({
     username,
     handleLogout
 }) => {
-
+    const navigate = useNavigate();
 
     return (
         <>
             <nav className='db-navbar'>
                 <div className='dashboard-info'>
-                        <h2>Welcome {username || 'Guest'}   </h2>
+                    <h2>Welcome {username || 'Guest'}   </h2>
                 </div>
                 <div className='dashboard-buttons'>
-                       <button
-                            className="logout-btn"
-                            onClick={() => handleLogout()}
-                        >
-                            Logout
-                        </button>
+                    <button onClick={() => navigate('/builder')}>+ New CV</button>
+                    <button
+                        className="logout-btn"
+                        onClick={() => handleLogout()}
+                    >
+                        Logout
+                    </button>
                 </div>
             </nav>
         </>
