@@ -7,32 +7,39 @@
     width: 100vw;
 }
 .userinfo-navbar {
-    width: 22vw;
+    min-width: 18vw;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color:#222 ;
+    color: beige;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-top:5px ;
+    margin-bottom:5px ;
+    padding-right: 8px;
+    padding-left: 5px;
 }
 .userinfo-navbar h2{
     width: 100%;
     font-size: 1.8rem;
     font-weight: bolder;
+    text-align: left;
 }
 
 .userinfo-btn-navbar{
     width: 70vw;
     display: flex;
     flex-direction: row;
-    justify-content:space-evenly;
+    gap: 13px;
     align-items: center ;
-    
+    justify-content: space-around;
 
 }
 .userinfo-btn-navbar button {
-    margin-left: 10px;
-    margin-right: 10px;
+   
     color: white;
-    width: auto;
+    
     align-self:center ;
     margin-top: 1%;
 
@@ -56,4 +63,59 @@
   transform: translateY(0);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.locked-btn-wrapper {
+  position: relative;
+  
+  margin-top: 1%;
+  display: inline-flex;
+  box-sizing: border-box;
+  
+}
+.userinfo-btn-navbar > button,
+.userinfo-btn-navbar > .locked-btn-wrapper {
+  width: 50%;
+}
+.locked-btn {
+  opacity: 0.8;
+  pointer-events: none;
+  cursor: not-allowed;
+ min-width: 100%;
+  display: block;
+  box-sizing: border-box;
+
+}
+
+
+.lock-icon {
+  position: absolute;
+  top: -5 px;
+  left: 2%;
+  transform: translateX(-50%);
+  font-size: 17px;
+  background-color: aqua;
+  padding: 2px 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lock-tooltip {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.locked-btn-wrapper:hover .lock-tooltip {
+  opacity: 1;
 }
