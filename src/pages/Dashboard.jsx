@@ -65,7 +65,7 @@ const Dashboard = () => {
         // clear all authentication / session data
         localStorage.removeItem('token');
         sessionStorage.clear();
-        
+        localStorage.removeItem('username')
         // optionally show a toast / alert
         alert('you have been logged out.');
 
@@ -87,7 +87,7 @@ const Dashboard = () => {
             <div className='cv-grids'>
                  <div className='cv-grid-left'>
                 <h3>Total CV's: {cvs.length}</h3>
-                <button onClick={() => navigate('/builder')}>+ New CV</button>
+                
             </div>
             
             <div className='cv-grid-right'>
