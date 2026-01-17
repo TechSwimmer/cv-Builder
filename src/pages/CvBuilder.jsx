@@ -68,7 +68,7 @@ const CvBuilder = () => {
     // display the save and delete btn if the user is logged in else no save and del btns
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const token = localStorage.getItem('token');
-    
+
 
     const desktopStyles = {
         fontNameSize: "34px",
@@ -235,7 +235,7 @@ const CvBuilder = () => {
                     });
                     setCurrentLayout(layout || 'layout 1')
                     setCvName(title || '');
-                    
+
                     console.log(cvId)
                     console.log(fetchedFormData, customStyles, visibleSections)
                 })
@@ -267,12 +267,14 @@ const CvBuilder = () => {
             alert('Please complete all required fields');
             return;
         }
+        const thumbnail = await generateThumbnail();
         const payload = {
             title: cvName,
             data: formData,
             layout: currentLayout,
             customStyles,
-            visibleSections
+            visibleSections,
+            thumbnail
         };
         try {
             const token = localStorage.getItem('token');
@@ -306,6 +308,19 @@ const CvBuilder = () => {
 
 
     };
+
+    const generateThumbnail = async () => {
+        const element = previewRef.current;
+        if (!element) return null;
+
+        const canvas = await html2canvas(element, {
+            scale: 0.4,          //     smaller = thumbnail
+            useCORS: true,
+            backgroundColor: "#ffffff",
+        });
+
+        return canvas.toDataURL("image/png"); // base64 i
+    }
 
     //  set the appropriate EditStyle component based on the selected layout
 
@@ -546,14 +561,14 @@ const CvBuilder = () => {
         setActiveTab('content')
     }
 
-     
-     useEffect(() => {
-            const storedUserName = localStorage.getItem('username');
-            if(storedUserName){
-                setUserName(storedUserName)
-            }
-        }, [])
-    
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem('username');
+        if (storedUserName) {
+            setUserName(storedUserName)
+        }
+    }, [])
+
 
     return (
         <>
@@ -576,8 +591,8 @@ const CvBuilder = () => {
                         setShowForm={setShowForm}
                         navigateToDashboard={navigate}
                         username={username}
-                        setUserName = {setUserName}
-                        onSubmit = {handleSubmit}
+                        setUserName={setUserName}
+                        onSubmit={handleSubmit}
                     />
                 </div>
                 <div className="container">
@@ -607,7 +622,7 @@ const CvBuilder = () => {
 
                     {/* Right Side: Preview and layout thumbnails */}
                     <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
-                       
+
                         {/* Resume preview area */}
                         <PreviewDisplay
                             ref={previewRef}
@@ -638,7 +653,7 @@ const CvBuilder = () => {
                                 <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
                                 {isLoggedIn && (
                                     <>
-                                       
+
                                         <button onClick={() => setShowSaveDialog(true)}>
 
                                             Save CV

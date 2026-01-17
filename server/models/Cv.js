@@ -15,11 +15,15 @@ const cvSchema = new mongoose.Schema({
     layout: String,
     customStyles:Object,
     visibleSections: Array,
+    thumbnail: String,
+    
     createdAt: {
         type: Date,
         default: Date.now,
     },
-});
+},
+{timestamps:true}
+);
 
 const Cv  = mongoose.model('Cv', cvSchema);
 export default Cv;

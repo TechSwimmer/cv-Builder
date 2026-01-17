@@ -5,7 +5,7 @@ import Cv from "../models/Cv.js";
 // This endpoint always creates a new CV document.
 
 export const createCv = async (req, res) => {
-    const { title, data, layout, customStyles, visibleSections } = req.body;
+    const { title, data, layout, customStyles, visibleSections,thumbnail } = req.body;
     if (!data || !layout) {
             return res.status(400).json({ message: 'Invalid CV data' });
     }
@@ -17,6 +17,7 @@ export const createCv = async (req, res) => {
             layout,
             customStyles,
             visibleSections,
+            thumbnail
         });
         res.status(201).json(newCv);
     }
@@ -29,8 +30,9 @@ export const createCv = async (req, res) => {
 
 export const getAllCvs = async (req, res) => {
     try {
-        const cvs = await Cv.find({ user: req.user._id });
+        const cvs = await Cv.find({ user: req.user._id }).select("title thumbnail");
         res.status(200).json(cvs);
+        console.log("req.user:", req.user);
     }
     catch (err) {
         res.status(500).json({
@@ -79,13 +81,14 @@ export const updateCv = async (req, res) => {
         if (!cv || cv.user.toString() !== req.user._id.toString())
             return res.status(403).json({ message: 'Unauthorized' });
 
-        const { formData, layout, customStyles, visibleSections,title } = req.body;
+        const { formData, layout, customStyles, visibleSections,title,thumbnail } = req.body;
 
         cv.title = title || cv.title;
         cv.formData = formData;
         cv.layout = layout;
         cv.customStyles = customStyles;
         cv.visibleSections = visibleSections;
+        cv.thumbnail = thumbnail;
 
         await cv.save();
         res.status(200).json(cv);
