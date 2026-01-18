@@ -87,17 +87,17 @@ const BuilderNavbar = ({
                         <button className="active" onClick={toggleTab}>
                             {activeTab === "style" ? "Edit Content" : "Edit Style"}
                         </button>
-                        <LockedButton label="Login to access dashboard">
+                        <LockedButton label="Sign-in to access dashboard">
                             Dashboard
                         </LockedButton>
                         <button className="fullscreen-edit-btn" onClick={toggleFullScreen}>
                             {showForm === false ? "Edit CV" : "Full Screen"}
                         </button>
-                        <button onClick={() => handleDownloadPDF()}>Download PDF</button>
-                        <LockedButton label="Login to save your CV">
+                        <button onClick={() => handleDownloadPDF()}>Download</button>
+                        <LockedButton label="Sign-in to save your CV">
                             Save CV
                         </LockedButton>
-                        <button onClick={() => navigate('/')}>Sign in to Save</button>
+                        <button onClick={() => navigate('/')}>Sign in</button>
                     </div>
 
                 </nav>

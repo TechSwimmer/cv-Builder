@@ -278,76 +278,13 @@
   }
   
 
-  /*----------------layout  btn's and slider styles----------------------------------*/
-
-  .layout-switcher {
-    position: fixed;
-    bottom: 36px;
-    right: 27px;
-    z-index: 1000;
-    padding: 15px;
-  }
   
-  .layout-btn {
-    background-color: rgb(114, 113, 111);
-    border: none;
-    opacity: 0.8;
-    padding: 1px;
-    font-size: 16px;
-    cursor: pointer;
-    height: 160px;
-    
-  }
-  .layout-btn img{
-    height: 100%;
-    
-  }
-  .selected-layout-img{
-    width: 100%;
-  }
-  .layout-slider {
-    display: none;
-    position: absolute;
-    gap: 10px;
-    top: 0;
-    right: 0;
-    background-color: #706262;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    height: 150px;
-    
-  }
-  .layout-slider img{
-    
-    height: 100%;
-  }
-  .show {
-    display: flex;
-  }
-  
- 
-  .layout-option {
-    padding: 1px;
-    border: none;
-    
-    opacity: 0.5;
-    cursor: pointer;
-  }
-  
-  .layout-option:hover ~ .layout-slider {
-    display: flex;
-  }
 
   
 
 
 
 
-  .full-screen .layout-switcher {
-    display: none;
-  }
 
 
 
@@ -755,74 +692,6 @@
       overflow-x: auto;
     }
 
-  .layout-switcher {
-    position: fixed;
-    bottom: 10px;
-    right: 5px;
-    z-index: 1000;
-    padding: 10px;
-  }
-  
-  .layout-slider {
-    display: none;
-    position: static;
-    gap: 10px;
-    bottom: 100%;
-    right: 0;
-    transform: translateY(-10px);
-    background-color: #706262;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    height: 25vh;
-    
-  }
-
-  .layout-slider.show {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .layout-option {
-    padding: 1px;
-    border: none;
-    opacity: 0.5;
-    cursor: pointer;
-  }
-    .layout-option {
-    padding: 1px;
-    border: none;
-    opacity: 0.5;
-    cursor: pointer;
-  }
-  
-
-
-  .layout-slider img{
-    height: 100%;
-  }
-
-  .layout-btn {
-    background-color: rgb(114, 113, 111);
-    border: none;
-    opacity: 0.8;
-    padding: 1px;
-    font-size: 16px;
-    cursor: pointer;
-    height: 100px;
-    
-  }
-  .layout-btn img{
-    height: 100%;
-    
-  }
-  .selected-layout-img{
-    width: 100%;
-  }
-  .layout-option:hover ~ .layout-slider {
-    display: none !important;
-  }
   
   .preview-section-left {
     width: 35%;
