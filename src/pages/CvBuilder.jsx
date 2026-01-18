@@ -15,7 +15,7 @@ import EditStyleThree from "../components/EditStyleThree";
 
 // import the navbar component (btns to select formSection and EditStyle page)
 import BuilderNavbar from "../components/BuilderNavbar";
-
+import LayoutDrawer from "../components/layoutDrawer";
 
 // style pages for intropages and app.jsx
 import "../styles/IntroStyles.css"
@@ -32,7 +32,7 @@ import jsPDF from 'jspdf';
 import PreviewDisplay from "../components/PreviewDisplay";
 
 // Layout.jsx helps us to display proper preview layout w.r.t. the clicked img btn
-import Layout from "../components/Layout";
+
 
 // import preview images to be displayed as btns where user can click and change the preview 
 import layoutOne from "../images/layout1.png";
@@ -637,16 +637,14 @@ const CvBuilder = () => {
                             handleMouseEnter={handleMouseEnter}
                             handleMouseLeave={handleMouseLeave}
                         />
-                        {/* Layout selector thumbnails below preview */}
-                        <Layout
-                            currentLayout={currentLayout}
-                            handleLayoutClick={handleLayoutClick}
-                            handleMouseEnter={handleMouseEnter}
-                            handleMouseLeave={handleMouseLeave}
-                            images={images}
-                            image={image}
-                            setImage={setImage}
+                        <LayoutDrawer
+                            handleLayoutClick = {handleLayoutClick}
+                            handleMouseEnter = {handleMouseEnter}
+                            handleMouseLeave = {handleMouseLeave}
+                            images = {images}
+                            image = {image}
                         />
+                      
                         {/* Action buttons: Only show on "preview" tab */}
                         {activeTab === "preview" && (
                             <div className="full-preview-btns">

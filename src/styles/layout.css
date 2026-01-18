@@ -1,0 +1,64 @@
+ .layout-slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+ align-items: center ;
+    overflow: scroll;
+  padding: 10px;
+  border-radius: 5px;
+ }
+  .layout-option {
+  width: 100%;
+  background: transparent;
+  border: none;
+    margin-top: 10px;
+  padding-top: 18px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  color: #eee;
+
+  transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .layout-option:hover {
+     background: rgba(255,255,255,0.08);
+    transform: translateX(-2px);
+    
+  }
+
+  .layout-option img{
+    width: 185px;
+    height: 200px;
+  }
+
+  
+  @media screen and (max-width:840px){
+    
+  .layout-option {
+    padding: 1px;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+    .layout-option {
+    padding: 1px;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  
+
+
+
+
+  .layout-btn img{
+    height: 100%;
+    
+  }
+  .selected-layout-img{
+    width: 100%;
+  }
+  }

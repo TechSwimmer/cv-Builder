@@ -1,0 +1,62 @@
+.layout-floating-btn {
+  position: fixed;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  text-align: center;
+  width: 42px;
+  height: 64px;
+  border-top-left-radius: 90%;
+  border-bottom-left-radius: 90%;
+  padding-right: 37px;
+  border: none;
+  transition: right 0.3s ease;
+  background: #2a2a2a;
+  color: aliceblue;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+ opacity: 0.7;
+}
+
+.layout-floating-btn.attached {
+  right: 250px; /* drawer width (320) + 12px gap */
+  opacity: 0.9;
+}
+
+
+.layout-drawer {
+  position: fixed;
+  top: 65px ;
+  right: -242px;
+  width: 250px;
+  height: 100vh;
+  background: #2a2a2a;
+  z-index: 1000;
+  border-top-left-radius: 2%;
+  border-bottom-left-radius: 2%;
+   overflow-y: scroll;
+  transition: right 0.3s ease;
+  opacity: 0.7;
+}
+
+.layout-drawer.open {
+  right: 0;
+  opacity: 0.95;
+}
+
+.layout-drawer::before {
+  position: fixed;
+  content: "Layouts";
+  display: block;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #bbb;
+  background-color: #474444;
+  width: 235px;
+  z-index: 1002;
+  
+}
