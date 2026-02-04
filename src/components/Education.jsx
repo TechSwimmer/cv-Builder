@@ -11,7 +11,7 @@ function Education({ data = [], setData, visible, setVisible }) {
   const addEducation = () => {
     setData([
       ...data,
-      { school: "", location: "", degree: "", startDate: "", endDate: "", achievements: { title: "Achievements", points: [""] } }
+      { school: "", location: "", degree: "", startDate: "", endDate: "", achievements: { title: "", points: [""] } }
     ])
   }
 
@@ -48,21 +48,26 @@ function Education({ data = [], setData, visible, setVisible }) {
 
   return (
     <div className="education-section">
-      <div className="toggle-visibility">
-        <label> Show Education Section  </label>
-        <input
-          type="checkbox"
-          checked={visible}
-          onChange={(e) => setVisible(e.target.checked)}
-        />
+      <div className="toggle-visibility-btn">
+        <h3>Education</h3>
+      
+      <div
+                className={`toggle-pill ${visible ? "on" : ""}`}
+                onClick={() => setVisible(!visible)}
+            >
+                <div className="toggle-text-track">
+                    <span className="toggle-text hide">Show</span>
+                    <span className="toggle-text show">Hide</span>
+                </div>
 
-
-      </div>
+                <div className="toggle-knob" />
+            </div>
+            </div>
       {visible && (
         <>
           {data.map((edu, index) => (
             <div key={index} className="education-entry">
-              <h3>EDUCATION</h3>
+              
               <input
                 type="text"
                 placeholder="School Name"
@@ -83,7 +88,7 @@ function Education({ data = [], setData, visible, setVisible }) {
               />
               <input
                 type="text"
-                placeholder="Achievements Title (e.g. Awards)"
+                placeholder="Custom Title (e.g. Awards or achievements)"
                 value={edu.achievements.title || ""}
                 onChange={(e) => updateEducation(index, "achievements", { title: e.target.value }, true)}
               />
@@ -133,9 +138,11 @@ function Education({ data = [], setData, visible, setVisible }) {
               </div>
 
               {/* Remove Button */}
-              <button onClick={() => removeEducation(index)}>Remove</button>
+              <div className="add-rem-edu-btn">
+              <button className="remove-btn" onClick={() => removeEducation(index)}>Remove</button>
               {/* Add Button */}
               <button onClick={addEducation}>Add Education</button>
+              </div>
             </div>
           ))}
         </>

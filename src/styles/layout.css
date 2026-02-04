@@ -1,64 +1,58 @@
- .layout-slider {
-  position: relative;
+/* Layout Slider -*/
+.layout-slider {
+  flex: 1; /* Take remaining space */
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  padding-top: 65px; /* Less padding since header is fixed */
+  overflow-x: hidden; /* No scrollbar */
+  align-items: center;
+}
+
+/* Layout options */
+.layout-option {
   width: 100%;
-  gap: 10px;
- align-items: center ;
-    overflow: scroll;
-  padding: 10px;
-  border-radius: 5px;
- }
-  .layout-option {
-  width: 100%;
+  max-width: 200px; /* Keep consistent width */
   background: transparent;
   border: none;
-    margin-top: 10px;
-  padding-top: 18px;
-  border-radius: 8px;
-
+  padding: 12px;
+  border-radius: 6px;
   cursor: pointer;
-  color: #eee;
+  color: #333;
+  transition: background 0.2s ease;
+}
 
-  transition: background 0.2s ease, transform 0.15s ease;
+
+.layout-option:hover {
+  background: #bebdbd;
+}
+
+.layout-option img {
+  width: 100%;
+  height: 160px; /* Fixed height for consistency */
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 8px;
+}
+
+.layout-option p {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin: 0;
+  text-align: center;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 840px) {
+  .layout-option img {
+    height: 140px;
   }
-
-  .layout-option:hover {
-     background: rgba(255,255,255,0.08);
-    transform: translateX(-2px);
-    
-  }
-
-  .layout-option img{
-    width: 185px;
-    height: 200px;
-  }
-
   
-  @media screen and (max-width:840px){
-    
-  .layout-option {
-    padding: 1px;
-    border: none;
-    opacity: 0.5;
-    cursor: pointer;
+  .layout-floating-btn {
+    width: 36px;
+    height: 52px;
   }
-    .layout-option {
-    padding: 1px;
-    border: none;
-    opacity: 0.5;
-    cursor: pointer;
-  }
-  
-
-
-
-
-  .layout-btn img{
-    height: 100%;
-    
-  }
-  .selected-layout-img{
-    width: 100%;
-  }
-  }
+}

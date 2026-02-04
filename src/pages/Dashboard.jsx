@@ -1,51 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
-import '../styles/dashboard.css'
+import '../styles/dashboard.css';
 import DashboardNavbar from '../components/DashboardNavbar.jsx';
 
-const Dashboard = () => {
 
+import { 
+  FiEdit2, 
+  FiTrash2, 
+  FiPlus, 
+  FiFileText, 
+  FiCalendar,
+  FiDownload,
+  FiEye
+} from 'react-icons/fi';
+
+const Dashboard = () => {
     const [cvs, setCvs] = useState([]);
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState(''); // Added this line
+    const [stats, setStats] = useState({
+        total: 0,
+        lastCreated: null,
+        mostEdited: null
+    });
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/');
-
         }
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const res = await API.get('/api/auth/user');
                 setUsername(res.data.username);
-            }
-            catch (err) {
+            } catch (err) {
                 console.error('Failed to fetch user: ', err);
             }
-            finally{
-                setLoading(false);
-            }
         };
-
         fetchUser();
-    }, [])
-
+    }, []);
 
     useEffect(() => {
         const fetchCvs = async () => {
             try {
                 const res = await API.get('/api/cv/all');
                 setCvs(res.data);
-            }
-            catch (err) {
+                
+                // Calculate stats
+                if (res.data.length > 0) {
+                    setStats({
+                        total: res.data.length,
+                        lastCreated: res.data[res.data.length - 1],
+                        mostEdited: res.data.reduce((prev, current) => 
+                            (prev.updatedAt || prev.createdAt) > (current.updatedAt || current.createdAt) ? prev : current
+                        )
+                    });
+                }
+            } catch (err) {
                 console.error(err);
-            }
-            finally{
+            } finally {
                 setLoading(false);
             }
         };
@@ -55,90 +73,254 @@ const Dashboard = () => {
     const deleteCv = async (id) => {
         try {
             if (!window.confirm("Are you sure you want to delete this CV?")) return;
-            console.log(id)
+            
             await API.delete(`/api/cv/${id}`);
-
-            // Remove the deleted CV from the frontend  state
-
             setCvs(prevCvs => prevCvs.filter(cv => cv._id !== id));
-            alert('CV deleted successfully.');
-        }
-        catch (err) {
-            console.error('error deleting CV:', err.response?.data || err.message);
-            alert('Failed to delete CV');
+            
+            // Show success message
+            setMessage('CV deleted successfully');
+            setTimeout(() => setMessage(''), 3000);
+        } catch (err) {
+            console.error('Error deleting CV:', err.response?.data || err.message);
+            setMessage('Failed to delete CV');
+            setTimeout(() => setMessage(''), 3000);
         }
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    };
+
     const handleLogout = () => {
-        // clear all authentication / session data
         localStorage.removeItem('token');
-        sessionStorage.clear();
-        localStorage.removeItem('username')
-        // optionally show a toast / alert
-        alert('you have been logged out.');
+        localStorage.removeItem('username');
+        navigate('/');
+    };
 
-        // Redirect to homnepage or login / guest landing
-        navigate('/')
-    }
+    const handleCreateNew = () => {
+        navigate('/builder');
+    };
 
+    const handleEdit = (id) => {
+        navigate(`/builder?id=${id}`);
+    };
+
+    const handlePreview = (id) => {
+        navigate(`/preview/${id}`);
+    };
+
+    const handleDownload = async (id) => {
+        try {
+            const response = await API.get(`/api/cv/${id}/download`, {
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `CV_${id}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+        } catch (err) {
+            console.error('Download failed:', err);
+            setMessage('Download failed. Please try again.');
+            setTimeout(() => setMessage(''), 3000);
+        }
+    };
 
     return (
         <div className='dashboard'>
-            <div className='dashboard-navbar'>
-                <DashboardNavbar
-                    username={username}
-                    handleLogout={handleLogout}
-                />
+            <DashboardNavbar
+                username={username}
+                handleLogout={handleLogout}
+            />
 
-            </div>
-            {loading && <p>Loading your CVs...</p>}
-
-            <div className='cv-grids'>
-                {cvs.length === 0 ? (
-                    <div>
-                    <h2>No CVs yet</h2>
-                    <p>Create your first CV to get started</p>
+            <div className='dashboard-container'>
+                {/* Welcome Section */}
+                <div className='welcome-section'>
+                    <div className='welcome-content'>
+                        <h1>Welcome back, {username || 'User'}! 👋</h1>
+                        <p>Manage and create professional resumes in one place</p>
                     </div>
-                ) : ( <h2>Created CV's:{cvs.length}</h2>)}
-               
+                    <button className='create-new-btn' onClick={handleCreateNew}>
+                        <FiPlus size={20} />
+                        Create New CV
+                    </button>
+                </div>
 
-                <div className='cv-grid'>
+                {/* Stats Overview */}
+                <div className='stats-overview'>
+                    <div className='stat-card'>
+                        <div className='stat-icon'>
+                            <FiFileText size={24} />
+                        </div>
+                        <div className='stat-content'>
+                            <h3>{stats.total}</h3>
+                            <p>Total CVs</p>
+                        </div>
+                    </div>
+                    <div className='stat-card'>
+                        <div className='stat-icon'>
+                            <FiCalendar size={24} />
+                        </div>
+                        <div className='stat-content'>
+                            <h3>{stats.lastCreated ? formatDate(stats.lastCreated.createdAt) : 'N/A'}</h3>
+                            <p>Last Created</p>
+                        </div>
+                    </div>
+                    <div className='stat-card'>
+                        <div className='stat-icon'>
+                            <FiEdit2 size={24} />
+                        </div>
+                        <div className='stat-content'>
+                            <h3>{stats.mostEdited?.title || 'None'}</h3>
+                            <p>Most Edited</p>
+                        </div>
+                    </div>
+                </div>
 
-                    {cvs.map(cv => (
-                        <div key={cv._id} className="cv-card">
-                            <div className="cv-thumbnail">
-                                <img
-                                    src={cv.thumbnail || "/cv-placeholder.png"}
-                                    alt={cv.title || "CV preview"}
-                                />
-                            </div>
-
-                            <h3>{cv.title || "Untitled CV"}</h3>
-
-                            <div className="cv-card-btns">
-                                <button onClick={() => navigate(`/builder?id=${cv._id}`)}>
-                                    Edit
-                                </button>
-                                <button onClick={() => deleteCv(cv._id)}>
-                                    Delete
-                                </button>
+                {/* Main Content */}
+                <div className='dashboard-content'>
+                    <div className='content-header'>
+                        <h2>Your Resumes</h2>
+                        <div className='header-actions'>
+                            <div className='sort-filter'>
+                                <select className='sort-select'>
+                                    <option>Sort by: Recent</option>
+                                    <option>Sort by: Name</option>
+                                    <option>Sort by: Last Edited</option>
+                                </select>
                             </div>
                         </div>
-                    ))}
-                  
-                    <div
-                        className="cv-card create-new"
-                        onClick={() => navigate("/builder")}
-                    >
-                        <div className="plus-icon">+</div>
-                        <p>Create New CV</p>
                     </div>
+
+                    {loading ? (
+                        <div className='loading-container'>
+                            <div className='loading-spinner'></div>
+                            <p>Loading your CVs...</p>
+                        </div>
+                    ) : cvs.length === 0 ? (
+                        <div className='empty-state'>
+                            <div className='empty-icon'>
+                                <FiFileText size={64} />
+                            </div>
+                            <h3>No CVs Yet</h3>
+                            <p>Create your first professional resume to get started</p>
+                            <button className='empty-action-btn' onClick={handleCreateNew}>
+                                <FiPlus size={18} />
+                                Create Your First CV
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            {/* CV Grid */}
+                            <div className='cv-grid'>
+                                {cvs.map(cv => (
+                                    <div key={cv._id} className="cv-card">
+                                        <div className="cv-card-header">
+                                            <div className="cv-status">
+                                                <span className={`status-dot ${cv.status || 'draft'}`}></span>
+                                                <span className="status-text">{cv.status || 'Draft'}</span>
+                                            </div>
+                                            <div className="cv-actions-dropdown">
+                                                <button className="dropdown-btn">⋯</button>
+                                                <div className="dropdown-content">
+                                                    <button onClick={() => handleEdit(cv._id)}>
+                                                        <FiEdit2 /> Edit
+                                                    </button>
+                                                    <button onClick={() => handlePreview(cv._id)}>
+                                                        <FiEye /> Preview
+                                                    </button>
+                                                    <button onClick={() => handleDownload(cv._id)}>
+                                                        <FiDownload /> Download
+                                                    </button>
+                                                    <button 
+                                                        className="delete-option"
+                                                        onClick={() => deleteCv(cv._id)}
+                                                    >
+                                                        <FiTrash2 /> Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="cv-thumbnail">
+                                            <div className="thumbnail-overlay">
+                                                <button 
+                                                    className="preview-btn"
+                                                    onClick={() => handlePreview(cv._id)}
+                                                >
+                                                    <FiEye size={20} />
+                                                </button>
+                                            </div>
+                                            <img
+                                                src={cv.thumbnail || "/cv-placeholder.png"}
+                                                alt={cv.title || "CV preview"}
+                                            />
+                                        </div>
+
+                                        <div className="cv-card-body">
+                                            <h3 className="cv-title">{cv.title || "Untitled CV"}</h3>
+                                            <div className="cv-meta">
+                                                <span className="meta-item">
+                                                    <FiCalendar size={14} />
+                                                    {formatDate(cv.updatedAt || cv.createdAt)}
+                                                </span>
+                                                <span className="meta-item">
+                                                    <FiEdit2 size={14} />
+                                                    {cv.version || 'v1.0'}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="cv-card-footer">
+                                            <button 
+                                                className="action-btn edit-btn"
+                                                onClick={() => handleEdit(cv._id)}
+                                            >
+                                                <FiEdit2 size={16} />
+                                                Edit
+                                            </button>
+                                            <button 
+                                                className="action-btn download-btn"
+                                                onClick={() => handleDownload(cv._id)}
+                                            >
+                                                <FiDownload size={16} />
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {/* Create New Card */}
+                                <div className="cv-card create-new" onClick={handleCreateNew}>
+                                    <div className="create-new-content">
+                                        <div className="plus-icon-container">
+                                            <FiPlus size={48} />
+                                        </div>
+                                        <h3>Create New CV</h3>
+                                        <p>Start from scratch or use a template</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 
+            {/* Message Toast */}
+            {message && (
+                <div className="toast-message">
+                    {message}
+                </div>
+            )}
         </div>
-    )
-}
-
+    );
+};
 
 export default Dashboard;

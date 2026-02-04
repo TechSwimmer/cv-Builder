@@ -3,20 +3,25 @@ import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
 import '../styles/dashboardNavbar.css'
-
+import ResumeBakerLogo from './ResumeBakerLogo.jsx';
 
 const DashboardNavbar = ({
     username,
     handleLogout
 }) => {
     const navigate = useNavigate();
+    username = localStorage.getItem('username')
+
+
+    
 
     return (
         <>
             <nav className='db-navbar'>
-                <div className='dashboard-info'>
-                    <h2>Welcome {username || 'Guest'}   </h2>
-                </div>
+                <nav>
+                    <ResumeBakerLogo size={40}/>
+
+                </nav>
                 <div className='dashboard-buttons'>
                     <button onClick={() => navigate('/builder')}>+ New CV</button>
                     <button

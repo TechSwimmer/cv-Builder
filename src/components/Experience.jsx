@@ -5,7 +5,7 @@ function Experience({ data = [], setData, visible, setVisible }) {
   const addExperience = () => {
     setData([
       ...data,
-      { company: "", location: "", position: "", startDate: "", endDate: "", achievements: { title: "Achievements", points: [""] } }
+      { company: "", location: "", position: "", startDate: "", endDate: "", achievements: { title: "", points: [""] } }
     ])
   }
 
@@ -20,7 +20,7 @@ function Experience({ data = [], setData, visible, setVisible }) {
   const updateExperience = (index, field, value, nested = false) => {
     const updatedExperience = [...data];
 
-    if(nested){
+    if (nested) {
       updatedExperience[index] = {
         ...updatedExperience[index],
         [field]: {
@@ -29,12 +29,12 @@ function Experience({ data = [], setData, visible, setVisible }) {
         }
       };
     }
-    else{
+    else {
       updatedExperience[index] = {
         ...updatedExperience[index],
         [field]: value
-    }
-  
+      }
+
     };
     setData(updatedExperience)
   }
@@ -44,19 +44,24 @@ function Experience({ data = [], setData, visible, setVisible }) {
 
   return (
     <div className="experience-section">
-      <div className="toggle-visibility">
-        <label>Show Employement Section</label>
-        <input
-          type="checkbox"
-          checked={visible}
-          onChange={(e) => setVisible(e.target.checked)}
-        />
+      <div className="toggle-visibility-btn">
+        <h3>Employement history</h3>
+     
+      <div
+        className={`toggle-pill ${visible ? "on" : ""}`}
+        onClick={() => setVisible(!visible)}
+      >
+        <div className="toggle-text-track">
+          <span className="toggle-text hide">Show</span>
+          <span className="toggle-text show">Hide</span>
+        </div>
 
-
+        <div className="toggle-knob" />
       </div>
+       </div>
       {visible && (
         <>
-          <h3>EMPLOYEMENT HISTORY</h3>
+          
           {data.map((exp, index) => (
             <div key={index} className="experience-entry">
 
@@ -129,9 +134,10 @@ function Experience({ data = [], setData, visible, setVisible }) {
                   onChange={(e) => updateExperience(index, "endDate", e.target.value)}
                 />
               </div>
-
+              <div className="exp-add-rem-btn">
               <button className="remove-btn" onClick={() => removeExperience(index)}>Remove</button>
               <button className="add-btn" onClick={addExperience}>Add Experience</button>
+              </div>
             </div>
           ))}
         </>

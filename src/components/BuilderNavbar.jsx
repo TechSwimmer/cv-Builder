@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
 import '../styles/navbar.css'
-
+import ResumeBakerLogo from './ResumeBakerLogo.jsx';
 
 const LockedButton = ({ children, label }) => (
     <div className="locked-btn-wrapper">
@@ -48,6 +48,7 @@ const BuilderNavbar = ({
         setActiveTab("preview" ? "content" : 'preview')
     }
 
+    username = localStorage.getItem('username')
    
     const navigate = useNavigate();
     return (
@@ -80,8 +81,8 @@ const BuilderNavbar = ({
             )}
             {!isLoggedIn && (
                 <nav className="cv-navbar">
-                    <div className='userinfo-navbar'>
-                        <h2>{username || 'Guest'}'s Workspace </h2>
+                    <div className='userinfo-navbar' style={{backgroundColor:'aqua'}}>
+                        <ResumeBakerLogo size={40}/>
                     </div>
                     <div className="userinfo-btn-navbar">
                         <button className="active" onClick={toggleTab}>
@@ -91,7 +92,7 @@ const BuilderNavbar = ({
                             Dashboard
                         </LockedButton>
                         <button className="fullscreen-edit-btn" onClick={toggleFullScreen}>
-                            {showForm === false ? "Edit CV" : "Full Screen"}
+                            {showForm === false ? "✏️ Edit CV" : "Full Screen"}
                         </button>
                         <button onClick={() => handleDownloadPDF()}>Download</button>
                         <LockedButton label="Sign-in to save your CV">
