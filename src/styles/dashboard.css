@@ -1,7 +1,7 @@
 /* =========================
    DASHBOARD CONTAINER
 ========================= */
-
+ 
 .dashboard {
     min-height: 100vh;
     
@@ -280,7 +280,9 @@
     border: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
+    
     height: 380px;
+    
 }
 
 .cv-card:hover {
@@ -402,7 +404,7 @@
 
 .cv-thumbnail {
     position: relative;
-    height: 180px;
+    height: 200px;
     overflow: hidden;
     background: #f8fafc;
 }
@@ -410,12 +412,12 @@
 .cv-thumbnail img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.3s ease;
 }
 
 .cv-card:hover .cv-thumbnail img {
-    transform: scale(1.05);
+    transform: scale(1.85);
 }
 
 .thumbnail-overlay {
@@ -427,6 +429,7 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+   
 }
 
 .cv-card:hover .thumbnail-overlay {

@@ -248,7 +248,7 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        
+                                         
                                         <div className="cv-thumbnail">
                                             <div className="thumbnail-overlay">
                                                 <button 
