@@ -8,19 +8,24 @@ const Summary = ({ data = {}, setData, visible, setVisible }) => {
 
     return (
         <div className="summary-container">
-            <div className="toggle-visibility">
-                <label>Show Profile Section</label>
-                    <input
-                        type="checkbox"
-                        checked={visible}
-                        onChange={(e) => setVisible(e.target.checked)}
-                    />
-                    
-                
+            <div className="toggle-visibility-btn">
+                <h3>Profile summary</h3>
+            
+            <div
+                className={`toggle-pill ${visible ? "on" : ""}`}
+                onClick={() => setVisible(!visible)}
+            >
+                <div className="toggle-text-track">
+                    <span className="toggle-text hide">Show</span>
+                    <span className="toggle-text show">Hide</span>
+                </div>
+
+                <div className="toggle-knob" />
+            </div>
             </div>
             {visible && (
                 <>
-                    <h3>PROFILE</h3>
+                   
                     <textarea type="text"
                         placeholder="Summary"
                         value={data.summary || ""}

@@ -1,10 +1,16 @@
 import React from "react";
 
-const Languages = ({ data={}, setData, visible, setVisible }) => {
+const Languages = ({ data = [], setData, visible, setVisible }) => {
     const addLanguage = () => {
         setData([...data, { language: "", proficiency: "" }]);
-      };
-  
+    };
+
+    const removeLanguage = (index) => {
+        if (data.length === 1) return; // never allow deleting the last row
+        const updated = [...data];
+        updated.splice(index, 1);
+        setData(updated);
+    };
 
     const updateLanguage = (index, field, value) => {
         const updatedLanguages = [...data];
@@ -16,19 +22,24 @@ const Languages = ({ data={}, setData, visible, setVisible }) => {
 
     return (
         <div className="language-container-form">
-            <div className="toggle-visibility">
-                <label> Show Language Section  </label>
-                <input
-                    type="checkbox"
-                    checked={visible}
-                    onChange={(e) => setVisible(e.target.checked)}
-                />
+            <div className="toggle-visibility-btn">
+                <h3>Languages</h3>
 
+                <div
+                    className={`toggle-pill ${visible ? "on" : ""}`}
+                    onClick={() => setVisible(!visible)}
+                >
+                    <div className="toggle-text-track">
+                        <span className="toggle-text hide">Show</span>
+                        <span className="toggle-text show">Hide</span>
+                    </div>
 
+                    <div className="toggle-knob" />
+                </div>
             </div>
             {visible && (
                 <>
-                    <h3>LANGUAGES</h3>
+
                     {data.map((lang, index) => (
                         <div className="language-entry-form" key={index}>
                             <input
@@ -41,15 +52,23 @@ const Languages = ({ data={}, setData, visible, setVisible }) => {
                                 value={lang.proficiency}
                                 onChange={(e) => updateLanguage(index, "proficiency", e.target.value)}
                             >
-                                <option value="Basic">Basic</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Fluent">Fluent</option>
-                                <option value="Native">Native</option>
+                                <option className="lang-opt" value="Basic">Basic</option>
+                                <option className="lang-opt" value="Intermediate">Intermediate</option>
+                                <option className="lang-opt" value="Fluent">Fluent</option>
+                                <option className="lang-opt" value="Native">Native</option>
                             </select>
+                            {data.length > 1 && (
+                                <button
+                                    className="lang-delete-btn"
+                                    onClick={() => removeLanguage(index)}
+                                >
+                                    ✕
+                                </button>
+                            )}
                         </div>
                     ))}
 
-                    <button onClick={addLanguage}>Add Language</button>
+                    <button className='add-lang-btn' onClick={addLanguage}>Add Language</button>
                 </>
             )}
         </div>

@@ -1,25 +1,42 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Layout from "./Layout";
 import "../styles/LayoutDrawer.css";
 
+
 const LayoutDrawer = (props) => {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+  const close = (e) => {
+    if (!e.target.closest(".layout-drawer") && 
+        !e.target.closest(".layout-floating-btn")) {
+      setOpen(false);
+    }
+  };
 
-  return (
+  if (open) document.addEventListener("click", close);
+  return () => document.removeEventListener("click", close);
+}, [open]);
+
+
+ return (
     <>
       {/* Floating Toggle */}
       <button
         className={`layout-floating-btn ${open ? "attached" : ""}`}
         onClick={() => setOpen(o => !o)}
-        aria-label="Toggle layouts"
+        aria-label={open ? "Close layout panel" : "Open layout panel"}
+        title="Layout Options"
       >
-        {open ? <MdChevronRight size={22} /> : <MdChevronLeft size={22} />}
+        {open ? '»':'«' }
       </button>
 
       {/* Slide Panel */}
       <div className={`layout-drawer ${open ? "open" : ""}`}>
-        <Layout {...props} />
+        <Layout {...props} closeDrawer={() => setOpen(false)} />
+        
+       
+        
       </div>
     </>
   );

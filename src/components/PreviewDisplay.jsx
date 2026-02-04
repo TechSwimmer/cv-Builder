@@ -1,39 +1,37 @@
-// Preview.jsx
-import React from 'react';
-import Preview from './Preview';
-import PreviewTwo from './PreviewTwo';
-import PreviewThree from './PreviewThree';
+import React, { forwardRef } from 'react';
+import PDFLayoutThree from './PdfLayoutThree';
+import PDFLayoutOne from './PDFlayoutOne';
+import PDFLayoutTwo from './PdfLayoutTwo';
 
-
-const PreviewDisplay = ({currentLayout,visibleSections,...otherProps}) => {
-
- 
-
-    // props for Preview
+const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, ...otherProps}, ref) => {
+  
   const getLayoutComponent = () => {
     console.log("Rendering layout:", currentLayout);
     switch (currentLayout) {
       case 'layout1':
-        return <Preview visibleSections={visibleSections} {...otherProps} />
+        return <PDFLayoutOne visibleSections={visibleSections} {...otherProps} mode="preview" />;
       case 'layout2':
-        return <PreviewTwo visibleSections={visibleSections} {...otherProps} />
+        return <PDFLayoutTwo visibleSections={visibleSections} {...otherProps} mode="preview" />;
       case 'layout3':
-        return  <PreviewThree visibleSections={visibleSections} {...otherProps} />
+        return <PDFLayoutThree visibleSections={visibleSections} {...otherProps} mode="preview" />;
       default:
-        return  null;
+        return null;
     }
-  }
+  };
 
-   const layoutComponent = getLayoutComponent();
-
-  
-
+  const layoutComponent = getLayoutComponent();
 
   return layoutComponent ? (
-  <>
-    {React.cloneElement(layoutComponent, { key: currentLayout })}
-  </>
-  ): null;
-};
+    <div className="preview-wrapper">
+      <div 
+        ref={ref} 
+        className="cv-preview-display"
+        
+      >
+        {React.cloneElement(layoutComponent, { key: currentLayout })}
+      </div>
+    </div>
+  ) : null;
+});
 
 export default PreviewDisplay;

@@ -4,11 +4,11 @@ import Preview from "./Preview";
 import '../styles/layout.css'
 // import { image } from "html2canvas/dist/types/css/types/image";
 
-const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images, image }) => {
+const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images, closeDrawer }) => {
 
   const [showSlider, setShowSlider] = useState(false);
   const [isMobile, setIsMobile] = useState(() => window.matchMedia("(max-width:840px)").matches);
-
+ 
 
   // keep in sync with screen resize
 
@@ -52,8 +52,8 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
 
   const selectLayout = (layout) => {
     handleLayoutClick(layout);
-    if (isMobile) setShowSlider(false);
-
+    closeDrawer?.();
+    setShowSlider(false)
   };
 
 
@@ -66,15 +66,15 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
       <div className='layout-slider' role="menu">
         <button className="layout-option" role="menuitem" onClick={() => selectLayout("layout1")}>
           <img src={images.layoutOne} alt="layout 1" />
-          <p>Professional</p>
+          <p>Modern</p>
         </button>
         <button className="layout-option" role="menuitem" onClick={() => selectLayout("layout2")}>
           <img src={images.layoutTwo} alt="layout 2" />
-          <p>Basic</p>
+          <p>Professional</p>
         </button>
         <button className="layout-option" role="menuitem" onClick={() => selectLayout("layout3")}>
           <img src={images.layoutThree} alt="layout 3" />
-          <p>Modern</p>
+          <p>Basic</p>
         </button>
       </div>
     </div>

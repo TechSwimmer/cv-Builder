@@ -5,16 +5,16 @@ const Custom = ({ data, setData, visible, setVisible }) => {
 
     useEffect(() => {
         if (data && !data.listItems) {
-          setData({ ...data, listItems: [] });
+            setData({ ...data, listItems: [] });
         }
-      }, [data, setData]);
+    }, [data, setData]);
 
     const [localData, setLocalData] = useState(data);
 
     useEffect(() => {
-        
-            setData( localData );
-        
+
+        setData(localData);
+
     }, [localData]);
 
     const handleChange = (e) => {
@@ -43,14 +43,14 @@ const Custom = ({ data, setData, visible, setVisible }) => {
         });
     };
 
-    const handleListChange = (e,index) => {
-        
-        
+    const handleListChange = (e, index) => {
+
+
         const newListItems = [...localData.listItems];
         newListItems[index] = e.target.value;
         setLocalData((prev) => ({ ...prev, listItems: newListItems }))
-        
-        
+
+
     }
 
 
@@ -58,14 +58,14 @@ const Custom = ({ data, setData, visible, setVisible }) => {
         setLocalData((prev) => ({ ...prev, listItems: [...prev.listItems, ""] }));
     }
 
-    const handleLinkChange = (e,index) => {
+    const handleLinkChange = (e, index) => {
         const newLinks = [...localData.links]
         newLinks[index] = e.target.value;
-        setLocalData((prev) => ({...prev,links:newLinks}))
+        setLocalData((prev) => ({ ...prev, links: newLinks }))
     }
 
     const addLink = () => {
-        setLocalData((prev) => ({...prev,links: [...prev.links,""]}));
+        setLocalData((prev) => ({ ...prev, links: [...prev.links, ""] }));
     };
 
 
@@ -75,13 +75,20 @@ const Custom = ({ data, setData, visible, setVisible }) => {
 
     return (
         <div className="custom-container-form">
-            <div className="toggle-visibility">
-                <label> Show Custom Section  </label>
-                <input
-                    type="checkbox"
-                    checked={visible}
-                    onChange={(e) => setVisible(e.target.checked)}
-                />
+            <div className="toggle-visibility-btn">
+                <h3>Custom Section</h3>
+            
+            <div
+                className={`toggle-pill ${visible ? "on" : ""}`}
+                onClick={() => setVisible(!visible)}
+            >
+                <div className="toggle-text-track">
+                    <span className="toggle-text hide">Show</span>
+                    <span className="toggle-text show">Hide</span>
+                </div>
+
+                <div className="toggle-knob" />
+            </div>
             </div>
             {visible && (
                 <>
@@ -116,7 +123,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                                     key={i}
                                     type="text"
                                     value={data.listItems[i] || ""}
-                                    onChange={(e) => handleListChange(e,i)}
+                                    onChange={(e) => handleListChange(e, i)}
                                 />
 
                             ))}
@@ -128,24 +135,24 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                     {data.type === "contact" && (
                         <div className="custom-form-contact">
                             <div className="custom-form-phone">
-                            <label>Phone: </label>
-                            <input
-                                name="phone"
-                               
-                                value={data.phone || ""}
-                                onChange={handleChange}
-                            />
+                                <label>Phone: </label>
+                                <input
+                                    name="phone"
+
+                                    value={data.phone || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
-                           <div className="custom-form-email">
-                           <label>Email:</label>
-                            <input
-                                name="email"
-                                type="email"
-                                value={data.email || ""}
-                                onChange={handleChange}
-                            />
-                           </div>
-                           
+                            <div className="custom-form-email">
+                                <label>Email:</label>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    value={data.email || ""}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
 
                         </div>
                     )}
@@ -158,7 +165,7 @@ const Custom = ({ data, setData, visible, setVisible }) => {
                                     type="text"
                                     placeholder="https://..."
                                     value={link || ""}
-                                    onChange={(e) => handleLinkChange(e,i)}
+                                    onChange={(e) => handleLinkChange(e, i)}
                                 />
                             ))}
                             <button

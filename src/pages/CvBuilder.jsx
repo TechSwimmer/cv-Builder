@@ -1,692 +1,569 @@
-
-// import essential react hooks for the App component
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
-
-// import the Axios instance for CRUD ops
-import API from '../../src/api'
-
-
-// import the style pages for all the previews
-import EditStyle from "../components/EditStyle";
-import EditStyleTwo from "../components/EditStyleTwo";
-import EditStyleThree from "../components/EditStyleThree";
-
-// import the navbar component (btns to select formSection and EditStyle page)
-import BuilderNavbar from "../components/BuilderNavbar";
-import LayoutDrawer from "../components/layoutDrawer";
-
-// style pages for intropages and app.jsx
-import "../styles/IntroStyles.css"
-import "../styles/App.css";
-
-// FormSection is the form where user inputs the data i.e. to be displayed on the cv
-import FormSection from "../components/FormSection";
-
-// import html2canvas and jspdf to download the cv in PDF format
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import API from '../../src/api';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-// PreviewDisplay ensures that the correct preview is displayed with the appropriate data.
+// Components
+import FormWizard from "../components/FormWizard";
+import BuilderNavbar from "../components/BuilderNavbar";
 import PreviewDisplay from "../components/PreviewDisplay";
+import LayoutDrawer from "../components/layoutDrawer";
+import EditStyle from "../components/EditStyle";
+import EditStyleTwo from "../components/EditStyleTwo";
+import EditStyleThree from "../components/EditStyleThree";
+import SaveCVModal from "../components/SaveCVModal";
 
-// Layout.jsx helps us to display proper preview layout w.r.t. the clicked img btn
 
+// Layouts for PDF export
+import PDFlayoutOne from "../components/PDFlayoutOne";
+import PdfLayoutTwo from "../components/PdfLayoutTwo";
+import PdfLayoutThree from "../components/PdfLayoutThree";
 
-// import preview images to be displayed as btns where user can click and change the preview 
+// Images
 import layoutOne from "../images/layout1.png";
 import layoutTwo from "../images/layout2.png";
 import layoutThree from "../images/layout3.png";
 
+// Styles
+import "../styles/IntroStyles.css";
+import "../styles/App.css";
 
+// Constants
+const INITIAL_FORM_DATA = {
+  generalInfo: {
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    Github: "",
+    linkedin: "",
+    website: "",
+    title: "",
+  },
+  summary: { summary: "" },
+  education: [{
+    school: "",
+    degree: "",
+    startDate: "",
+    endDate: "",
+    location: "",
+    achievements: {
+      title: "",
+      points: [""]
+    }
+  }],
+  skills: [{ skill: "" }],
+  experience: [{
+    company: "",
+    position: "",
+    startDate: "",
+    endDate: "",
+    location: "",
+    achievements: {
+      title: "",
+      points: [""]
+    }
+  }],
+  projects: [{
+    title: "",
+    company: "",
+    description: "",
+    skillsUsed: [],
+    keyFeatures: [],
+    link: "",
+  }],
+  hobbies: [{
+    title: "",
+    description: ""
+  }],
+  languages: [{
+    language: "",
+    proficiency: "",
+  }],
+  custom: [{
+    title: "",
+    type: "text",
+    description: "",
+    listItems: [""],
+    phone: "",
+    email: "",
+    links: [""],
+  }],
+};
+
+const INITIAL_STYLES = {
+  fontNameSize: "34px",
+  fontHeaderSize: "28px",
+  fontContentSize: "20px",
+  textColorLeft: "#000000",
+  textColorRight: "#000000",
+  textColorHeader: "#000000",
+  textColorContent: "#000000",
+  backgroundColorLeft: "#ffffff",
+  backgroundColorRight: "#ffffff",
+  backgroundColorHeader: "#ffffff",
+  backgroundColorContent: "#ffffff",
+  bodyBgColor: "#ffffff",
+  skillTabColor: "aqua",
+  textColorSkillTab: "#000000",
+  fontFamilyHeader: "Lucida Console, monospace",
+  fontFamilyContent: "Lucida Console, monospace",
+  fontSize: "16px",
+};
 
 const CvBuilder = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
+  // State
+  const [activeTab, setActiveTab] = useState("content");
+  const [showForm, setShowForm] = useState(true);
+  const [showPDFLayout, setShowPDFLayout] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [currentLayout, setCurrentLayout] = useState('layout1');
+  const [selectedEditStyle, setSelectedEditStyle] = useState('EditStyle');
+  const [cvName, setCvName] = useState('');
+  const [username, setUserName] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [customStyles, setCustomStyles] = useState(INITIAL_STYLES);
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [visibleSections, setVisibleSections] = useState({
+    education: true,
+    experience: true,
+    projects: true,
+    skills: true,
+    summary: true,
+    hobbies: true,
+    languages: true,
+    custom: true,
+  });
 
-    const [searchParams] = useSearchParams();
-    const cvId = searchParams.get('id');
-    const navigate = useNavigate();
-    // state variables
-    const [image, setImage] = useState(layoutOne);                         // image to be displayed as btn
+  // Refs
+  const previewRef = useRef();
+  const pdfRef = useRef();
+  const cvId = searchParams.get('id');
+  const token = localStorage.getItem('token');
 
-    // const [previewComponent, setPreviewComponent] = useState(<Preview />); // preview component to be displayed
+  // Effects
+  useEffect(() => {
+    // Set initial layout and style
+    setSelectedEditStyle('EditStyle');
+    handleStylePage('layout1');
+  }, []);
 
-    const [currentLayout, setCurrentLayout] = useState('layout1');         // current preview layout
-
-    const [selectedEditStyle, setSelectedEditStyle] = useState(null);       // current edit style page
-
-    const [showSaveDialog, setShowSaveDialog] = useState(false);            // to show the niput field for naming cv
-
-    const [cvName, setCvName] = useState('');                               // set the name of cv
-
-    const [activeTab, setActiveTab] = useState("content");                 // toggle between editstyle and formsection page
-
-    const [showForm, setShowForm] = useState(true);                        // toggle full screen mode for preview
-
-    const [username, setUserName] = useState('');
-    // display the save and delete btn if the user is logged in else no save and del btns
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const token = localStorage.getItem('token');
-
-
-    const desktopStyles = {
-        fontNameSize: "34px",
-        fontHeaderSize: "28px",
-        fontContentSize: "20px",
-        textColorLeft: "#000000",
-        textColorRight: "#000000",
-        textColorHeader: "#000000",
-        textColorContent: "#000000",
-        backgroundColorLeft: "#ffffff",
-        backgroundColorRight: "#ffffff",
-        backgroundColorHeader: "#ffffff",
-        backgroundColorContent: "#ffffff",
-        bodyBgColor: "aqua",
-        skillTabColor: "aqua",
-        textColorSkillTab: "#000000",
-        fontFamilyHeader: "Lucida Console, monospace",
-        fontFamilyContent: "Lucida Console, monospace",
-        fontSize: "16px",
+  useEffect(() => {
+    // Handle responsive styles
+    const updateStyles = () => {
+      if (window.innerWidth <= 840) {
+        setCustomStyles(prev => ({
+          ...prev,
+          fontNameSize: "16px",
+          fontHeaderSize: "12px",
+          fontContentSize: "10px",
+        }));
+      } else {
+        setCustomStyles(INITIAL_STYLES);
+      }
     };
 
+    updateStyles();
+    window.addEventListener("resize", updateStyles);
+    return () => window.removeEventListener("resize", updateStyles);
+  }, []);
 
-
-    const mobileStyles = {
-        ...desktopStyles,
-        fontNameSize: "16px",
-        fontHeaderSize: "12px",
-        fontContentSize: "10px",
-    };
-
-    const [customStyles, setCustomStyles] = useState(desktopStyles)                     // store all the styles for all the preview            ;
-
-    const [visibleSections, setVisibleSections] = useState({                      // store  visibility values for specific sections 
-        education: true,
-        experience: true,
-        projects: true,
-        skills: true,
-        summary: true,
-        hobbies: true,
-    });
-    const [formData, setFormData] = useState({                                    // store the users's cv-data and change it using this state
-        generalInfo: {
-            name: "",
-            email: "",
-            phone: "",
-            location: "",
-            Github: "",
-            linkedin: "",
-            website: "",
-            title: "",
-        },
-
-        summary: { summary: "" },
-        education: [
-            {
-                school: "",
-                degree: "",
-                startDate: "",
-                endDate: "",
-                location: "",
-                achievements: {
-                    title: "Achievements",
-                    points: [""]
-                }
-            },
-        ],
-        skills: [{ skill: "" }],
-        experience: [
-            {
-                company: "",
-                position: "",
-                startDate: "",
-                endDate: "",
-                location: "",
-                achievements: {
-                    title: "Achievements",
-                    points: [""]
-                }
-            },
-        ],
-        projects: [
-            {
-                title: "",
-                company: "",
-                description: "",
-
-                skillsUsed: [],
-                keyFeatures: [],
-                link: "",
-            },
-        ],
-        hobbies: [
-            {
-                title: "listening Music",
-                description: "I enjoy listening to music,"
-            },
-        ],
-        languages: [
-            {
-                language: "",
-                proficiency: "",
-            },
-        ],
-        custom: [
-            {
-                title: "",
-                type: "text", // "text" | "list" | "contact" | "links"
-                description: "",
-                listItems: [""],
-                phone: "",
-                email: "",
-                links: [""],
-            },
-        ],
-    });
-
-    useEffect(() => {
-        setActiveTab("content");
-        setShowForm(true);
-        handleStylePage("layout1");
-    }, []);
-    // style w.r.t. screen size
-    useEffect(() => {
-
-        const updateStyles = () => {
-            if (window.innerWidth <= 840) {
-                setCustomStyles(mobileStyles)
-            }
-            else {
-                setCustomStyles(desktopStyles);
-            }
-        };
-
-        // set the style intially
-        updateStyles();
-
-
-        // Listen to resize events
-        window.addEventListener("resize", updateStyles);
-        return () => window.removeEventListener("resize", updateStyles);
-    }, []);
-
-
-    useEffect(() => {
-        if (cvId && token) {
-            API.get(`/api/cv/${cvId}`)
-                .then(res => {
-                    const { formData: fetchedFormData, customStyles, visibleSections: fetchedVisibleSections, layout, title, username } = res.data;
-
-                    setFormData(fetchedFormData);
-
-
-                    setCustomStyles(customStyles || {});
-                    setVisibleSections({
-                        summary: true,
-                        education: true,
-                        experience: true,
-                        projects: true,
-                        skills: true,
-                        hobbies: true,
-                        languages: true,
-                        custom: true,
-                        ...fetchedVisibleSections
-                    });
-                    setCurrentLayout(layout || 'layout 1')
-                    setCvName(title || '');
-
-                    console.log(cvId)
-                    console.log(fetchedFormData, customStyles, visibleSections)
-                })
-                .catch(err => {
-                    console.error('Failed to load CV:', err)
-                });
-
-        }
-    }, [cvId, token])
-
-
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-        console.log(token)
-        const alertShown = sessionStorage.getItem('cvAlertShown');
-
-        if (!token) {
-            alert('You are browsing as a guest. Log in to save or delete CVs.');
-            sessionStorage.setItem('cvAlertShown', 'true');
-        }
-    }, []);
-
-
-
-    const saveCvtoBackend = async () => {
-        if (!formData || !currentLayout) {
-            alert('Please complete all required fields');
-            return;
-        }
-        const thumbnail = await generateThumbnail();
-        const payload = {
-            title: cvName,
-            data: formData,
-            layout: currentLayout,
-            customStyles,
-            visibleSections,
-            thumbnail
-        };
+  useEffect(() => {
+    // Load existing CV if editing
+    if (cvId && token) {
+      const loadCV = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Please login to save CV');
-                return;
-            }
-            if (cvId) {
-                // ======== UPDATE EXISTING CV ==========
+          const res = await API.get(`/api/cv/${cvId}`);
+          const { formData: fetchedFormData, customStyles: fetchedStyles,
+            visibleSections: fetchedVisibleSections, layout, title } = res.data;
 
-                const res = await API.put(`/api/cv/${cvId}`, payload,);
-                alert('CV updated successfully!');
-            }
+          setFormData(fetchedFormData || INITIAL_FORM_DATA);
+          setCustomStyles(fetchedStyles || INITIAL_STYLES);
+          setVisibleSections(fetchedVisibleSections || visibleSections);
+          setCurrentLayout(layout || 'layout1');
+          setCvName(title || '');
 
-            else {
-                // ========== CREATE NEW CV============
-
-                const res = await API.post('/api/cv/create', payload,);
-                alert('New CV saved successfully!')
-
-                // you may want to redirect or update cvId in URL
-                navigate(`/builder?id=${res.data._id}`)           // optional
-            }
-
-            setShowSaveDialog(false);
+          // Set appropriate edit style component
+          handleStylePage(layout || 'layout1');
+        } catch (err) {
+          console.error('Failed to load CV:', err);
+          alert('Failed to load CV. Please try again.');
         }
-        catch (err) {
-            console.error('Error saving CV:', err.response?.data || err.message);
-            alert('Failed to save CV');
-        }
+      };
+      loadCV();
+    }
+  }, [cvId, token]);
 
+  useEffect(() => {
+    // Check authentication
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
 
+    if (!token && !sessionStorage.getItem('cvAlertShown')) {
+      setTimeout(() => {
+        alert('You are browsing as a guest. Log in to save or delete CVs.');
+        sessionStorage.setItem('cvAlertShown', 'true');
+      }, 1000);
+    }
+  }, []);
+
+  // Handlers
+  const handleLayoutClick = useCallback((layout) => {
+    const layoutMap = {
+      layout1: { style: 'EditStyle', image: layoutOne },
+      layout2: { style: 'EditStyleTwo', image: layoutTwo },
+      layout3: { style: 'EditStyleThree', image: layoutThree },
     };
 
-    const generateThumbnail = async () => {
-        const element = previewRef.current;
-        if (!element) return null;
+    const layoutConfig = layoutMap[layout] || layoutMap.layout1;
 
-        const canvas = await html2canvas(element, {
-            scale: 0.4,          //     smaller = thumbnail
+    setCurrentLayout(layout);
+    setSelectedEditStyle(layoutConfig.style);
+
+    // Toggle layout slider
+    const layoutSlider = document.querySelector(".layout-slider");
+    if (layoutSlider) {
+      layoutSlider.classList.toggle("show");
+    }
+  }, []);
+
+  const handleStylePage = useCallback((layout) => {
+    const styleMap = {
+      layout1: 'EditStyle',
+      layout2: 'EditStyleTwo',
+      layout3: 'EditStyleThree',
+    };
+    setSelectedEditStyle(styleMap[layout] || 'EditStyle');
+  }, []);
+
+  const generateThumbnail = useCallback(async () => {
+    const element = previewRef.current;
+    if (!element) return null;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 0.4,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+      return canvas.toDataURL("image/png");
+    } catch (error) {
+      console.error('Error generating thumbnail:', error);
+      return null;
+    }
+  }, []);
+
+  const saveCvToBackend = useCallback(async () => {
+    if (!formData || !currentLayout) {
+      alert('Please complete all required fields');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login to save CV');
+        return;
+      }
+
+      const thumbnail = await generateThumbnail();
+      const payload = {
+        title: cvName.trim() || 'Untitled CV',
+        data: formData,
+        layout: currentLayout,
+        customStyles,
+        visibleSections,
+        thumbnail
+      };
+
+      if (cvId) {
+        // Update existing CV
+        await API.put(`/api/cv/${cvId}`, payload);
+        alert('CV updated successfully!');
+      } else {
+        // Create new CV
+        const res = await API.post('/api/cv/create', payload);
+        alert('New CV saved successfully!');
+        navigate(`/builder?id=${res.data._id}`);
+      }
+
+      setShowSaveDialog(false);
+    } catch (err) {
+      console.error('Error saving CV:', err.response?.data || err.message);
+      alert('Failed to save CV. Please try again.');
+    }
+  }, [cvId, cvName, currentLayout, formData, customStyles, visibleSections, navigate, generateThumbnail]);
+
+  const waitForPDF = useCallback(() =>
+    new Promise((resolve, reject) => {
+      const maxWaitTime = 10000; // 10 seconds max
+      const startTime = Date.now();
+
+      const check = () => {
+        const root = pdfRef.current;
+
+        if (!root) {
+          if (Date.now() - startTime > maxWaitTime) {
+            reject(new Error('PDF root not found after timeout'));
+            return;
+          }
+          requestAnimationFrame(check);
+          return;
+        }
+
+        // Try multiple ways to detect readiness
+        const pages = root.querySelectorAll(".pdf-page");
+        const hasPages = pages.length > 0;
+
+        // Check for data-ready attribute or any content
+        const isReady = root.querySelector(".pdf-pages")?.dataset.ready === "true" ||
+          hasPages ||
+          root.innerHTML.includes("pdf-page");
+
+        if (isReady) {
+          console.log('PDF ready with', pages.length, 'pages');
+          resolve();
+        } else if (Date.now() - startTime > maxWaitTime) {
+          console.warn('Proceeding with PDF generation despite timeout');
+          resolve(); // Try anyway
+        } else {
+          requestAnimationFrame(check);
+        }
+      };
+
+      check();
+    }), []);
+  const handleDownloadPDF = useCallback(async () => {
+    try {
+      // 1. Set PDF mode first
+      setActiveTab("preview");
+      setShowForm(false);
+      setShowPDFLayout(true);
+
+      // 2. Force a re-render to ensure PDF layout mounts
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // 3. Wait for PDF layout to be fully rendered
+      await waitForPDF();
+
+      const root = pdfRef.current;
+      if (!root) {
+        console.error("PDF root element not found");
+        alert('PDF generation failed: Root element missing');
+        return;
+      }
+
+      const pages = root.querySelectorAll(".pdf-page");
+      console.log('Found PDF pages:', pages.length);
+
+      if (pages.length === 0) {
+        // Try alternative selector
+        const altPages = root.querySelectorAll("[class*='page']");
+        console.log('Alternative pages found:', altPages.length);
+
+        if (altPages.length === 0) {
+          alert('No content found for PDF generation');
+          return;
+        }
+      }
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const targetPages = pages.length > 0 ? pages : root.querySelectorAll("[class*='page']");
+
+      for (let i = 0; i < targetPages.length; i++) {
+        const page = targetPages[i];
+
+        // Make page visible temporarily
+        const originalDisplay = page.style.display;
+        page.style.display = 'block';
+
+        try {
+          const canvas = await html2canvas(page, {
+            scale: 2,
             useCORS: true,
             backgroundColor: "#ffffff",
-        });
-
-        return canvas.toDataURL("image/png"); // base64 i
-    }
-
-    //  set the appropriate EditStyle component based on the selected layout
-
-    const handleStylePage = (currentLayout) => {
-        if (currentLayout === 'layout1') {
-            setSelectedEditStyle('EditStyle')        // for layout1
-        }
-        else if (currentLayout === 'layout2') {
-            setSelectedEditStyle('EditStyleTwo')     // for layout2
-        }
-        else if (currentLayout === 'layout3') {
-            setSelectedEditStyle('EditStyleThree')   // for layout1
-        }
-    }
-
-    // Function to render the correct EditStyle component based on selectedEditStyle state
-    const renderEditStyle = () => {
-        if (selectedEditStyle === 'EditStyle') {
-            return <EditStyle
-                customStyles={customStyles}
-                setCustomStyles={setCustomStyles}
-                onSubmit={handleSubmit}
-                updateStyles={updateStyles}
-            />;
-        }
-        else if (selectedEditStyle === 'EditStyleTwo') {
-            return <EditStyleTwo
-                customStyles={customStyles}
-                setCustomStyles={setCustomStyles}
-                onSubmit={handleSubmit}
-                updateStyles={updateStyles}
-            />
-        }
-        else if (selectedEditStyle === 'EditStyleThree') {
-            return <EditStyleThree
-                customStyles={customStyles}
-                setCustomStyles={setCustomStyles}
-                onSubmit={handleSubmit}
-                updateStyles={updateStyles}
-            />
-        }
-        else {
-            return null;
-        }
-    }
-
-
-    // useEffect(() => {
-    //     console.log("Updated currentLayout is:", currentLayout);
-    // }, [currentLayout]);
-
-
-    // Function to handle layout selection when a layout button/image is clicked
-
-    const handleLayoutClick = (layout) => {
-        let layoutName = layout
-        setCurrentLayout(layoutName)
-        console.log(layout)
-
-        // Toggle the visibility of the layout slider menu
-
-        const layoutSlider = document.querySelector(".layout-slider");
-        layoutSlider.classList.toggle("show");
-
-        // Render the corresponding preview component and update the preview image
-        if (layout === "layout2") {
-            // setPreviewComponent(<PreviewTwo />);            // set previewTwo
-            layoutName = 'layout2'
-            setImage(layoutTwo)                             //  update the preview page
-        }
-        else if (layout === "layout3") {
-            // setPreviewComponent(<PreviewThree />)           // set previewThree
-            layoutName = 'layout3'
-            setImage(layoutThree)                           // update the preview page    
-        }
-        else if (layout === "layout1") {
-            // setPreviewComponent(<Preview />)                // set preview
-            layoutName = 'layout1'
-            setImage(layoutOne)                             // update the preview page
-        }
-
-
-        // Set the appropriate EditStyle component for the selected layout
-        handleStylePage(layoutName)
-    };
-
-    // Function to handle mouse enter and leave events
-    const handleMouseLeave = () => {
-        const layoutSlider = document.querySelector(".layout-slider");
-        layoutSlider.classList.remove("show");
-    };
-    // Function to handle mouse enter and leave events
-    const handleMouseEnter = () => {
-        const layoutSlider = document.querySelector(".layout-slider");
-        layoutSlider.classList.add("show");
-    }
-
-    // store all the preview images in a variable
-    const images = { layoutOne, layoutTwo, layoutThree };
-
-
-
-    const onFinish = () => {
-        window.location.href = "https://resume-baker.netlify.app/";   // guide the user back to the main page of app
-    }
-
-    // useEffect to check if the user has already seen the intro pages
-
-
-
-    // create a reference using useRef to print the cv in PDF format
-    const previewRef = useRef();
-
-    // logic to download the preview component in PDF format
-    const handleDownloadPDF = async () => {
-        // Ensure preview is visible and rendered
-        setActiveTab("preview");
-        setShowForm(false);
-
-        // Small delay to allow DOM update
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // get a reference to the preview DOM element
-        const element = previewRef.current;
-
-
-        // Temporary style adjustments for capture
-        const originalStyles = {
-            position: element.style.position,
-            overflow: element.style.overflow,
-            height: element.style.height,
-            width: element.style.width,
-            boxShadow: element.style.boxShadow,
-        };
-
-        // set values for temporary style adjustments
-        element.style.position = 'absolute';
-        element.style.overflow = 'visible';
-        element.style.height = element.scrollHeight + "px";
-        element.style.width = element.scrollWidth + "px";
-
-        // Scroll the element into view before taking a snapshot
-        // element.scrollIntoView({ behavior: "auto", block: "start" });
-
-        // Fix potential line-breaking or white space issues for consistent text rendering
-        element.querySelectorAll('*').forEach(el => {
-            if (el.textContent && el.textContent.includes(' ')) {
-                el.style.whiteSpace = 'pre-wrap';
-                el.style.wordSpacing = 'normal';
+            removeContainer: true,
+            logging: true, // Enable for debugging
+            onclone: (clonedDoc) => {
+              // Ensure all styles are applied in the clone
+              const clonedPage = clonedDoc.querySelectorAll(".pdf-page")[i];
+              if (clonedPage) {
+                clonedPage.style.visibility = 'visible';
+                clonedPage.style.opacity = '1';
+                clonedPage.style.position = 'static';
+              }
             }
-        });
+          });
 
+          const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
-        try {
-            // take a snapshot of the DOM element using html2canvas 
-            const canvas = await html2canvas(element, {
-                scale: 1,                         // scale factor is 1:1
-                logging: true,                    // enable logging for debugging
-                useCORS: true,                    // allow cross-origin images
-                scrollY: 0,                       // enable height based scrolling before screenshot
-                scrollX: 0,
-                width: element.scrollWidth,
-                height: element.scrollHeight,
-                backgroundColor: null,            // bg transparent
-                allowTaint: true,                 // allow other cross-orighin content
+          if (i > 0) {
+            pdf.addPage();
+          }
 
-                // set logic to ignore elements in preview (if any)
-                ignoreElements: (el) => {
-                    // Skip elements that might interfere
-                    return el.classList.contains('no-print');        // elements with className ('.no-print') will not print
-                },
-                windowWidth: element.scrollWidth,                  // set window width
-                windowHeight: element.scrollHeight,                // set window height
-                // Modify the cloned DOM before rendering, ensuring all styles are visible
-                onclone: (clonedDoc) => {
+          pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, "", "FAST");
 
+          // Restore original display
+          page.style.display = originalDisplay;
 
-                    clonedDoc.querySelectorAll('*').forEach(el => {
-                        el.style.whiteSpace = 'pre';
-                        el.style.wordBreak = 'break-word';
-                        el.style.filter = 'none';
-                        el.style.visibility = 'visible';
-                        el.style.opacity = '1';
-                        el.style.whiteSpace = 'pre-wrap';
-                        el.style.wordSpacing = 'normal';
-                        el.style.fontFamily = 'Consolas, monospace';
-
-                    });
-                }
-            });
-
-            // Initialize a new jsPDF instance 
-            const pxToMm = (px) => px * 0.264583;
-            const pageWidth = pxToMm(canvas.width)
-            const pageHeight = pxToMm(canvas.height)
-            const pdf = new jsPDF('p', 'mm', [pageWidth, pageHeight]);
-
-
-
-            // Convert the canvas to an image (PNG format)
-            const imgData = canvas.toDataURL('image/png', 1.0);
-
-            // Calculate proportional height for A4 paper
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            // Add the image to the PDF and save it
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('resume.pdf');
-
-        } catch (error) {
-            // Log any error that occurs during the PDF generation process
-            console.error("PDF generation failed:", error);
-        } finally {
-            // Restore original styles of the preview element and body
-            element.style.boxShadow = '';
-            document.body.style.background = '';
-            Object.assign(element.style, originalStyles);
+        } catch (canvasError) {
+          console.error('Error capturing page', i, canvasError);
+          // Continue with next page
         }
-    };
+      }
 
+      pdf.save(`${cvName.trim() || 'resume'}.pdf`);
+      setShowPDFLayout(false);
 
-
-    // update the styles in the app
-    const updateStyles = (newStyles) => {
-        setCustomStyles((prev) => ({ ...prev, ...newStyles }));
-    };
-
-    // display preview in full screen 
-    const handleSubmit = () => {
-        setShowForm(false);
-        setActiveTab("preview")
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      alert('PDF generation failed. Please try again.');
+      setShowPDFLayout(false);
     }
+  }, [waitForPDF, cvName]);
 
-    // display the form and preview sections
-    const handleEditClick = () => {
-        setShowForm(true);
-        setActiveTab('content')
-    }
+  const updateStyles = useCallback((newStyles) => {
+    setCustomStyles(prev => ({ ...prev, ...newStyles }));
+  }, []);
 
+  const handleSubmit = () => {
+    setShowForm(false);
+    setActiveTab("preview");
+  };
 
-    useEffect(() => {
-        const storedUserName = localStorage.getItem('username');
-        if (storedUserName) {
-            setUserName(storedUserName)
-        }
-    }, [])
+  const handleEditClick = () => {
+    setShowForm(true);
+    setActiveTab('content');
+  };
 
+  // Component renderers
+  const renderEditStyle = () => {
+    const styleComponents = {
+      EditStyle: (
+        <EditStyle
+          customStyles={customStyles}
+          setCustomStyles={setCustomStyles}
+          updateStyles={updateStyles}
+        />
+      ),
+      EditStyleTwo: (
+        <EditStyleTwo
+          customStyles={customStyles}
+          setCustomStyles={setCustomStyles}
+          updateStyles={updateStyles}
+        />
+      ),
+      EditStyleThree: (
+        <EditStyleThree
+          customStyles={customStyles}
+          setCustomStyles={setCustomStyles}
+          updateStyles={updateStyles}
+        />
+      ),
+    };
+    return styleComponents[selectedEditStyle] || null;
+  };
+
+  const renderPDFLayout = () => {
+    if (!showPDFLayout) return null;
+
+    const pdfProps = { ...formData, visibleSections };
+    const pdfComponents = {
+      layout1: <PDFlayoutOne ref={pdfRef} {...pdfProps} />,
+      layout2: <PdfLayoutTwo ref={pdfRef} {...pdfProps} />,
+      layout3: <PdfLayoutThree ref={pdfRef} {...pdfProps} />,
+    };
 
     return (
-        <>
-            {/* Always render form + preview */}
-            <div className="app">
-                {/* Navbar for switching tabs and selecting layout styles */}
-                <div className="builder-navbar">
-                    <BuilderNavbar
-                        activeTab={activeTab}
-                        setActiveTab={setActiveTab}
+      <div className="pdf-generator">
+        {pdfComponents[currentLayout] || pdfComponents.layout1}
+      </div>
+    );
+  };
+ 
 
-                        handleStylePage={handleStylePage}
-                        currentLayout={currentLayout}
-                        isLoggedIn={isLoggedIn}
-                        handleLayoutClick={handleLayoutClick}
-                        handleDownloadPDF={handleDownloadPDF}
-                        showSaveDialog={showSaveDialog}
-                        setShowSaveDialog={setShowSaveDialog}
-                        showForm={showForm}
-                        setShowForm={setShowForm}
-                        navigateToDashboard={navigate}
-                        username={username}
-                        setUserName={setUserName}
-                        onSubmit={handleSubmit}
-                    />
+
+  return (
+    <>
+      <div className="cv-builder-app">
+        <BuilderNavbar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          currentLayout={currentLayout}
+          isLoggedIn={isLoggedIn}
+          handleLayoutClick={handleLayoutClick}
+          handleDownloadPDF={handleDownloadPDF}
+          showSaveDialog={showSaveDialog}
+          setShowSaveDialog={setShowSaveDialog}
+          showForm={showForm}
+          setShowForm={setShowForm}
+          navigateToDashboard={navigate}
+          username={username}
+          setUserName={setUserName}
+          onSubmit={handleSubmit}
+        />
+
+        <div className="cv-builder-container">
+          {showForm && (
+            <div className="cv-builder-form-container">
+              {activeTab === "content" && (
+                <div className="form-wizard-wrapper">
+                  <FormWizard
+                    formData={formData}
+                    setFormData={setFormData}
+                    visibleSections={visibleSections}
+                    setVisibleSections={setVisibleSections}
+                  />
                 </div>
-                <div className="container">
-
-
-                    {/* Left Side: Form and Navbar section, shown only if form is not hidden  */}
-                    {showForm && (
-                        <div className="form-navbar-container">
-
-
-                            {/* Conditionally render form fields if the active tab is "content" */}
-                            {activeTab === "content" && (
-                                <FormSection
-                                    formData={formData}
-                                    setFormData={setFormData}
-                                    onSubmit={handleSubmit}
-                                    visibleSections={visibleSections}
-                                    setVisibleSections={setVisibleSections}
-                                />
-                            )}
-                            {/* Conditionally render style customization if the tab is "style" */}
-                            {activeTab === "style" &&
-                                renderEditStyle()
-                            }
-                        </div>
-                    )}
-
-                    {/* Right Side: Preview and layout thumbnails */}
-                    <div className={`preview-container ${activeTab === "preview" ? "full-width" : ""}`}>
-
-                        {/* Resume preview area */}
-                        <PreviewDisplay
-                            ref={previewRef}
-                            {...formData}
-                            style={customStyles}
-                            visibleSections={visibleSections}
-                            // previewComponent={previewComponent}
-                            setVisibleSections={setVisibleSections}
-                            currentLayout={currentLayout}
-
-                            handleLayoutClick={handleLayoutClick}
-                            handleMouseEnter={handleMouseEnter}
-                            handleMouseLeave={handleMouseLeave}
-                        />
-                        <LayoutDrawer
-                            handleLayoutClick = {handleLayoutClick}
-                            handleMouseEnter = {handleMouseEnter}
-                            handleMouseLeave = {handleMouseLeave}
-                            images = {images}
-                            image = {image}
-                        />
-                      
-                        {/* Action buttons: Only show on "preview" tab */}
-                        {activeTab === "preview" && (
-                            <div className="full-preview-btns">
-                                <button onClick={() => handleDownloadPDF()}>Download as PDF</button>
-                                {isLoggedIn && (
-                                    <>
-
-                                        <button onClick={() => setShowSaveDialog(true)}>
-
-                                            Save CV
-                                        </button>
-                                    </>
-                                )}
-
-                                <button className="edit-btn" onClick={handleEditClick}>Edit</button>
-
-
-                            </div>
-                        )}
-                    </div>
+              )}
+              {activeTab === "style" && (
+                <div className="edit-style-wrapper">
+                  {renderEditStyle()}
                 </div>
+              )}
             </div>
-            {showSaveDialog && (
-                <div className="modal-overlay">
-                    <div className="modal-box">
-                        <h3>Name your CV</h3>
-                        <input
-                            type="text"
-                            value={cvName}
-                            onChange={(e) => setCvName(e.target.value)}
-                            placeholder="e.g., Frontend Resume, Freelance C.V."
-                        />
-                        <div className="modal-buttons">
-                            <button onClick={() => saveCvtoBackend()}>Save CV</button>
-                            <button onClick={() => setShowSaveDialog(false)}>Back</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+          )}
 
-        </>
-    )
-}
+          <div className={`cv-builder-preview-container ${!showForm ? 'full-screen' : ''}`}>
+            <PreviewDisplay
+              ref={previewRef}
+              {...formData}
+              style={customStyles}
+              visibleSections={visibleSections}
+              currentLayout={currentLayout}
+              handleLayoutClick={handleLayoutClick}
+              isFullScreen={activeTab === "preview"}
+            />
+
+            <LayoutDrawer
+              handleLayoutClick={handleLayoutClick}
+              images={{ layoutOne, layoutTwo, layoutThree }}
+              currentImage={currentLayout === 'layout1' ? layoutOne :
+                currentLayout === 'layout2' ? layoutTwo : layoutThree}
+            />
+
+           
+          </div>
+        </div>
+      </div>
+
+      {showSaveDialog && (
+        <SaveCVModal
+          cvName={cvName}
+          setCvName={setCvName}
+          onSave={saveCvToBackend}
+          onClose={() => setShowSaveDialog(false)}
+        />
+      )}
+
+      {renderPDFLayout()}
+    </>
+  );
+};
 
 export default CvBuilder;
