@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import Preview from "./Preview";
 import '../styles/layout.css'
 // import { image } from "html2canvas/dist/types/css/types/image";
 
