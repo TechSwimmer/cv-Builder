@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
-import "../styles/pdfstyles/PdfLayoutThree.css";
+import "../styles/pdfstyles/pdfLayoutThree.css";
    
 import PDFDocument from "./PdfDocument.jsx";
-import PDFPage from "./PdfPage.jsx";
+
 
 const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections }, ref) => {
   return (
