@@ -12,7 +12,7 @@ import LayoutDrawer from "../components/layoutDrawer";
 import EditStyle from "../components/EditStyle";
 import EditStyleTwo from "../components/EditStyleTwo";
 import EditStyleThree from "../components/EditStyleThree";
-import SaveCVModal from "../components/SaveCVModal";
+import SaveCVModal from "../components/SaveCvModal";
 
 
 // Layouts for PDF export
