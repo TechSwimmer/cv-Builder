@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import "../styles/pdfstyles/PdfLayoutTwo.css";
+import "../styles/pdfstyles/pdfLayoutTwo.css";
 
 import PDFDocumentLayoutTwo from "./PdfDocumentLayoutTwo";
 
