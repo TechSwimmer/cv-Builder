@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
-import PdfDocument from "../PdfDocument";
+import PdfDocument from "../pdfDocument";
 import styles from "./layoutThree.styles";
 
 const LayoutThreePDF = ({
