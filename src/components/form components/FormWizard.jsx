@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FORM_SECTIONS } from "../constants/formsection";
-import FormSection from "../components/FormSection";
-import '../styles/FormWizard.css'
+import { FORM_SECTIONS } from "../../constants/formsection";
+import FormSection from "./FormSection";
+import '../../styles/form styles/FormWizard.css';
 
 
 const FormWizard = ({

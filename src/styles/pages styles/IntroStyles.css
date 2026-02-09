@@ -189,6 +189,7 @@
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
+    transition: 0.7s ease-in;
 }
 
 .image-label {
@@ -203,7 +204,16 @@
 .intro-image-card img {
     width: 100%;
     height: 300px;
-    object-fit: cover;
+    object-fit: contain;
+    transition: 0.7s ease-in;
+}
+
+.intro-image-card:hover {
+    transform: scale(1.2);
+}
+
+.intro-image-card img:hover {
+    transform: scale(1.2);
 }
 
 .intro-text-card {

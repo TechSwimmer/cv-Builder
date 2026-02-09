@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import '../styles/layout.css'
+import '../../styles/layout styles/layout.css'
 // import { image } from "html2canvas/dist/types/css/types/image";
 
 const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images, closeDrawer }) => {

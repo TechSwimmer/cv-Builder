@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import API from '../api.js';
+
 import { useNavigate } from 'react-router-dom';
-import '../styles/dashboardNavbar.css'
+import '../../styles/navbar styles/dashboardNavbar.css'
 import ResumeBakerLogo from './ResumeBakerLogo.jsx';
 
 const DashboardNavbar = ({

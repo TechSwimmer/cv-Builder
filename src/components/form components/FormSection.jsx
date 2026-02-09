@@ -10,7 +10,7 @@ import Hobbies from "./Hobbies"
 import Languages from "./Languages"
 import Custom from "./Custom"
 
-import '../styles/Formsection.css'
+import '../../styles/form styles/Formsection.css';
   
 
 const FormSection = ({ activeSection, formData, setFormData, visibleSections, setVisibleSections }) => {

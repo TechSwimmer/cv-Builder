@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/AuthPage.css';
-import IntroPages from '../components/Intropages';
+import '../styles/pages styles/AuthPage.css';
+import '../styles/pages styles/IntroStyles.css'
+import IntroPages from './Intropages.jsx';
 import API from "../api.js";
-import ResumeBakerLogo from '../components/ResumeBakerLogo.jsx';
+import ResumeBakerLogo from '../components/navbar components/ResumeBakerLogo.jsx';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
