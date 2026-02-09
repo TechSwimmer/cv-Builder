@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
-import '../styles/dashboard.css';
-import DashboardNavbar from '../components/DashboardNavbar.jsx';
+import '../styles/pages styles/dashboard.css';
+import DashboardNavbar from '../components/navbar components/DashboardNavbar.jsx';
 
 
 import { 

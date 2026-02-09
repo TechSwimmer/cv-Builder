@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import "../styles/editStyle.css";
-import Layout from "./Layout";
+import "../../styles/editStyle.css";
+import Layout from "../layout components/Layout";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit }) => {
+const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit}) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
@@ -114,36 +114,47 @@ const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit }) => {
                         )}
                     />
                 </div>
-
+                 
+                             
                 <div className="color-input-container">
                         {/* Text Color */}
-                        <label>Text Color: Left</label>
+                        <label>Text Color: Headers</label>
                         <input
                             type="color"
-                            name="textColorLeft"
-                            value={customStyles.textColorLeft}
+                            name="textColorHeader"
+                            value={customStyles.textColorHeader}
                             onChange={handleChange} />
                      </div><div className="color-input-container">
-                            <label>Text Color:Right</label>
+                            <label>Text Color:Content</label>
                             <input
                                 type="color"
-                                name="textColorRight"
-                                value={customStyles.textColorRight}
+                                name="textColorContent"
+                                value={customStyles.textColorContent}
                                 onChange={handleChange} />
                         </div><div className="color-input-container">
                             {/* Background Color */}
-                            <label>Background Color: Left</label>
+                            <label>Background Color: Header</label>
                             <input
                                 type="color"
-                                name="backgroundColorLeft"
-                                value={customStyles.backgroundColorLeft}
+                                name="backgroundColorHeader"
+                                value={customStyles.backgroundColorHeader}
                                 onChange={handleChange} />
-                        </div><div className="color-input-container">
-                            <label>Background Color:Right</label>
+                        </div>
+                        <div className="color-input-container">
+                        {/* Text Color */}
+                        <label>BG Color: Body</label>
+                        <input
+                            type="color"
+                            name="bodyBgColor"
+                            value={customStyles.bodyBgColor}
+                            onChange={handleChange} />
+                     </div>  
+                        <div className="color-input-container">
+                            <label>Background Color:Content</label>
                             <input
                                 type="color"
-                                name="backgroundColorRight"
-                                value={customStyles.backgroundColorRight}
+                                name="backgroundColorContent"
+                                value={customStyles.backgroundColorContent}
                                 onChange={handleChange} />
                         </div>
 
@@ -168,9 +179,9 @@ const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit }) => {
                 </div>
 
             </div>
-          
+            
         </div>
     );
 };
 
-export default EditStyleThree;
+export default EditStyleTwo;

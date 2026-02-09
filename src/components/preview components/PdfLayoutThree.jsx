@@ -1,40 +1,49 @@
 import React, { forwardRef } from "react";
-import "../styles/pdfstyles/pdfLayoutThree.css";
-   
-import PDFDocument from "./PdfDocument.jsx";
+import "../../styles/pdfstyles/pdfLayoutThree.css";
 
 
-const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections }, ref) => {
+
+
+const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections }, ref) => {
   return (
-    <PDFDocument ref={ref}>
-      {/* HEADER SECTION */}
-      <div className="pdf3-page">
-        <div className="pdf3-section pdf3-header" data-block>
-          <h1 className="pdf3-name">{generalInfo.name || "Full Name"}</h1>
-          <div className="pdf3-title">{generalInfo.title || "Professional Title"}</div>
-          <div className="pdf3-contact">
-            {generalInfo.email && <span>{generalInfo.email}</span>}
-            {generalInfo.phone && <span>• {generalInfo.phone}</span>}
-            {generalInfo.location && <span>• {generalInfo.location}</span>}
-            <br />
-            {generalInfo.website && <span>• {generalInfo.website}</span>}
-            {generalInfo.linkedin && <span>• LinkedIn: {generalInfo.linkedin}</span>}
-            {generalInfo.github && <span>• GitHub: {generalInfo.github}</span>}
-          </div>
-        </div>
 
-        {/* PROFILE SUMMARY */}
-        {visibleSections?.summary && summary?.summary && (
+   
+  
+    <div className="pdf3-page" >
+       {/* HEADER SECTION */ }
+      <div className="pdf3-section pdf3-header" data-block>
+        <h1 className="pdf3-name">{generalInfo.name || "Full Name"}</h1>
+        <div className="pdf3-title">{generalInfo.title || "Professional Title"}</div>
+        <div className="pdf3-contact">
+          {generalInfo.email && <span>{generalInfo.email}</span>}
+          {generalInfo.email && generalInfo.phone && <span>•</span>}
+          {generalInfo.phone && <span>{generalInfo.phone}</span>}
+          {generalInfo.location && generalInfo.phone && <span>•</span>}
+          {generalInfo.location && <span>{generalInfo.location}</span>}
+          <br />
+          {generalInfo.website && <span>{generalInfo.website}</span>}
+          {generalInfo.website && generalInfo.linkedin && <span>•</span>}
+          {generalInfo.linkedin && <span>{generalInfo.linkedin}</span>}
+          {generalInfo.github && generalInfo.linkedin && <span>•</span>}
+          {generalInfo.github && <span>{generalInfo.github}</span>}
+        </div>
+      </div>
+
+      {/* PROFILE SUMMARY */}
+      {
+        visibleSections?.summary && summary?.summary && (
           <div className="pdf3-section pdf3-summary" data-block>
             <h2>Professional Profile</h2>
             <div className="pdf3-summary-content">
               <p>{summary.summary}</p>
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* WORK EXPERIENCE */}
-        {visibleSections?.experience && experience.length > 0 && (
+      {/* WORK EXPERIENCE */}
+      {
+        visibleSections?.experience && experience.length > 0 && (
           <div className="pdf3-section pdf3-experience" data-block>
             <h2>Work Experience</h2>
             <div className="pdf3-experience-list">
@@ -45,12 +54,13 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
                       <strong>{e.position}</strong>
                       <span className="pdf3-exp-company"> – {e.company}</span>
                     </div>
-                     {e.location && (
-                    <div className="pdf3-exp-location">{e.location}</div>
-                  )}
                     <div className="pdf3-exp-dates">
                       {e.startDate} – {e.endDate || "Present"}
                     </div>
+                    {e.location && (
+                      <div className="pdf3-exp-location">{e.location}</div>
+                    )}
+                    
                   </div>
                   {e.achievements && e.achievements.points.length > 0 && (
                     <div className="pdf3-exp-achievements">
@@ -65,10 +75,12 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
               ))}
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* EDUCATION */}
-        {visibleSections?.education && education.length > 0 && (
+      {/* EDUCATION */}
+      {
+        visibleSections?.education && education.length > 0 && (
           <div className="pdf3-section pdf3-education" data-block>
             <h2>Education</h2>
             <div className="pdf3-education-list">
@@ -76,17 +88,18 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
                 <div key={i} className="pdf3-education-item">
                   <div className="pdf3-edu-header">
                     <div className="pdf3-edu-title">
-                    <strong className="pdf3-edu-degree">{e.degree}</strong>
-                    <strong className="pdf3-edu-school"> – {e.school}</strong>
+                      <strong className="pdf3-edu-degree">{e.degree}</strong>
+                      <strong className="pdf3-edu-school"> – {e.school}</strong>
                     </div>
-                    
+
+                  </div>
+                  <div className="pdf3-edu-dates">
+                    {e.startDate} – {e.endDate || "Present"}
                   </div>
                   {e.location && (
                     <div className="pdf3-edu-location">{e.location}</div>
                   )}
-                  <div className="pdf3-edu-dates">
-                      {e.startDate} – {e.endDate || "Present"}
-                    </div>
+                 
                   {e.achievements && e.achievements.points.length > 0 && (
                     <div className="pdf3-edu-achievements">
                       <ul>
@@ -100,10 +113,12 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
               ))}
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* PROJECTS */}
-        {visibleSections?.projects && projects.length > 0 && (
+      {/* PROJECTS */}
+      {
+        visibleSections?.projects && projects.length > 0 && (
           <div className="pdf3-section pdf3-projects" data-block>
             <h2>Projects</h2>
             <div className="pdf3-projects-list">
@@ -144,22 +159,26 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
               ))}
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* SKILLS */}
-        {visibleSections?.skills && skills.length > 0 && (
+      {/* SKILLS */}
+      {
+        visibleSections?.skills && skills.length > 0 && (
           <div className="pdf3-section pdf3-skills" data-block>
-            <h2>Skills & Competencies</h2>
+            <h2>Skills</h2>
             <div className="pdf3-skills-grid">
               {skills.map((s, i) => (
                 <span key={i} className="pdf3-skill-item">{s.skill}</span>
               ))}
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* HOBBIES & LANGUAGES - Side by side */}
-        {(visibleSections?.hobbies || visibleSections?.languages) && (
+      {/* HOBBIES & LANGUAGES - Side by side */}
+      {
+        (visibleSections?.hobbies || visibleSections?.languages) && (
           <div className="pdf3-section pdf3-hobby-language" data-block>
             <div className="pdf3-two-column">
               {/* HOBBIES */}
@@ -193,10 +212,12 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
               )}
             </div>
           </div>
-        )}
+        )
+      }
 
-        {/* CUSTOM SECTION */}
-        {visibleSections?.custom && custom && (
+      {/* CUSTOM SECTION */}
+      {
+        visibleSections?.custom && custom && (
           <div className="pdf3-section pdf3-custom" data-block>
             <h2>{custom.title}</h2>
             {custom.type === "text" && <p>{custom.description}</p>}
@@ -225,11 +246,12 @@ const PDFLayoutThree = forwardRef(({ generalInfo, summary, experience, education
               </div>
             )}
           </div>
-        )}
-      </div>
-    </PDFDocument>
+        )
+      }
+    </div >
+
   );
 });
 
-export default PDFLayoutThree;
+export default React.memo(PDFLayoutThree);
 

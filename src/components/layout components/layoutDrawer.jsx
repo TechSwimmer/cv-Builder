@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Layout from "./Layout";
-import "../styles/LayoutDrawer.css";
+import "../../styles/layout styles/LayoutDrawer.css";
 
 
 const LayoutDrawer = (props) => {

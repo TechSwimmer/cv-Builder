@@ -1,12 +1,13 @@
 import React, { forwardRef } from "react";
-import "../styles/pdfstyles/pdfLayoutTwo.css";
+import "../../styles/pdfstyles/pdfLayoutTwo.css";
+import "../../styles/pdfstyles/pdfDocument.css"
 
-import PDFDocumentLayoutTwo from "./PdfDocumentLayoutTwo";
+
 
 
 const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, summary, projects, hobbies, languages, custom, visibleSections }, ref) => {
   return (
-    <PDFDocumentLayoutTwo ref={ref}>
+   
       <div className="pdf2-page">
         {/* HEADER SECTION */}
         <div className="pdf2-header-section">
@@ -157,6 +158,9 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                           {e.startDate} – {e.endDate || "Present"}
                         </div>
                       </div>
+                      {e.location && (
+                        <div className="pdf2-exp-location">{e.location}</div>
+                      )}
 
                       {e.achievements?.points?.length > 0 && (
                         <div className="pdf2-exp-achievements">
@@ -287,7 +291,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
           </div>
         </div>
       </div>
-    </PDFDocumentLayoutTwo >
+      
   );
 });
 

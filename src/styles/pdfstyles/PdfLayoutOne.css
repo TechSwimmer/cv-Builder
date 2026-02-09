@@ -1,7 +1,7 @@
 /* ===== BASE STYLES ===== */
 .pdf1-page {
   width: 794px;
-  height: 1123px;
+  min-height: 1123px;
   padding: 10px 10px;
   background: #ffffff;
   color: #333;
@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: calc(1123px - 96px); /* A4_HEIGHT */
+  /* min-height: calc(1123px - 96px); A4_HEIGHT */
   overflow: hidden;
 }
 
@@ -42,14 +42,14 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  max-height: calc(1123px - 96px); /* A4_HEIGHT */
+  /* min-height: calc(1123px - 96px); A4_HEIGHT */
   overflow: hidden;
    padding: 8px 20px 8px 0; 
 }
 
 /* ===== GENERAL INFO ===== */
 .pdf1-general {
-  text-align: center;
+  text-align: left;
   padding-bottom: 24px;
   border-bottom: 2px solid #2c3e50;
   margin-bottom: 8px;
@@ -59,7 +59,7 @@
   font-size: 28px;
   font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 8px;
+  
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -109,33 +109,27 @@
   line-height: 1.3;
   margin-bottom: 2px;
 }
-
+ 
 /* ===== SECTION HEADERS ===== */
 .pdf1-section h3 {
   font-size: 16px;
   font-weight: 700;
-  color: #2c3e50;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 16px;
+  
   padding-bottom: 6px;
-  border-bottom: 1px solid #e0e0e0;
   position: relative;
 }
-
-.pdf1-section h3::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 40px;
-  height: 2px;
-  background: #3498db;
+.section-heading{
+  border-bottom: 1px solid #ccc ;
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
+
 
 /* Left column headers */
 .pdf1-left .pdf1-section h3 {
-  border-bottom: 1px solid #ddd;
+  
   color: #2c3e50;
 }
 
@@ -308,6 +302,12 @@
   width: 1em;
   margin-left: -1em;
 }
+.pdf1-edu-location,.pdf1-exp-location {
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 6px;
+}
 
 /* ===== PROJECTS SECTION ===== */
 .project-item {
@@ -378,6 +378,14 @@
 .project-item a:hover {
   text-decoration: underline;
 }
+.pdf1-project-link {
+  font-size: 10px;
+  color: #3498db;
+  text-decoration: none;
+  word-break: break-all;
+  max-width: 35%;
+}
+
 
 /* ===== CUSTOM SECTION ===== */
 .custom-links {

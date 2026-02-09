@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import "../styles/editStyle.css";
-import Layout from "./Layout";
+import "../../styles/editStyle.css";
+import Layout from "../layout components/Layout";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit}) => {
+const EditStyle = ({ customStyles, setCustomStyles, onSubmit}) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
@@ -114,47 +114,36 @@ const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit}) => {
                         )}
                     />
                 </div>
-                 
-                             
+
                 <div className="color-input-container">
                         {/* Text Color */}
-                        <label>Text Color: Headers</label>
+                        <label>Text Color: Left</label>
                         <input
                             type="color"
-                            name="textColorHeader"
-                            value={customStyles.textColorHeader}
+                            name="textColorLeft"
+                            value={customStyles.textColorLeft}
                             onChange={handleChange} />
                      </div><div className="color-input-container">
-                            <label>Text Color:Content</label>
+                            <label>Text Color:Right</label>
                             <input
                                 type="color"
-                                name="textColorContent"
-                                value={customStyles.textColorContent}
+                                name="textColorRight"
+                                value={customStyles.textColorRight}
                                 onChange={handleChange} />
                         </div><div className="color-input-container">
                             {/* Background Color */}
-                            <label>Background Color: Header</label>
+                            <label>Background Color: Left</label>
                             <input
                                 type="color"
-                                name="backgroundColorHeader"
-                                value={customStyles.backgroundColorHeader}
+                                name="backgroundColorLeft"
+                                value={customStyles.backgroundColorLeft}
                                 onChange={handleChange} />
-                        </div>
-                        <div className="color-input-container">
-                        {/* Text Color */}
-                        <label>BG Color: Body</label>
-                        <input
-                            type="color"
-                            name="bodyBgColor"
-                            value={customStyles.bodyBgColor}
-                            onChange={handleChange} />
-                     </div>  
-                        <div className="color-input-container">
-                            <label>Background Color:Content</label>
+                        </div><div className="color-input-container">
+                            <label>Background Color:Right</label>
                             <input
                                 type="color"
-                                name="backgroundColorContent"
-                                value={customStyles.backgroundColorContent}
+                                name="backgroundColorRight"
+                                value={customStyles.backgroundColorRight}
                                 onChange={handleChange} />
                         </div>
 
@@ -179,9 +168,9 @@ const EditStyleTwo = ({ customStyles, setCustomStyles, onSubmit}) => {
                 </div>
 
             </div>
-            
+           
         </div>
     );
 };
 
-export default EditStyleTwo;
+export default EditStyle;

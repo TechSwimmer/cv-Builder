@@ -1,24 +1,29 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import API from '../../src/api';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+
+import html2canvas from "html2canvas";
+import { PDFViewer } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
+// import PDF layouts 
+import PDFlayoutOne from "../components/pdf components/Layout-One/LayoutOnePDF.jsx";
+import PDFlayoutTwo from "../components/pdf components/Layout-Two/LayoutTwoPDF.jsx";
+import PDFlayoutThree from "../components/pdf components/Layout-Three/LayoutThreePDF.jsx";
+
 
 // Components
-import FormWizard from "../components/FormWizard";
-import BuilderNavbar from "../components/BuilderNavbar";
-import PreviewDisplay from "../components/PreviewDisplay";
-import LayoutDrawer from "../components/layoutDrawer";
-import EditStyle from "../components/EditStyle";
-import EditStyleTwo from "../components/EditStyleTwo";
-import EditStyleThree from "../components/EditStyleThree";
-import SaveCVModal from "../components/SaveCvModal";
+import FormWizard from "../components/form components/FormWizard";
+import BuilderNavbar from "../components/navbar components/BuilderNavbar";
+import PreviewDisplay from "../components/preview components/PreviewDisplay";
+import LayoutDrawer from "../components/layout components/layoutDrawer";
+import EditStyle from "../components/style components/EditStyle";
+import EditStyleTwo from "../components/style components/EditStyleTwo";
+import EditStyleThree from "../components/style components/EditStyleThree";
+import SaveCVModal from "../components/navbar components/SaveCVModal";
 
 
 // Layouts for PDF export
-import PDFlayoutOne from "../components/PDFlayoutOne";
-import PdfLayoutTwo from "../components/PdfLayoutTwo";
-import PdfLayoutThree from "../components/PdfLayoutThree";
+
 
 // Images
 import layoutOne from "../images/layout1.png";
@@ -26,8 +31,8 @@ import layoutTwo from "../images/layout2.png";
 import layoutThree from "../images/layout3.png";
 
 // Styles
-import "../styles/IntroStyles.css";
-import "../styles/App.css";
+
+import "../styles/pages styles/App.css";
 
 // Constants
 const INITIAL_FORM_DATA = {
@@ -119,7 +124,7 @@ const CvBuilder = () => {
   // State
   const [activeTab, setActiveTab] = useState("content");
   const [showForm, setShowForm] = useState(true);
-  const [showPDFLayout, setShowPDFLayout] = useState(false);
+
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [currentLayout, setCurrentLayout] = useState('layout1');
   const [selectedEditStyle, setSelectedEditStyle] = useState('EditStyle');
@@ -128,6 +133,7 @@ const CvBuilder = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [customStyles, setCustomStyles] = useState(INITIAL_STYLES);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+
   const [visibleSections, setVisibleSections] = useState({
     education: true,
     experience: true,
@@ -141,7 +147,7 @@ const CvBuilder = () => {
 
   // Refs
   const previewRef = useRef();
-  const pdfRef = useRef();
+
   const cvId = searchParams.get('id');
   const token = localStorage.getItem('token');
 
@@ -201,8 +207,9 @@ const CvBuilder = () => {
   useEffect(() => {
     // Check authentication
     const token = localStorage.getItem('token');
+    setUserName(localStorage.getItem('username'))
     setIsLoggedIn(!!token);
-
+   
     if (!token && !sessionStorage.getItem('cvAlertShown')) {
       setTimeout(() => {
         alert('You are browsing as a guest. Log in to save or delete CVs.');
@@ -210,6 +217,8 @@ const CvBuilder = () => {
       }, 1000);
     }
   }, []);
+
+ 
 
   // Handlers
   const handleLayoutClick = useCallback((layout) => {
@@ -299,133 +308,22 @@ const CvBuilder = () => {
     }
   }, [cvId, cvName, currentLayout, formData, customStyles, visibleSections, navigate, generateThumbnail]);
 
-  const waitForPDF = useCallback(() =>
-    new Promise((resolve, reject) => {
-      const maxWaitTime = 10000; // 10 seconds max
-      const startTime = Date.now();
 
-      const check = () => {
-        const root = pdfRef.current;
+  const handleDownloadPDF = async () => {
+    const blob = await pdf(
+      getPdfLayout(currentLayout, {
+        ...formData,
+        visibleSections
+      })
+    ).toBlob();
 
-        if (!root) {
-          if (Date.now() - startTime > maxWaitTime) {
-            reject(new Error('PDF root not found after timeout'));
-            return;
-          }
-          requestAnimationFrame(check);
-          return;
-        }
-
-        // Try multiple ways to detect readiness
-        const pages = root.querySelectorAll(".pdf-page");
-        const hasPages = pages.length > 0;
-
-        // Check for data-ready attribute or any content
-        const isReady = root.querySelector(".pdf-pages")?.dataset.ready === "true" ||
-          hasPages ||
-          root.innerHTML.includes("pdf-page");
-
-        if (isReady) {
-          console.log('PDF ready with', pages.length, 'pages');
-          resolve();
-        } else if (Date.now() - startTime > maxWaitTime) {
-          console.warn('Proceeding with PDF generation despite timeout');
-          resolve(); // Try anyway
-        } else {
-          requestAnimationFrame(check);
-        }
-      };
-
-      check();
-    }), []);
-  const handleDownloadPDF = useCallback(async () => {
-    try {
-      // 1. Set PDF mode first
-      setActiveTab("preview");
-      setShowForm(false);
-      setShowPDFLayout(true);
-
-      // 2. Force a re-render to ensure PDF layout mounts
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      // 3. Wait for PDF layout to be fully rendered
-      await waitForPDF();
-
-      const root = pdfRef.current;
-      if (!root) {
-        console.error("PDF root element not found");
-        alert('PDF generation failed: Root element missing');
-        return;
-      }
-
-      const pages = root.querySelectorAll(".pdf-page");
-      console.log('Found PDF pages:', pages.length);
-
-      if (pages.length === 0) {
-        // Try alternative selector
-        const altPages = root.querySelectorAll("[class*='page']");
-        console.log('Alternative pages found:', altPages.length);
-
-        if (altPages.length === 0) {
-          alert('No content found for PDF generation');
-          return;
-        }
-      }
-
-      const pdf = new jsPDF("p", "mm", "a4");
-      const targetPages = pages.length > 0 ? pages : root.querySelectorAll("[class*='page']");
-
-      for (let i = 0; i < targetPages.length; i++) {
-        const page = targetPages[i];
-
-        // Make page visible temporarily
-        const originalDisplay = page.style.display;
-        page.style.display = 'block';
-
-        try {
-          const canvas = await html2canvas(page, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: "#ffffff",
-            removeContainer: true,
-            logging: true, // Enable for debugging
-            onclone: (clonedDoc) => {
-              // Ensure all styles are applied in the clone
-              const clonedPage = clonedDoc.querySelectorAll(".pdf-page")[i];
-              if (clonedPage) {
-                clonedPage.style.visibility = 'visible';
-                clonedPage.style.opacity = '1';
-                clonedPage.style.position = 'static';
-              }
-            }
-          });
-
-          const imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-          if (i > 0) {
-            pdf.addPage();
-          }
-
-          pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, "", "FAST");
-
-          // Restore original display
-          page.style.display = originalDisplay;
-
-        } catch (canvasError) {
-          console.error('Error capturing page', i, canvasError);
-          // Continue with next page
-        }
-      }
-
-      pdf.save(`${cvName.trim() || 'resume'}.pdf`);
-      setShowPDFLayout(false);
-
-    } catch (error) {
-      console.error('PDF generation failed:', error);
-      alert('PDF generation failed. Please try again.');
-      setShowPDFLayout(false);
-    }
-  }, [waitForPDF, cvName]);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${cvName || "resume"}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const updateStyles = useCallback((newStyles) => {
     setCustomStyles(prev => ({ ...prev, ...newStyles }));
@@ -469,27 +367,25 @@ const CvBuilder = () => {
     return styleComponents[selectedEditStyle] || null;
   };
 
-  const renderPDFLayout = () => {
-    if (!showPDFLayout) return null;
-
-    const pdfProps = { ...formData, visibleSections };
-    const pdfComponents = {
-      layout1: <PDFlayoutOne ref={pdfRef} {...pdfProps} />,
-      layout2: <PdfLayoutTwo ref={pdfRef} {...pdfProps} />,
-      layout3: <PdfLayoutThree ref={pdfRef} {...pdfProps} />,
-    };
-
-    return (
-      <div className="pdf-generator">
-        {pdfComponents[currentLayout] || pdfComponents.layout1}
-      </div>
-    );
+  const getPdfLayout = (layout, props) => {
+    switch (layout) {
+      case "layout1":
+        return <PDFlayoutOne {...props} />;
+      case "layout2":
+        return <PDFlayoutTwo {...props} />;
+      case "layout3":
+        return <PDFlayoutThree {...props} />;
+      default:
+        return <PDFlayoutOne {...props} />;
+    }
   };
- 
+
+
 
 
   return (
     <>
+
       <div className="cv-builder-app">
         <BuilderNavbar
           activeTab={activeTab}
@@ -523,22 +419,34 @@ const CvBuilder = () => {
               )}
               {activeTab === "style" && (
                 <div className="edit-style-wrapper">
-                  {renderEditStyle()}
+
                 </div>
               )}
             </div>
           )}
 
-          <div className={`cv-builder-preview-container ${!showForm ? 'full-screen' : ''}`}>
-            <PreviewDisplay
-              ref={previewRef}
-              {...formData}
-              style={customStyles}
-              visibleSections={visibleSections}
-              currentLayout={currentLayout}
-              handleLayoutClick={handleLayoutClick}
-              isFullScreen={activeTab === "preview"}
-            />
+          <div className={`cv-builder-preview-container ${activeTab === "preview" ? 'full-screen' : ''}`}>
+
+            {activeTab !== "preview" && (
+              <PreviewDisplay
+                ref={previewRef}
+                {...formData}
+                style={customStyles}
+                visibleSections={visibleSections}
+                currentLayout={currentLayout}
+              />
+            )}
+
+            {/* React-PDF fullscreen preview */}
+            {activeTab === "preview" && (
+              <PDFViewer width="100%" height="600">
+                {getPdfLayout(currentLayout, {
+                  ...formData,
+                  visibleSections
+                })}
+              </PDFViewer>
+            )}
+
 
             <LayoutDrawer
               handleLayoutClick={handleLayoutClick}
@@ -547,7 +455,7 @@ const CvBuilder = () => {
                 currentLayout === 'layout2' ? layoutTwo : layoutThree}
             />
 
-           
+
           </div>
         </div>
       </div>
@@ -561,9 +469,12 @@ const CvBuilder = () => {
         />
       )}
 
-      {renderPDFLayout()}
+
     </>
   );
 };
 
 export default CvBuilder;
+
+
+

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import "../styles/editStyle.css";
-import Layout from "./Layout";
+import "../../styles/editStyle.css";
+import Layout from "../layout components/Layout";
 // import { fontFamily } from "html2canvas/dist/types/css/property-descriptors/font-family";
 
-const EditStyle = ({ customStyles, setCustomStyles, onSubmit}) => {
+const EditStyleThree = ({ customStyles, setCustomStyles, onSubmit }) => {
 
     const fontOptions = [
         { label: "Lucida Console", value: "Lucida Console, monospace" },
@@ -168,9 +168,9 @@ const EditStyle = ({ customStyles, setCustomStyles, onSubmit}) => {
                 </div>
 
             </div>
-           
+          
         </div>
     );
 };
 
-export default EditStyle;
+export default EditStyleThree;

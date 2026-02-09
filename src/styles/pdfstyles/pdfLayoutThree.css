@@ -9,7 +9,7 @@
   color: #333;
   line-height: 1.5;
 }
-  
+   
 .pdf3-page{
     width: 794px;
   min-height: 1123px;
@@ -45,15 +45,7 @@
   position: relative;
 }
 
-.pdf3-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 60px;
-  height: 2px;
-  background: #e74c3c;
-}
+
 
 .pdf3-section h3 {
   font-size: 15px;
@@ -107,6 +99,10 @@
   color: #555;
   line-height: 1.6;
   text-align: justify;
+}
+.pdf3-column h3{
+  text-transform: uppercase;
+  text-align: center;
 }
 
 /* ===== EXPERIENCE SECTION ===== */

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/SaveCVModal.css';
+import '../../styles/navbar styles/SaveCVModal.css'
 
 const SaveCvModal = ({ cvName, setCvName, onSave, onClose }) => {
   const handleSubmit = (e) => {

@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import API from '../api.js';
+
 import { useNavigate } from 'react-router-dom';
-import '../styles/navbar.css'
+import '../../styles/navbar styles/navbar.css'
 import ResumeBakerLogo from './ResumeBakerLogo.jsx';
 
 const LockedButton = ({ children, label }) => (
@@ -44,11 +44,11 @@ const BuilderNavbar = ({
     };
 
     const toggleFullScreen = () => {
-        setShowForm(!showForm)
-        setActiveTab("preview" ? "content" : 'preview')
-    }
+        setShowForm(prev => !prev);
+        setActiveTab(prev => (prev === 'preview' ? 'content' : 'preview'))
+    };
 
-    username = localStorage.getItem('username')
+    
    
     const navigate = useNavigate();
     return (

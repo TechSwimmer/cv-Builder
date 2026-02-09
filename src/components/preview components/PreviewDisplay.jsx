@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
-import PDFLayoutThree from './PdfLayoutThree';
-import PDFLayoutOne from './PDFlayoutOne';
-import PDFLayoutTwo from './PdfLayoutTwo';
+import PreviewLayoutThree from '../preview components/PdfLayoutThree';
+import PreviewLayoutOne from '../preview components/PDFlayoutOne';
+import PreviewLayoutTwo from '../preview components/PdfLayoutTwo';
 
 const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, ...otherProps}, ref) => {
   
@@ -9,14 +9,14 @@ const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, 
     console.log("Rendering layout:", currentLayout);
     switch (currentLayout) {
       case 'layout1':
-        return <PDFLayoutOne visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutOne visibleSections={visibleSections} {...otherProps} mode="preview" />;
       case 'layout2':
-        return <PDFLayoutTwo visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutTwo visibleSections={visibleSections} {...otherProps} mode="preview" />;
       case 'layout3':
-        return <PDFLayoutThree visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutThree visibleSections={visibleSections} {...otherProps} mode="preview" />;
       default:
         return null;
-    }
+    } 
   };
 
   const layoutComponent = getLayoutComponent();
