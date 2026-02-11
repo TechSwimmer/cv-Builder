@@ -210,8 +210,12 @@
   width: 100%;
 }
 
+.project-key-feature-form{
+  display: flex;
+}
+
 .add-feat-btn{
-  width: auto;
+  width: 100%;
 }
 .education-achievements-form,
 .experience-achievements-form {

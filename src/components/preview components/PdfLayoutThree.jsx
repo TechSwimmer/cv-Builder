@@ -150,7 +150,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                       <strong>Key Features:</strong>
                       <ul>
                         {proj.keyFeatures.map((feature, i) => (
-                          <li key={i}>{feature}</li>
+                         feature &&  <li key={i}>{feature}</li>
                         ))}
                       </ul>
                     </div>

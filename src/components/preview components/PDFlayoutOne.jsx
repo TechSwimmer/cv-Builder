@@ -172,7 +172,7 @@ const PDFLayoutOne = ((props = {}) => {
                           <ul className="feature-list">
                             {proj.keyFeatures.map((feature, i) => (
                               
-                              <li key={i}>{feature}</li>
+                              feature && <li key={i}>{feature}</li>
                             ))}
                           </ul>
                         </div>

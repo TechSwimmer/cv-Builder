@@ -18,7 +18,7 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
     };
 
     const addProject = () => {
-        setProjects([...projects, { title: "", description: "", category: "", skillsUsed: [], keyFeatures: [] }])
+        setProjects([...projects, { title: "", description: "", category: "", skillsUsed: [], keyFeatures: [""] }])
     }
 
     const removeProject = (index) => {
@@ -30,43 +30,30 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
 
 
     // key feature management
-    const [newFeature, setNewFeature] = useState(""); // Track new feature input
+   
 
-    const addFeature = (index) => {
-        if (!newFeature.trim()) return;
-
-        const updatedProjects = [...projects];
-        updatedProjects[index].keyFeatures.push(newFeature);
-        setProjects(updatedProjects);
-        setNewFeature(""); // Clear input after adding
-    };
-
-    const removeFeature = (projectIndex, featureIndex) => {
-        const updatedProjects = [...projects];
-        updatedProjects[projectIndex].keyFeatures.splice(featureIndex, 1);
-        setProjects(updatedProjects);
-    };
+   
 
     return (
         <div className="projects-container">
             <div className="toggle-visibility-btn">
                 <h3>Projects</h3>
-            
-            <div
-                className={`toggle-pill ${visible ? "on" : ""}`}
-                onClick={() => setVisible(!visible)}
-            >
-                <div className="toggle-text-track">
-                    <span className="toggle-text hide">Show</span>
-                    <span className="toggle-text show">Hide</span>
-                </div>
 
-                <div className="toggle-knob" />
-            </div>
+                <div
+                    className={`toggle-pill ${visible ? "on" : ""}`}
+                    onClick={() => setVisible(!visible)}
+                >
+                    <div className="toggle-text-track">
+                        <span className="toggle-text hide">Show</span>
+                        <span className="toggle-text show">Hide</span>
+                    </div>
+
+                    <div className="toggle-knob" />
+                </div>
             </div>
             {visible && (
                 <>
-                   
+
                     {projects.map((project, index) => (
                         <div key={index} className="project-entry">
 
@@ -98,20 +85,67 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
                                     onChange={(e) => handleArrayChange(index, e, "skillsUsed")}
                                 />
                             </div>
-                            <div className="projects-key-feature">
-                                <div className="key-features-list">
-                                    <label>Key features :</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter a feature and press Add"
-                                        value={newFeature || ""}
-                                        onChange={(e) => setNewFeature(e.target.value)}
-                                    />
-                                </div>
+                            {project.keyFeatures?.map((feature, featureIndex) => {
+                                const isLast = featureIndex === project.keyFeatures.length - 1;
+                                const isEmpty = !feature?.trim();
 
+                                return (
+                                    <div className="project-key-feature-form" key={featureIndex}>
+                                        <input
+                                            type="text"
+                                            placeholder={`Key feature ${featureIndex + 1}`}
+                                            value={feature || ""}
+                                            onChange={(e) => {
+                                                const updatedProjects = [...projects];
+                                                const updatedFeatures = [...updatedProjects[index].keyFeatures];
 
-                                <button type="button" className="add-feat-btn" onClick={() => addFeature(index)}>Add</button>
-                            </div>
+                                                updatedFeatures[featureIndex] = e.target.value;
+                                                updatedProjects[index] = {
+                                                    ...updatedProjects[index],
+                                                    keyFeatures: updatedFeatures,
+                                                };
+
+                                                setProjects(updatedProjects);
+                                            }}
+                                        />
+
+                                        {isLast ? (
+                                            <button
+                                                type="button"
+                                                className="add-feat-btn"
+                                                disabled={isEmpty}
+                                                onClick={() => {
+                                                    const updatedProjects = [...projects];
+                                                    updatedProjects[index] = {
+                                                        ...updatedProjects[index],
+                                                        keyFeatures: [...updatedProjects[index].keyFeatures, ""],
+                                                    };
+                                                    setProjects(updatedProjects);
+                                                }}
+                                            >
+                                                Add
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                className="remove-feat-btn"
+                                                onClick={() => {
+                                                    const updatedProjects = [...projects];
+                                                    updatedProjects[index] = {
+                                                        ...updatedProjects[index],
+                                                        keyFeatures: updatedProjects[index].keyFeatures.filter(
+                                                            (_, i) => i !== featureIndex
+                                                        ),
+                                                    };
+                                                    setProjects(updatedProjects);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                );
+                            })}
                             <div className="projects-skills">
                                 <label>Link :</label>
                                 <input
@@ -123,8 +157,8 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
                                 />
                             </div>
                             <div className="add-rem-proj-btn">
-                            <button className="remove-btn" onClick={() => removeProject(index)}>Remove Project</button>
-                            <button className="add-btn" onClick={addProject}>Add Project</button>
+                                <button className="remove-btn" onClick={() => removeProject(index)}>Remove Project</button>
+                                <button className="add-btn" onClick={addProject}>Add Project</button>
                             </div>
                         </div>
                     ))}
