@@ -147,7 +147,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                         <h2>Experience</h2>
                       </div>
                     )}
-
+ 
                     <div className="pdf2-experience-item">
                       <div className="pdf2-exp-header">
                         <div className="pdf2-exp-title">
@@ -216,7 +216,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                           <strong>Key Features:</strong>
                           <ul>
                             {proj.keyFeatures.map((feature, i) => (
-                              <li key={i}>{feature}</li>
+                              feature && <li key={i}>{feature}</li>
                             ))}
                           </ul>
                         </div>

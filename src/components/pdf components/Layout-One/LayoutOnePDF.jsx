@@ -54,7 +54,7 @@ const LayoutOnePDF = ({
                 {generalInfo.linkedin}
               </Link>
             )}
-             {generalInfo?.website && (
+            {generalInfo?.website && (
               <Link style={styles.link} src={generalInfo.website}>
                 {generalInfo.website}
               </Link>
@@ -77,14 +77,15 @@ const LayoutOnePDF = ({
                       <Text style={styles.achievementsHead}>{e.achievements.title}</Text>
 
                     )}
-                    {e.achievements?.points?.map((achievement, j) => (
-                      <View key={j} style={styles.bulletRow}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>{achievement}</Text>
-                      </View>
-                    )
+                    {e.achievements?.points
+                      ?.filter(point => point?.trim())
+                      .map((achievement, j) => (
+                        <View key={j} style={styles.bulletRow}>
+                          <Text style={styles.bulletSymbol}>•</Text>
+                          <Text style={styles.bulletText}>{achievement}</Text>
+                        </View>
+                      ))}
 
-                    )}
                   </View>
                 ))}
               </View>
@@ -143,15 +144,14 @@ const LayoutOnePDF = ({
                     {e.achievements && (
                       <Text style={styles.achievementsHead}>{e.achievements.title}</Text>
                     )}
-                    {e.achievements?.points?.map((achievement, j) => (
-                      <View key={j} style={styles.bulletRow}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>{achievement}</Text>
-                      </View>
-
-                    )
-
-                    )}
+                    {e.achievements?.points
+                      ?.filter(point => point?.trim())
+                      .map((achievement, j) => (
+                        <View key={j} style={styles.bulletRow}>
+                          <Text style={styles.bulletSymbol}>•</Text>
+                          <Text style={styles.bulletText}>{achievement}</Text>
+                        </View>
+                      ))}
                   </View>
                 ))}
               </View>
@@ -199,20 +199,24 @@ const LayoutOnePDF = ({
                     )}
 
                     {/* Key Features */}
-                    {p.keyFeatures?.length > 0 && (
-                      <View style={{ marginTop: 6 }}>
-                        <Text style={styles.projectMetaLabel}>
-                          Key Features:
-                        </Text>
+                    {p.keyFeatures
+                      ?.filter(feature => feature?.trim())
+                      .length > 0 && (
+                        <View style={{ marginTop: 6 }}>
+                          <Text style={styles.projectMetaLabel}>
+                            Key Features:
+                          </Text>
 
-                        {p.keyFeatures.map((feature, j) => (
-                          <View key={j} style={styles.bulletRow}>
-                            <Text style={styles.bulletSymbol}>•</Text>
-                            <Text style={styles.bulletText}>{feature}</Text>
-                          </View>
-                        ))}
-                      </View>
-                    )}
+                          {p.keyFeatures
+                            .filter(feature => feature?.trim())
+                            .map((feature, j) => (
+                              <View key={j} style={styles.bulletRow}>
+                                <Text style={styles.bulletSymbol}>•</Text>
+                                <Text style={styles.bulletText}>{feature}</Text>
+                              </View>
+                            ))}
+                        </View>
+                      )}
 
                   </View>
                 ))}
@@ -220,7 +224,7 @@ const LayoutOnePDF = ({
             )}
 
 
-           
+
             {visibleSections?.skills && skills?.length > 0 && (
               <View style={styles.block}>
                 <Text style={styles.sectionHeader}>Skills</Text>

@@ -77,14 +77,14 @@ const LayoutTwoPDF = ({
                     {e.achievements && (
                       <Text style={styles.achievementsHead}>{e.achievements.title}</Text>
                     )}
-                    {e.achievements?.points?.map((achievement, j) => (
-                      <View key={j} style={styles.bulletRow}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>{achievement}</Text>
-                      </View>
-                    )
-
-                    )}
+                    {e.achievements?.points
+                      ?.filter(point => point?.trim())
+                      .map((achievement, j) => (
+                        <View key={j} style={styles.bulletRow}>
+                          <Text style={styles.bulletSymbol}>•</Text>
+                          <Text style={styles.bulletText}>{achievement}</Text>
+                        </View>
+                      ))}
                   </View>
                 ))}
               </View>
@@ -143,15 +143,14 @@ const LayoutTwoPDF = ({
                     {e.achievements && (
                       <Text style={styles.achievementsHead}>{e.achievements.title}</Text>
                     )}
-                    {e.achievements?.points?.map((achievement, j) => (
-                      <View key={j} style={styles.bulletRow}>
-                        <Text style={styles.bulletSymbol}>•</Text>
-                        <Text style={styles.bulletText}>{achievement}</Text>
-                      </View>
-
-                    )
-
-                    )}
+                    {e.achievements?.points
+                      ?.filter(point => point?.trim())
+                      .map((achievement, j) => (
+                        <View key={j} style={styles.bulletRow}>
+                          <Text style={styles.bulletSymbol}>•</Text>
+                          <Text style={styles.bulletText}>{achievement}</Text>
+                        </View>
+                      ))}
                   </View>
                 ))}
               </View>
@@ -199,20 +198,24 @@ const LayoutTwoPDF = ({
                     )}
 
                     {/* Key Features */}
-                    {p.keyFeatures?.length > 0 && (
-                      <View style={{ marginTop: 6 }}>
-                        <Text style={styles.projectMetaLabel}>
-                          Key Features:
-                        </Text>
+                    {p.keyFeatures
+                      ?.filter(feature => feature?.trim())
+                      .length > 0 && (
+                        <View style={{ marginTop: 6 }}>
+                          <Text style={styles.projectMetaLabel}>
+                            Key Features:
+                          </Text>
 
-                        {p.keyFeatures.map((feature, j) => (
-                          <View key={j} style={styles.bulletRow}>
-                            <Text style={styles.bulletSymbol}>•</Text>
-                            <Text style={styles.bulletText}>{feature}</Text>
-                          </View>
-                        ))}
-                      </View>
-                    )}
+                          {p.keyFeatures
+                            .filter(feature => feature?.trim())
+                            .map((feature, j) => (
+                              <View key={j} style={styles.bulletRow}>
+                                <Text style={styles.bulletSymbol}>•</Text>
+                                <Text style={styles.bulletText}>{feature}</Text>
+                              </View>
+                            ))}
+                        </View>
+                      )}
 
                   </View>
                 ))}
