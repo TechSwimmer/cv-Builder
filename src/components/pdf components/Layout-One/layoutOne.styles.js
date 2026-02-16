@@ -66,19 +66,22 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "bold",
     marginBottom: 8,
-    marginTop: 16,
+    marginTop: 8,
     textTransform: "uppercase",
     borderBottom: "1 solid #ccc",
+    
     paddingBottom: 4,
+    paddingTop: 4,
     textTransform: "uppercase",
   },
 
   text: {
     fontSize: 11,
     marginBottom: 4,
+    
   },
 
   link: {
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
 
   /*-----Work experience-----*/
     expHeader: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     marginBottom: 4,
   },

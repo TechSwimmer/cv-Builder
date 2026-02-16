@@ -70,7 +70,7 @@ const LayoutThreePDF = ({
                 {e.achievements?.points
                   ?.filter(point => point?.trim())
                   .map((achievement, j) => (
-                    <View key={j} style={styles.bulletRow}>
+                    <View key={j} style={styles.bulletRow} wrap={false}>
                       <Text style={styles.bulletSymbol}>•</Text>
                       <Text style={styles.bulletText}>{achievement}</Text>
                     </View>
@@ -101,7 +101,7 @@ const LayoutThreePDF = ({
                 {e.achievements?.points
                   ?.filter(point => point?.trim())
                   .map((achievement, j) => (
-                    <View key={j} style={styles.bulletRow}>
+                    <View key={j} style={styles.bulletRow} wrap={false}>
                       <Text style={styles.bulletSymbol}>•</Text>
                       <Text style={styles.bulletText}>{achievement}</Text>
                     </View>
@@ -140,9 +140,7 @@ const LayoutThreePDF = ({
                 )}
                 {p.keyFeatures?.length > 0 && (
                   <View style={{ marginTop: 6 }}>
-                    <Text style={styles.projectMetaLabel}>
-                      Key Features:
-                    </Text>
+                    
 
                     {p.keyFeatures
                       ?.filter(feature => feature?.trim())
@@ -155,7 +153,7 @@ const LayoutThreePDF = ({
                           {p.keyFeatures
                             .filter(feature => feature?.trim())
                             .map((feature, j) => (
-                              <View key={j} style={styles.bulletRow}>
+                              <View key={j} style={styles.bulletRow} wrap={false}>
                                 <Text style={styles.bulletSymbol}>•</Text>
                                 <Text style={styles.bulletText}>{feature}</Text>
                               </View>
@@ -174,11 +172,13 @@ const LayoutThreePDF = ({
           <View style={styles.block}>
             <Text style={styles.sectionTitle}>Skills</Text>
             <View style={styles.skillsGrid}>
-              {skills.map((s, i) => (
-                <Text key={i} style={styles.skillItem}>
-                  {s.skill}
-                </Text>
-              ))}
+              {skills
+                ?.filter(s => s?.skill?.trim())
+                .map((s, i) => (
+                  <Text key={i} style={styles.skillItem}>
+                    {s.skill}
+                  </Text>
+                ))}
             </View>
           </View>
         )}

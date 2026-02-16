@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingBottom: 4,
     borderBottom: "2 solid #3498db",
+    textAlign:"center",
   },
 
   block: {
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
 
   /* ===== EXPERIENCE ===== */
   expHeader: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     marginBottom: 4,
   },
@@ -163,7 +164,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     color: "#2c3e50",
+    flexDirection: "column",
   },
+  
 
   expCompany: {
     fontSize: 12,
