@@ -4,9 +4,11 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
-  padding-top: 65px; /* Less padding since header is fixed */
-  overflow-x: hidden; /* No scrollbar */
+  padding-left: 16px;
+  padding-right: 16px;
+  overflow-y: auto;
+  position: relative;
+  overflow-x: hidden; 
   align-items: center;
 }
 
@@ -21,6 +23,8 @@
   cursor: pointer;
   color: #333;
   transition: background 0.2s ease;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 
@@ -43,6 +47,24 @@
   color: #2c3e50;
   margin: 0;
   text-align: center;
+}
+
+.layout-heading{
+  position: sticky;
+  top: 0;
+  z-index: 2001;
+
+  width: 100%;
+  background: aqua;
+
+  padding: 12px 0;
+  text-align: center;
+
+  border-bottom: 1px solid #ddd;
+}
+.layout-heading h3{
+  width: 100%;
+  background-color: aqua;
 }
 
 /* Mobile adjustments */

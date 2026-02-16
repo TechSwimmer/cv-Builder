@@ -99,6 +99,7 @@
   padding-bottom: 6px;
   border-bottom: 2px solid #3498db;
   position: relative;
+  
 }
 
 
@@ -108,7 +109,9 @@
   font-size: 15px;
   border-bottom: 1px solid #3498db;
   color: #2c3e50;
+  
 }
+
 
 /* EDUCATION */
 .pdf2-education-item {
@@ -236,8 +239,11 @@
 }
 
 .pdf2-exp-title {
+  display: flex;
   flex: 1;
   min-width: 60%;
+  flex-direction:column;
+  
 }
 
 .pdf2-exp-title strong {

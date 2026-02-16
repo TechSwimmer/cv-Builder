@@ -80,7 +80,7 @@ const LayoutOnePDF = ({
                     {e.achievements?.points
                       ?.filter(point => point?.trim())
                       .map((achievement, j) => (
-                        <View key={j} style={styles.bulletRow}>
+                        <View key={j} style={styles.bulletRow} wrap={false}>
                           <Text style={styles.bulletSymbol}>•</Text>
                           <Text style={styles.bulletText}>{achievement}</Text>
                         </View>
@@ -124,15 +124,17 @@ const LayoutOnePDF = ({
                 <Text style={styles.text}>{summary.summary}</Text>
               </>
             )}
-
+ 
             {visibleSections?.experience && experience?.length > 0 && (
               <View style={styles.block}>
                 <Text style={styles.sectionHeader}>Experience</Text>
                 {experience.map((e, i) => (
                   <View key={i}>
                     <View style={styles.expHeader}>
-                      <Text style={styles.expTitle}>
-                        {e.position} – {e.company}
+                       <Text style={styles.expTitle}>
+                        <Text style={styles.expPosition}>{e.position}</Text>
+                        {"\n"}
+                        <Text style={styles.expCompany}>{e.company}</Text>
                       </Text>
                       <Text style={styles.expDates}>
                         {e.startDate} {" "}–{" "} {e.endDate || "Present"}
@@ -147,7 +149,7 @@ const LayoutOnePDF = ({
                     {e.achievements?.points
                       ?.filter(point => point?.trim())
                       .map((achievement, j) => (
-                        <View key={j} style={styles.bulletRow}>
+                        <View key={j} style={styles.bulletRow} wrap={false}>
                           <Text style={styles.bulletSymbol}>•</Text>
                           <Text style={styles.bulletText}>{achievement}</Text>
                         </View>
@@ -210,7 +212,7 @@ const LayoutOnePDF = ({
                           {p.keyFeatures
                             .filter(feature => feature?.trim())
                             .map((feature, j) => (
-                              <View key={j} style={styles.bulletRow}>
+                              <View key={j} style={styles.bulletRow} wrap={false}>
                                 <Text style={styles.bulletSymbol}>•</Text>
                                 <Text style={styles.bulletText}>{feature}</Text>
                               </View>
@@ -229,11 +231,13 @@ const LayoutOnePDF = ({
               <View style={styles.block}>
                 <Text style={styles.sectionHeader}>Skills</Text>
                 <View style={styles.skillsGrid}>
-                  {skills.map((s, i) => (
-                    <Text key={i} style={styles.skillItem}>
-                      {s.skill}
-                    </Text>
-                  ))}
+                  {skills
+                    ?.filter(s => s?.skill?.trim())
+                    .map((s, i) => (
+                      <Text key={i} style={styles.skillItem}>
+                        {s.skill}
+                      </Text>
+                    ))}
                 </View>
               </View>
             )}

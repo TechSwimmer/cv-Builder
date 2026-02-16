@@ -53,13 +53,14 @@
   width: 250px;
   height: 100vh;
   background: #ffffff;
-  z-index: 1000;
+  z-index: 2000;
   box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
   transition: right 0.3s ease;
   overflow-x: hidden; /* Remove vertical scrollbar */
   display: flex;
   flex-direction: column;
   border-left: 1px solid #e0e0e0;
+  opacity: 0.9;
 }
 
 .layout-drawer.open {
@@ -67,23 +68,3 @@
 }
 
 /* Header - Fixed height */
-.layout-drawer::before {
-  content: "Layouts";
-  display: block;
-  padding: 18px 16px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #2c3e50;
-  background: #f8f9fa;
-  border-bottom: 1px solid #eaeaea;
-  letter-spacing: 0.5px;
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
-  
-}
-
-/* Remove the old ::after if exists */
-.layout-drawer::after {
-  display: none;
-}

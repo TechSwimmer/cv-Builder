@@ -63,6 +63,7 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
 
       {/* Layout Slider */}
       <div className='layout-slider' role="menu">
+        <div className="layout-heading"><h3>LAYOUTS</h3></div>
         <button className="layout-option" role="menuitem" onClick={() => selectLayout("layout1")}>
           <img src={images.layoutOne} alt="layout 1" />
           <p>Modern</p>

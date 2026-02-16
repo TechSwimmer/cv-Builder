@@ -115,7 +115,8 @@ const PDFLayoutOne = ((props = {}) => {
                     {i === 0 && <h3 data-pdf-text="section-heading" className="section-heading">Work Experience</h3>}
 
                     <div className="exp-item">
-                      <strong>{e.position} – {e.company}</strong>
+                      <span><strong>{e.position}</strong></span>
+                      <span><strong>{e.company}</strong></span>
                       <div className="pdf1-text">{e.startDate} - {e.endDate || "Current"}</div>
                       {e.location && (
                         <div className="pdf1-exp-location">{e.location}</div>
@@ -191,8 +192,8 @@ const PDFLayoutOne = ((props = {}) => {
            {visibleSections?.skills && skills.length > 0 && (
               <div className="pdf1-block" data-col="right">
 
-                <div className="section-heading">
-                  <h2>Skills</h2>
+                <div>
+                  <h3 className="section-heading">Skills</h3>
                 </div>
 
                 <div className="pdf1-skills-grid">

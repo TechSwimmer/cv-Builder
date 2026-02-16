@@ -75,7 +75,7 @@ const INITIAL_FORM_DATA = {
     company: "",
     description: "",
     skillsUsed: [],
-    keyFeatures: [],
+    keyFeatures: [""],
     link: "",
   }],
   hobbies: [{
