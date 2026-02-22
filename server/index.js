@@ -3,10 +3,13 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+dotenv.config();
+
 import authRoutes from './routes/Auth.js'
 import cvRoutes from './routes/Cv.js'
+import parseResumeRoute from "./routes/parseResumeRoute.js"
 
-dotenv.config();
+
 
 const app =  express();
 const PORT = process.env.PORT || 5000;
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cv', cvRoutes);
-
+app.use("/api/ai", parseResumeRoute);
 
 app.get('/', (req, res) => {
     res.send('CV builder Backend is live');

@@ -147,7 +147,7 @@ const LayoutThreePDF = ({
                       .length > 0 && (
                         <View style={{ marginTop: 6 }}>
                           <Text style={styles.projectMetaLabel}>
-                            Key Features:
+                           {projects?.keyFeatures?.title}
                           </Text>
 
                           {p.keyFeatures

@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/navbar styles/navbar.css'
 import ResumeBakerLogo from './ResumeBakerLogo.jsx';
 
+import { uploadResume } from "../../services/resumeUpload.service.js"
+
+
+
 const LockedButton = ({ children, label }) => (
     <div className="locked-btn-wrapper">
         <button className="locked-btn" disabled>
             {children}
-            
+
         </button>
-         <span className="lock-icon">🔒</span>
+        <span className="lock-icon">🔒</span>
         <span className="lock-tooltip">{label}</span>
     </div>
 );
@@ -33,8 +37,11 @@ const BuilderNavbar = ({
     navigateToDashboard,
     username,
     setUserName,
-    onSubmit
+    onSubmit,
+    setGlobalLoading
 }) => {
+
+
 
     const toggleTab = () => {
         const nextTab = activeTab === "style" ? "content" : "style";
@@ -48,17 +55,39 @@ const BuilderNavbar = ({
         setActiveTab(prev => (prev === 'preview' ? 'content' : 'preview'))
     };
 
-    
-   
+    const backToLandingPage = () => {
+        if (sessionStorage.getItem("importedResume")) { sessionStorage.removeItem("importedResume") }
+        navigate('/')
+    }
+
+
+
     const navigate = useNavigate();
     return (
         <>
+
             {isLoggedIn && (
                 <nav className="cv-navbar">
                     <div className='userinfo-navbar'>
                         <h2>{username || 'Guest'}'s Workspace </h2>
                     </div>
                     <div className="userinfo-btn-navbar">
+                        <label className='nav-control'>
+                            Import Resume
+                            <input
+                                type='file'
+                                accept='pdf'
+                                hidden
+                                onChange={async (e) => {
+                                    const file = e.target.files[0];
+                                     if (!file) return;
+                                    const result = await uploadResume(file, navigate, setGlobalLoading);
+                                    if (!result.success) {
+                                        alert(result.message); // or set local toast/message state
+                                    }
+                                }}
+                            ></input>
+                        </label>
                         <button className="active" onClick={toggleTab}>
                             {activeTab === "style" ? "Edit Content" : "Edit Style"}
                         </button>
@@ -81,24 +110,40 @@ const BuilderNavbar = ({
             )}
             {!isLoggedIn && (
                 <nav className="cv-navbar">
-                    <div className='userinfo-navbar' style={{backgroundColor:'aqua'}}>
-                        <ResumeBakerLogo size={40}/>
+                    <div className='userinfo-navbar' style={{ backgroundColor: 'aqua' }}>
+                        <ResumeBakerLogo size={40} />
                     </div>
                     <div className="userinfo-btn-navbar">
-                        <button className="active" onClick={toggleTab}>
+                        <label className='nav-control'>
+                            Import Resume
+                            <input
+                                type='file'
+                                accept='pdf'
+                                hidden
+                                onChange={async (e) => {
+                                    const file = e.target.files[0];
+                                    if (!file) return;
+                                    const result = await uploadResume(file, navigate, setGlobalLoading);
+                                    if (!result.success) {
+                                        alert(result.message); // or set local toast/message state
+                                    }
+                                }}
+                            ></input>
+                        </label>
+                        <button className="nav-control" onClick={toggleTab}>
                             {activeTab === "style" ? "Edit Content" : "Edit Style"}
                         </button>
                         <LockedButton label="Sign-in to access dashboard">
                             Dashboard
                         </LockedButton>
-                        <button className="fullscreen-edit-btn" onClick={toggleFullScreen}>
+                        <button className="nav-control" onClick={toggleFullScreen}>
                             {showForm === false ? "✏️ Edit CV" : "Full Screen"}
                         </button>
-                        <button onClick={() => handleDownloadPDF()}>Download</button>
+                        <button className="nav-control" onClick={() => handleDownloadPDF()}>Download</button>
                         <LockedButton label="Sign-in to save your CV">
                             Save CV
                         </LockedButton>
-                        <button onClick={() => navigate('/')}>Sign in</button>
+                        <button className='nav-control' onClick={() => backToLandingPage()}>Sign in</button>
                     </div>
 
                 </nav>

@@ -6,7 +6,7 @@ import PreviewLayoutTwo from '../preview components/PdfLayoutTwo';
 const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, ...otherProps}, ref) => {
   
   const getLayoutComponent = () => {
-    console.log("Rendering layout:", currentLayout);
+    console.log("Rendering layout:", otherProps);
     switch (currentLayout) {
       case 'layout1':
         return <PreviewLayoutOne visibleSections={visibleSections} {...otherProps} mode="preview" />;

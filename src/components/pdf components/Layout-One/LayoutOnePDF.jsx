@@ -124,14 +124,14 @@ const LayoutOnePDF = ({
                 <Text style={styles.text}>{summary.summary}</Text>
               </>
             )}
- 
+
             {visibleSections?.experience && experience?.length > 0 && (
               <View style={styles.block}>
                 <Text style={styles.sectionHeader}>Experience</Text>
                 {experience.map((e, i) => (
                   <View key={i}>
                     <View style={styles.expHeader}>
-                       <Text style={styles.expTitle}>
+                      <Text style={styles.expTitle}>
                         <Text style={styles.expPosition}>{e.position}</Text>
                         {"\n"}
                         <Text style={styles.expCompany}>{e.company}</Text>
@@ -201,15 +201,15 @@ const LayoutOnePDF = ({
                     )}
 
                     {/* Key Features */}
-                    {p.keyFeatures
+                    {p?.keyFeatures?.points
                       ?.filter(feature => feature?.trim())
                       .length > 0 && (
                         <View style={{ marginTop: 6 }}>
                           <Text style={styles.projectMetaLabel}>
-                            Key Features:
+                            {p?.keyFeatures?.title}
                           </Text>
 
-                          {p.keyFeatures
+                          {p?.keyFeatures?.points
                             .filter(feature => feature?.trim())
                             .map((feature, j) => (
                               <View key={j} style={styles.bulletRow} wrap={false}>

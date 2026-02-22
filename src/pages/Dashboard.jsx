@@ -15,7 +15,7 @@ import {
   FiEye
 } from 'react-icons/fi';
 
-const Dashboard = () => {
+const Dashboard = ({setGlobalLoading}) => {
     const [cvs, setCvs] = useState([]);
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(true);
@@ -100,6 +100,7 @@ const Dashboard = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        if(sessionStorage.getItem("importedResume")){sessionStorage.removeItem("importedResume")}
         navigate('/');
     };
 
@@ -138,6 +139,7 @@ const Dashboard = () => {
             <DashboardNavbar
                 username={username}
                 handleLogout={handleLogout}
+                setGlobalLoading={setGlobalLoading}
             />
 
             <div className='dashboard-container'>

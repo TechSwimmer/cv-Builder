@@ -167,11 +167,11 @@ const PDFLayoutOne = ((props = {}) => {
                         </div>
                       )}
 
-                      {proj.keyFeatures?.length > 0 && (
+                      {proj.keyFeatures?.points?.length > 0 && (
                         <div className="project-key-feature">
-                          <strong>Key Features:</strong>
+                          <strong>{proj?.keyFeatures?.title.trim()}</strong>
                           <ul className="feature-list">
-                            {proj.keyFeatures.map((feature, i) => (
+                            {proj.keyFeatures?.points.map((feature, i) => (
                               
                               feature && <li key={i}>{feature}</li>
                             ))}

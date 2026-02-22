@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true,'Username is required']
+    },
+    aiUsage: {
+        resumeImports: { type: Number, default: 0 },
+        lastReset: { type: Date, default: Date.now }
     }
 
 },{ timestamps : true });

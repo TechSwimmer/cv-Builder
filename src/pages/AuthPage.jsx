@@ -6,8 +6,12 @@ import IntroPages from './Intropages.jsx';
 import API from "../api.js";
 import ResumeBakerLogo from '../components/navbar components/ResumeBakerLogo.jsx';
 
-const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+import { uploadResume } from "../services/resumeUpload.service.js"
+
+
+
+const AuthPage = ({ setGlobalLoading }) => {
+  const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -15,7 +19,9 @@ const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [errors, setErrors] = useState({});
-  
+
+
+
   const navigate = useNavigate();
 
   const toggleForm = () => {
@@ -26,32 +32,32 @@ const AuthPage = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     if (!password) {
       newErrors.password = 'Password is required';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
+
     if (!isLogin && !username) {
       newErrors.username = 'Username is required';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
     setMessage('');
 
@@ -61,13 +67,13 @@ const AuthPage = () => {
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.username);
-      
+
       setMessage(isLogin ? 'Login successful!' : 'Account created successfully!');
-      
+
       setTimeout(() => {
         navigate('/dashboard');
       }, 1000);
-      
+
     } catch (err) {
       const errorMsg = err.response?.data?.message || 'Something went wrong';
       setMessage(errorMsg);
@@ -89,17 +95,20 @@ const AuthPage = () => {
 
   return (
     <div className={`auth-page ${!showIntro ? 'intro-closed' : ''}`}>
+
       {/* Header with branding */}
       <header className='auth-header'>
         <div className='header-content'>
-          <ResumeBakerLogo size={40}/>
+          <ResumeBakerLogo size={40} />
           <p className='tagline'>Create professional resumes in minutes</p>
         </div>
-        {!showIntro && (
-          <button className='intro-toggle' onClick={showIntroAgain}>
-            Show Tutorial
-          </button>
-        )}
+        <div className='header-buttons'>
+          {!showIntro && (
+            <button className='intro-toggle' onClick={showIntroAgain}>
+              Show Tutorial
+            </button>
+          )}
+        </div>
       </header>
 
       <div className='auth-layout'>
@@ -132,21 +141,44 @@ const AuthPage = () => {
             <div className='card-header'>
               <h2>{isLogin ? 'Welcome Back' : 'Create Your Account'}</h2>
               <p>
-                {isLogin 
-                  ? 'Sign in to access your saved resumes' 
+                {isLogin
+                  ? 'Sign in to access your saved resumes'
                   : 'Join thousands who landed jobs with professional resumes'
                 }
               </p>
             </div>
+            <div className="import-resume-box">
+              <label className="import-resume-btn">
+                🚀 Upload Resume — Get a Professional Version in 5 Seconds
+                <small>No signup required</small>
 
+                <input
+                  type="file"
+                  accept=".pdf"
+                  hidden
+                  onChange={async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const result = await uploadResume(file, navigate, setGlobalLoading);
+                    if (!result.success) {
+                      alert(result.message); // or set local toast/message state
+                    }
+                  }}  
+                />
+              </label>
+
+              <div className="import-divider">
+                <span>or build manually</span>
+              </div>
+            </div>
             <div className='form-switcher'>
-              <button 
+              <button
                 className={`switch-btn ${isLogin ? 'active' : ''}`}
                 onClick={() => setIsLogin(true)}
               >
                 Login
               </button>
-              <button 
+              <button
                 className={`switch-btn ${!isLogin ? 'active' : ''}`}
                 onClick={() => setIsLogin(false)}
               >
@@ -211,8 +243,8 @@ const AuthPage = () => {
                 </div>
               )}
 
-              <button 
-                type='submit' 
+              <button
+                type='submit'
                 className='primary-btn'
                 disabled={isLoading}
               >
@@ -230,8 +262,8 @@ const AuthPage = () => {
                 <span>or continue with</span>
               </div>
 
-              <button 
-                type='button' 
+              <button
+                type='button'
                 className='guest-btn'
                 onClick={handleGuestAccess}
               >

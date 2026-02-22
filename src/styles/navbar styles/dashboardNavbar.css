@@ -52,19 +52,35 @@ nav span {
     padding-right: 12px;
     
 }
-.dashboard-buttons button {
-    margin-left: 10px;
-    margin-right: 10px;
-     box-shadow:
+.dashboard-buttons button,
+.dashboard-buttons .nav-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 12px;
+  margin: 0 10px;
+  min-width: 120px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.25),
     0 6px 12px rgba(0, 0, 0, 0.15);
-    width: 120px;
-    transition:
+  transition:
     box-shadow 0.2s ease,
     transform 0.15s ease,
     background-color 0.2s ease;
-    background: #3b82f6;
+  background: #3b82f6;
   color: white;
+  font: inherit;
+  font-weight: bold;
+}
+.nav-upload:hover{
+   transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.40),
+    0 10px 18px rgba(0, 0, 0, 0.2);
+    background-color: #2563eb;
 }
 .dashboard-buttons  button:hover {
     transform: translateY(-1px);

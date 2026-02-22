@@ -1,3 +1,49 @@
+.nav-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+ 
+  min-width: 110px;
+ 
+
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  font: inherit;
+  white-space: nowrap;
+  
+  background-color: #3b82f6;
+  color: #fff;
+
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.25),
+    0 6px 12px rgba(0,0,0,0.15);
+
+  transition:
+    box-shadow .2s ease,
+    transform .15s ease,
+    background-color .2s ease;
+  font-weight: 600;
+}
+
+.nav-control:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.35),
+    0 10px 18px rgba(0,0,0,0.2);
+  background-color: #2563eb;
+  
+}
+
+.nav-control:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+
+
+
 .cv-navbar {
     display: flex;
     background-color: aqua  ;
@@ -21,7 +67,7 @@
     border-radius: 10px;
     
     margin:5px ;
-   
+    
     
     padding-left: 20px;
     padding-right: 25px;
@@ -40,7 +86,7 @@
     width: 70vw;
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    gap: 10px;
     align-items: center ;
     justify-content: space-around;
   
@@ -51,7 +97,7 @@
     
     align-self:center ;
     
-
+    font-weight: 600;
     box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.25),
     0 6px 12px rgba(0, 0, 0, 0.15);
@@ -85,7 +131,7 @@
 }
 .userinfo-btn-navbar > button,
 .userinfo-btn-navbar > .locked-btn-wrapper {
-  width: 50%;
+  width: auto;
 }
 .locked-btn {
   opacity: 0.8;
@@ -94,13 +140,16 @@
  min-width: 100%;
   display: block;
   box-sizing: border-box;
-
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .lock-icon {
   position: absolute;
-  top: -5 px;
+  top: -5px;
   left: 2%;
   transform: translateX(-50%);
   font-size: 17px;

@@ -72,7 +72,7 @@ function Education({ data = [], setData, visible, setVisible }) {
 
               <input
                 type="text"
-                placeholder="School Name"
+                placeholder="School / Institution Name"
                 value={edu.school || ""}
                 onChange={(e) => updateEducation(index, "school", e.target.value)}
               />

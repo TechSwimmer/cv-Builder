@@ -21,8 +21,7 @@ import EditStyleTwo from "../components/style components/EditStyleTwo";
 import EditStyleThree from "../components/style components/EditStyleThree";
 import SaveCVModal from "../components/navbar components/SaveCVModal";
 
-
-// Layouts for PDF export
+import { useLocation  } from "react-router-dom";
 
 
 // Images
@@ -31,17 +30,21 @@ import layoutTwo from "../images/layout2.png";
 import layoutThree from "../images/layout3.png";
 
 // Styles
-
 import "../styles/pages styles/App.css";
 
+// upload resume function 
+import { uploadResume } from "../services/resumeUpload.service.js"
+
+import { normalizeImportedResume } from "../services/normalizeImportedResume.js";
+
 // Constants
-const INITIAL_FORM_DATA = {
+export const INITIAL_FORM_DATA = {
   generalInfo: {
     name: "",
     email: "",
     phone: "",
     location: "",
-    Github: "",
+    github: "",
     linkedin: "",
     website: "",
     title: "",
@@ -69,13 +72,16 @@ const INITIAL_FORM_DATA = {
       title: "",
       points: [""]
     }
-  }],
+  }],  
   projects: [{
     title: "",
     company: "",
     description: "",
     skillsUsed: [],
-    keyFeatures: [""],
+    keyFeatures: {
+      title:"",
+      points:[""]
+    },
     link: "",
   }],
   hobbies: [{
@@ -86,7 +92,7 @@ const INITIAL_FORM_DATA = {
     language: "",
     proficiency: "",
   }],
-  custom: [{
+  custom: {
     title: "",
     type: "text",
     description: "",
@@ -94,7 +100,7 @@ const INITIAL_FORM_DATA = {
     phone: "",
     email: "",
     links: [""],
-  }],
+  },
 };
 
 const INITIAL_STYLES = {
@@ -117,7 +123,7 @@ const INITIAL_STYLES = {
   fontSize: "16px",
 };
 
-const CvBuilder = () => {
+const CvBuilder = ({setGlobalLoading}) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -144,6 +150,8 @@ const CvBuilder = () => {
     languages: true,
     custom: true,
   });
+
+  const location = useLocation();
 
   // Refs
   const previewRef = useRef();
@@ -218,6 +226,28 @@ const CvBuilder = () => {
     }
   }, []);
 
+
+  // insert parsed data from uploadResume to form
+
+  useEffect(() => {
+    const imported = sessionStorage.getItem("importedResume")
+    if (!imported) return;
+
+    try {
+      const parsed = JSON.parse(imported);
+
+      // convert AI response -> app strcture
+      const normalized = normalizeImportedResume(parsed)
+
+      setFormData(normalized);
+
+      // clear temp data
+      sessionStorage.removeItem("")
+    }
+    catch(err){
+       console.error("Failed to load imported resume", err);
+    }
+  }, [location.key])
  
 
   // Handlers
@@ -402,6 +432,7 @@ const CvBuilder = () => {
           username={username}
           setUserName={setUserName}
           onSubmit={handleSubmit}
+          setGlobalLoading={setGlobalLoading}
         />
 
         <div className="cv-builder-container">

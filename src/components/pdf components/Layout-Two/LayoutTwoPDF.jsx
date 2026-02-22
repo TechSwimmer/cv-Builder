@@ -122,7 +122,7 @@ const LayoutTwoPDF = ({
                 <Text style={styles.sectionHead}>Professional Summary</Text>
                 <Text style={styles.summaryText}>{summary.summary}</Text>
               </View>
-            )} 
+            )}
 
             {visibleSections?.experience && experience?.length > 0 && (
               <View style={styles.block}>
@@ -200,15 +200,15 @@ const LayoutTwoPDF = ({
                     )}
 
                     {/* Key Features */}
-                    {p.keyFeatures
+                    {p?.keyFeatures?.points
                       ?.filter(feature => feature?.trim())
                       .length > 0 && (
                         <View style={{ marginTop: 6 }}>
                           <Text style={styles.projectMetaLabel}>
-                            Key Features:
+                            {p?.keyFeatures?.title}
                           </Text>
 
-                          {p.keyFeatures
+                          {p?.keyFeatures?.points
                             .filter(feature => feature?.trim())
                             .map((feature, j) => (
                               <View key={j} style={styles.bulletRow} wrap={false}>

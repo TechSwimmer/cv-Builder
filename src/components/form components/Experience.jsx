@@ -85,7 +85,7 @@ function Experience({ data = [], setData, visible, setVisible }) {
                 placeholder="Location"
                 value={exp.location || ""}
                 onChange={(e) => updateExperience(index, "location", e.target.value)}
-              />
+              /> 
               <input
                 type="text"
                 placeholder="Achievements Title (e.g. Awards)"
@@ -94,7 +94,7 @@ function Experience({ data = [], setData, visible, setVisible }) {
               />
               {exp.achievements?.points.map((point, pointIndex) => {
                 const isLast = pointIndex === exp.achievements.points.length - 1;
-                 const isEmpty = !point?.trim();
+                const isEmpty = !point?.trim();
                 return (
                   <div className="experience-achievements-form" key={pointIndex}>
                     <input

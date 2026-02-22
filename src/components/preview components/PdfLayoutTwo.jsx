@@ -211,11 +211,11 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                         </div>
                       </div>
                     )}
-                    {proj.keyFeatures.length > 0 && (
+                    {proj.keyFeatures?.points?.length > 0 && (
                       <div className="pdf2-project-features">
-                        <strong>Key Features:</strong>
+                        <strong>{proj?.keyFeatures?.title.trim()}</strong>
                         <ul>
-                          {proj.keyFeatures.map((feature, i) => (
+                          {proj.keyFeatures?.points.map((feature, i) => (
                             feature && <li key={i}>{feature}</li>
                           ))}
                         </ul>
