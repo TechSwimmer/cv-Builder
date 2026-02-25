@@ -1,17 +1,18 @@
 # ResumeBaker: Full-Stack Resume Builder 🍞
 
-> **Advanced Full-Stack Resume Builder with Custom PDF Rendering Engine**
+> **Advanced full-stack resume builder with real-time preview, multiple layouts, AI-assisted resume import, and PDF export.**
 
 **🔗 Live Demo: https://resume-baker.netlify.app**    
 
-**🔗 Source Code: (GitHub repo link here)**    
+**🔗 Source Code: https://github.com/TechSwimmer/cv-Builder**    
 
-*CV-BAKER is a modern, full-stack web application that allows users to create, customize, save, and export professional resumes with **pixel-accurate multi-page PDF output** — entirely in the browser.*
+*ResumeBaker is a modern, full-stack web application that allows users to create, customize, save, and export professional resumes with **pixel-accurate multi-page PDF output** — entirely in the browser.*
 
-*Unlike most resume builders that rely on basic browser printing, CV-BAKER uses a **custom document rendering and pagination engine** to produce real A4-sized resumes with correct layout flow across pages.*
+*Unlike most resume builders that rely on basic browser printing, ResumeBaker uses a **custom document rendering and pagination engine** to produce real A4-sized resumes with correct layout flow across pages.*
 
 ## ✨ Key Features
 
+*   **AI resume import** *import from PDF (extract + normalize into form data)*
 *   **Dual-Panel Interface:** *Edit your CV on the left and see a real-time preview on the right.*
 *   **Multi-Layout Templates:** *Choose between multiple professional layouts with different visual and structural designs.*
 *   **Custom PDF Rendering Engine** *CVs are rendered as real A4 pages with correct page breaks, column flow, and content locking.*
@@ -24,118 +25,90 @@
 ## 🏗️ Project Architecture
 
 ### Why This Project Is Different?
-***Most resume builders simply rely on:***
-> window.print() or basic HTML → PDF conversion
- 
-***Resume-Baker does not.*** 
 
-**This project includes a custom front-end document layout engine that:**
-* *Measures content height using off-screen DOM cloning*
+***Most resume builders stop at plain form-to-template rendering.***
+***ResumeBaker adds:*** 
+
+* *ResumeBaker adds:*
 * *Calculates A4 page boundaries*
-* *Splits content into pages dynamically*
-* *Handles two-column and single-column layouts*
-* *Preserves headers and fixed blocks*
+* *Layout-aware section rendering (education, experience, projects, skills, etc.)*
+* *PDF export pipeline integrated into the builder flow*
+* *AI-assisted resume import and normalization into the app’s form schema*
 * *Keeps each logical entry intact across pages*
-
-**In other words — this is real document layout logic, not just styling.**
 
 
 ### Core Engineering Challenges Solved
 
-| Problem                          | Solution                                     |
-| -------------------------------- | -------------------------------------------- |
-| Multi-page resume overflow       | Custom pagination engine                     |
-| Two-column layout flow           | Independent column height tracking           |
-| Template switching               | Dynamic layout injection                     |
-| PDF accuracy                     | DOM cloning + scaling + slicing              |
-| Guest mode                       | Client-side state only                       |
-| User CV persistence              | MongoDB + JWT                                | 
+| Problem                  |Solution                                      |
+| -------------------------|----------------------------------------------|
+| Structured CV editing    | Section-based form model + reusableblocks    |
+| Layout switching         | Dynamic layout selection (3 templates)       |
+| PDF output consistency   | Dedicated PDF layout components per template |
+| AI resume ingestion      | PDF text extraction + JSON normalization     |
+| Guest + user workflows   |  Guest path + JWT auth for save CVs          |
+| User CV persistence      | MongoDB + JWT                                | 
 
 
 ### Backend Overview
 
-*   **RESTful API:** Designed with Express.js, featuring secure endpoints for user data and CV operations.
-*   **Database Models:** Used Mongoose to structure user profiles, CV data, and styling preferences.
-*   **Dual-Mode Auth:** Supports both persistent registered users and temporary guest sessions.
+*   **RESTful API:** *REST API with Express for auth, CV operations, and AI import.*
+*   **Database Models:** *Mongoose models for users and CV data.*
+*   **Auth:**  *JWT-based authentication for registered users.*
+*   **Rate limiting/ AI usage:** *Middleware for auth checks, rate limiting, and AI usage controls.*
 
 
-### Advanced PDF & Layout Engine
+### PDF & Layout Engine
 
-*CV-BAKER supports three different layout engines, each with its own pagination logic:*
+*ResumeBaker includes three layout variants:*
 
-| Layout	  |          Engine                     |
-|-------------|-------------------------------------|
-| Layout One  | Dual-column with fixed left sidebar |
-| Layout Two  |	Dual-column flowing sections        |
-| Layout Three|	Single-column block-based pagination|
+| Layout	  |          Engine                              |
+|-------------|----------------------------------------------|
+| Layout One  | Two-column with stronger left profile column |
+| Layout Two  |	Two-column balanced content flow             |
+| Layout Three|	Single-column block-first structure         |
 
 **Each layout uses:**
 
-* *DOM cloning*
-* *Real height measurement*
-* *Off-screen render containers*
-* *Page-sized slicing*
-* *Column-aware flow logic*
-
-**This ensures:**
-
-* *Projects don’t split in half*
-* *Skills don’t disappear*
-* *Headers don’t repeat incorrectly*
-* *Multi-page resumes render correctly*
+* *Preview component(s) for in-app editing feedback*
+* *PDF component(s) for downloadable output*
+* *Style controls (font/theme-driven rendering)*
 
 
 ## 🛠️ Tech Stack
 
 This project is built with the **MERN** stack and other key libraries:
 
-| Category       | Technologies             |
-| -------------- | ------------------------ |
-| Frontend       | React, React Router, CSS |
-| Backend        | Node.js, Express         |
-| Database       | MongoDB + Mongoose       |
-| Authentication | JWT + bcrypt             |
-| PDF Generation | jsPDF, html2canvas       |
-| Dev Tools      | Vite, Git                |
+| Category       | Technologies                           |
+| -------------- | ---------------------------------------|
+| Frontend       | React, React Router, CSS               |
+| Backend        | Node.js, Express                       |
+| Database       | MongoDB + Mongoose                     |
+| Authentication | JWT + bcrypt                           |
+| AI/Parsing     | OpenAI API, pdfjs-dist                 |
+| PDF Generation | @react-pdf/renderer, jsPDF, html2canvas |
+| Dev Tools      | Vite, Git                              |
 
 
 ## 🧩 Repository Structure
 ```
-cv-Builder/
-├── client/               # React frontend
-│   ├── src/
+cv-maker/
+├── src/                  # React frontend
 │   ├── components/
-│   ├── layouts/          # CV layout engines
-│   ├── pdf/              # Pagination + PDF logic
-│   └── styles/
-│
+│   ├── pages/
+│   ├── services/
+│   ├── styles/
+│   ├── api.js
+│   └── App.jsx
 ├── server/               # Node + Express API
+│   ├── controllers/
+│   ├── middleware/
 │   ├── models/
 │   ├── routes/
-│   ├── middleware/
 │   └── index.js
-│
 ├── package.json
 └── README.md
 ```
 
-## 📖 Usage Guide
-
-1.  **As a Guest:** 
-    * Click "Enter as Guest" on the homepage to start building a CV immediately. You can download your CV as PDF but cannot save progress.
-2.  **As a Registered User:**
-    *   Register/Log in to your account.
-    *   Access your dashboard to view and manage all created CVs.
-    *   Use the "Create New CV" button to start a new resume.
-    *   Fill out the form sections on the left, customize styles and layouts, and save your work.
-    *   Download or continue editing your CVs anytime.
-
-## 🚧 Future Enhancements
-
-*   [ ] **Mobile-Responsive Design** (In Progress)
-*   [ ] ATS (Applicant Tracking System) Optimization Scoring
-*   [ ] Collaborative Editing and Sharing Features
-*   [ ] Template Marketplace with User Submissions
 
 ---
 
@@ -152,7 +125,7 @@ cv-Builder/
 1.  **Clone the repository**
     ```bash
     git clone https://github.com/TechSwimmer/cv-Builder.git
-    cd cv-Builder
+    cd cv-maker
     ```
 
 2.  **Install dependencies**
@@ -161,20 +134,65 @@ cv-Builder/
     ```
 
 3.  **Environment Setup**
-    *   Create a `.env` file in the root directory.
-    *   Add your environment variables (e.g., `JWT_SECRET`, `MONGODB_URI`).
+
+    *   Create `server/.env` file
+    ```bash
+    PORT=5000
+    MONGODB_URI=your_mongodb_uri
+    JWT_SECRET=your_jwt_secret
+    OPENAI_API_KEY=your_openai_api_key
+    AI_DEV_MODE=false
+    AI_DEV_MODE_DELAY_MS=10000
+    ```
+
+    *   Create `src/.env` file
+    ```bash
+    VITE_API_URL=http://localhost:5000
+    ```
 
 4.  **Run the application**
     ```bash
-    # Run both frontend and backend concurrently
+    # In one terminal run the frontend
+    cd src
     npm run dev
     ```
     *   Frontend will be served on `http://localhost:5173` (or another port).
+
+     ```bash
+    # In another terminal run the bacend
+    cd server
+    node index.js
+    ```
     *   Backend API will be running on `http://localhost:3001`.
 
-## 👨‍💻 Author
-**NIKHIL PILLAI**
 
+## 📖 Usage Guide
+
+1.  **As a Guest:** 
+    * Click "Enter as Guest" on the homepage to start building a CV immediately. You can download your CV as PDF but cannot save progress.
+    * Use AI resume import with configured limits.
+2.  **As a Registered User:**
+    *   Register/Log in to your account.
+    *   Access your dashboard to view and manage all created CVs.
+    *   Use the "Create New CV" button to start a new resume.
+    *   Fill out the form sections on the left, customize styles and layouts, and save your work.
+    *   Download or continue editing your CVs anytime.
+    *   Use AI resume import with configured limits
+
+
+
+## 🚧 Future Enhancements
+
+*   [ ] **Mobile-Responsive Design** (In Progress)
+*   [ ] ATS (Applicant Tracking System) Optimization Scoring
+*   [ ] Collaborative Editing and Sharing Features
+*   [ ] Template Marketplace with User Submissions
+*   [ ] Email verification for account authenticity
+
+
+## 👨‍💻 Author
+
+**NIKHIL PILLAI**
 *   Portfolio: https://techdevnikhil.netlify.app
 *   LinkedIn: https://www.linkedin.com/in/techdevnikhil/
 *   GitHub: https://github.com/TechSwimmer
