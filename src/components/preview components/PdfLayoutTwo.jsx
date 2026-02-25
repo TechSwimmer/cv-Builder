@@ -1,34 +1,46 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import "../../styles/pdfstyles/pdfLayoutTwo.css";
 import "../../styles/pdfstyles/pdfDocument.css"
 
 
 
 
-const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, summary, projects, hobbies, languages, custom, visibleSections }, ref) => {
+const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, projects, hobbies, languages, custom, visibleSections, style = {}, }) => {
+
+    const ui = {
+    fontFamily: style.fontFamily || "Georgia",
+    fontSize: `${style.baseFontSize || 11}px`,
+    headingColor: style.headingColor || "#1f2937",
+    textColor: style.textColor || "#374151",
+    accentColor: style.accentColor || "#2563eb",
+    pageBg: style.pageBg || "#ffffff",
+    skillBox: style.skillBox || "#2563eb",
+    skillTextColor:style.skillTextColor || "#ffffff"
+  } 
   return (
 
-    <div className="pdf2-page">
+    <div className="pdf2-page" style={{ fontFamily: ui.fontFamily, fontSize: ui.fontSize, color: ui.textColor, backgroundColor: ui.pageBg }}>
       {/* HEADER SECTION */}
       <div className="pdf2-header-section">
         <div className="pdf2-header-content">
           <div className="pdf2-header-left">
-            <h1 className="pdf2-name">{generalInfo.name || "Full Name"}</h1>
-            <div className="pdf2-title">{generalInfo.title || "Professional Title"}</div>
+            <h1 className="pdf2-name"  style={{ color: ui.headingColor }}>{generalInfo.name || "Full Name"}</h1>
+            <div className="pdf2-title" style={{ color: ui.accentColor}}>{generalInfo.title || "Professional Title"}</div>
           </div>
           <div className="pdf2-header-right">
             <div className="pdf2-contact-info">
-              {generalInfo.email && <div className="pdf2-contact-item">{generalInfo.email}</div>}
-              {generalInfo.phone && <div className="pdf2-contact-item">{generalInfo.phone}</div>}
+              
+              {generalInfo.phone && <div className="pdf2-contact-item"  >{generalInfo.phone}</div>}
               {generalInfo.location && <div className="pdf2-contact-item">{generalInfo.location}</div>}
+              {generalInfo.email && <div className="pdf2-contact-item"  style={{ color: ui.accentColor}}>{generalInfo.email}</div>}
               {generalInfo.website && <div className="pdf2-contact-item">
-                <a href={generalInfo.website} target="_blank" rel="noopener noreferrer">{generalInfo.website}</a>
+                <a href={generalInfo.website} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.website}</a>
               </div>}
               {generalInfo.linkedin && <div className="pdf2-contact-item">
-                <a href={generalInfo.linkedin} target="_blank" rel="noopener noreferrer">{generalInfo.linkedin}</a>
+                <a href={generalInfo.linkedin} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.linkedin}</a>
               </div>}
               {generalInfo.github && <div className="pdf2-contact-item">
-                <a href={generalInfo.github} target="_blank" rel="noopener noreferrer">{generalInfo.github}</a>
+                <a href={generalInfo.github} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.github}</a>
               </div>}
             </div>
           </div>
@@ -46,7 +58,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2>Education</h2>
+                      <h2  style={{ color: ui.headingColor }}>Education</h2>
                     </div>
                   )}
 
@@ -82,7 +94,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2>Languages</h2>
+                      <h2  style={{ color: ui.headingColor }}>Languages</h2>
                     </div>
                   )}
 
@@ -104,7 +116,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2>Interests</h2>
+                      <h2  style={{ color: ui.headingColor }}>Interests</h2>
                     </div>
                   )}
 
@@ -126,7 +138,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
             <div className="pdf2-block" data-col="right">
 
               <div className="pdf2-section-head">
-                <h2>Professional Summary</h2>
+                <h2  style={{ color: ui.headingColor }}>Professional Summary</h2>
               </div>
 
               <div className="pdf2-summary-content">
@@ -144,7 +156,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2>Experience</h2>
+                      <h2  style={{ color: ui.headingColor }}> Work Experience</h2>
                     </div>
                   )}
 
@@ -186,14 +198,14 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
 
                   {index === 0 && (
                     <div className="pdf2-section-head">
-                      <h2>Projects</h2>
+                      <h2  style={{ color: ui.headingColor }}>Projects</h2>
                     </div>
                   )}
                   <div key={index} className="pdf2-project-item">
                     <div className="pdf2-project-header">
                       <div className="pdf2-project-title">{proj.title}</div>
                       {proj.link && (
-                        <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf2-project-link">
+                        <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf2-project-link" style={{ color: ui.accentColor}}>
                           {proj.link}
                         </a>
                       )}
@@ -201,19 +213,19 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                     {proj.description && (
                       <p className="pdf2-project-desc">{proj.description}</p>
                     )}
-                    {proj.skillsUsed.length > 0 && (
+                    {proj.skillsUsed?.length > 0 && (
                       <div className="pdf2-project-skills">
                         <strong>Technologies:</strong>
                         <div className="pdf2-skills-tags">
                           {proj.skillsUsed.map((skill, i) => (
-                            <span key={i} className="pdf2-skill-tag">{skill}</span>
+                            <span key={i} className="pdf2-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor}}>{skill}</span>
                           ))}
                         </div>
                       </div>
                     )}
                     {proj.keyFeatures?.points?.length > 0 && (
                       <div className="pdf2-project-features">
-                        <strong>{proj?.keyFeatures?.title.trim()}</strong>
+                        <strong>{proj?.keyFeatures?.title?.trim()}</strong>
                         <ul>
                           {proj.keyFeatures?.points.map((feature, i) => (
                             feature && <li key={i}>{feature}</li>
@@ -243,12 +255,12 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
             <div className="pdf2-block" data-col="right">
 
               <div className="pdf2-section-head">
-                <h2>Skills</h2>
+                <h2  style={{ color: ui.headingColor }}>Skills</h2>
               </div>
 
               <div className="pdf2-skills-grid">
                 {skills.map((s, i) => (
-                  <span key={i} className="pdf2-skill-item">
+                  <span key={i} className="pdf2-skill-item"  style={{ backgroundColor: ui.skillBox, color: ui.skillTextColor }}>
                     {s.skill}
                   </span>
                 ))}
@@ -260,7 +272,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
           {/* CUSTOM SECTION */}
           {visibleSections?.custom && custom && (
             <div className="pdf2-section" data-col="right">
-              <h2>{custom.title}</h2>
+              <h2  style={{ color: ui.headingColor }}>{custom.title}</h2>
               {custom.type === "text" && <p>{custom.description}</p>}
               {custom.type === "list" && (
                 <ul>
@@ -273,7 +285,7 @@ const PDFLayoutTwo = forwardRef(({ generalInfo, experience, education, skills, s
                 <ul className="pdf2-custom-links">
                   {custom.links.map((link, i) => (
                     <li key={i}>
-                      <a href={link} target="_blank" rel="noopener noreferrer">
+                      <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
                         {link}
                       </a>
                     </li>

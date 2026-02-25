@@ -9,11 +9,11 @@ const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, 
     console.log("Rendering layout:", otherProps);
     switch (currentLayout) {
       case 'layout1':
-        return <PreviewLayoutOne visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutOne visibleSections={visibleSections} style={style} {...otherProps} mode="preview" />;
       case 'layout2':
-        return <PreviewLayoutTwo visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutTwo visibleSections={visibleSections} style={style}  {...otherProps} mode="preview" />;
       case 'layout3':
-        return <PreviewLayoutThree visibleSections={visibleSections} {...otherProps} mode="preview" />;
+        return <PreviewLayoutThree visibleSections={visibleSections} style={style}  {...otherProps} mode="preview" />;
       default:
         return null;
     } 

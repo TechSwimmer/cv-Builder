@@ -55,7 +55,7 @@
   margin-bottom: 8px;
 }
 
-.pdf1-general h3 {
+.pdf1-general h2 {
   font-size: 28px;
   font-weight: 700;
   color: #2c3e50;
@@ -111,8 +111,8 @@
 }
  
 /* ===== SECTION HEADERS ===== */
-.pdf1-section h3 {
-  font-size: 16px;
+.pdf1-section h2 {
+ 
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -122,17 +122,13 @@
 }
 .section-heading{
   border-bottom: 1px solid #ccc ;
- 
+  font-size: 24px;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
 
 /* Left column headers */
-.pdf1-left .pdf1-section h3 {
-  
-  color: #2c3e50;
-}
 
 /* ===== EDUCATION SECTION ===== */
 .edu-item {
@@ -202,7 +198,7 @@
   border-radius: 12px;
   font-size: 11px;
   font-weight: 500;
-  text-transform: uppercase;
+  
   letter-spacing: 0.5px;
 }
 
@@ -316,10 +312,10 @@
   page-break-inside: avoid;
 }
 
-.project-item > strong {
+.project-title {
   display: block;
   font-size: 15px;
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 6px;
 }
 

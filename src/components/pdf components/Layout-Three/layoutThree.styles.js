@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingBottom: 4,
     borderBottom: "2 solid #3498db",
-    textAlign:'center',
+    textAlign:'left',
   },
 
   subsectionTitle: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
 },
 
 tagText: {
-  fontSize: 9,
+  fontSize: 10,
   color: "#fff",
   lineHeight: 1,   // 🔑 critical
 },
@@ -229,18 +229,33 @@ tagText: {
   /* ===== TWO COLUMN ===== */
   twoColumn: {
     flexDirection: "row",
-    gap: 30,
+    
+    marginTop:20,
+   
   },
 
   column: {
     flex: 1,
   },
+  columnLeft: {
+  flex: 1,
+  marginRight: 15,
+},
+
+columnRight: {
+  flex: 1,
+  marginLeft: 15,
+},
 
   smallText: {
     fontSize: 11,
     color: "#666",
   },
-
+  smallTextLang: {
+    fontStyle:"italic",
+    fontSize: 11,
+    color:"#666"
+  },
   /*--------HOBBY -------*/
   
 hobbyTitle: {
@@ -254,6 +269,7 @@ hobbyDescription: {
   fontSize: 11,
   color: "#666",
   lineHeight: 1.4,
+  fontStyle:"italic",
 },
  hobbyItem: {
   marginBottom: 8,
@@ -263,7 +279,7 @@ hobbyDescription: {
 langItem:{
   flexDirection:'row',
   justifyContent:'space-between',
-  marginBottom:'10px'
+  marginBottom:10
 },
 });
 

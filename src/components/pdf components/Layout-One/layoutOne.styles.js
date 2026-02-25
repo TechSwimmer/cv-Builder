@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
   },
 
   left: {
-    width: "35%",
+    width: "38%",
     backgroundColor: "#f8f9fa",
     padding: 16,
   },
 
   right: {
-    width: "65%",
+    width: "62%",
     paddingLeft: 12,
   },
    block: {
@@ -122,11 +122,16 @@ const styles = StyleSheet.create({
     langItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: '10px'
+    marginBottom: 10
   },
   smallText: {
     fontSize: 11,
     color: "#666",
+  },
+   smallTextLang: {
+    fontSize: 11,
+    color: "#666",
+    fontStyle:"italic"
   },
 
   /*-----hobby----*/
@@ -145,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#666",
     lineHeight: 1.4,
+    fontStyle:"italic"
   },
 
   /*-----Work experience-----*/
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
   },
 
   tagText: {
-    fontSize: 9,
+    fontSize: 10,
     color: "#fff",
     lineHeight: 1,   // 🔑 critical
   },
@@ -230,6 +236,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     borderRadius: 3,
     lineHeight: 1,
+    
   },
 });
 

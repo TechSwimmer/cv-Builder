@@ -9,7 +9,7 @@ import { pdf } from "@react-pdf/renderer";
 import PDFlayoutOne from "../components/pdf components/Layout-One/LayoutOnePDF.jsx";
 import PDFlayoutTwo from "../components/pdf components/Layout-Two/LayoutTwoPDF.jsx";
 import PDFlayoutThree from "../components/pdf components/Layout-Three/LayoutThreePDF.jsx";
-
+import { THEME_OPTIONS} from "../components/style components/EditStylePanel.jsx";
 
 // Components
 import FormWizard from "../components/form components/FormWizard";
@@ -36,6 +36,8 @@ import "../styles/pages styles/App.css";
 import { uploadResume } from "../services/resumeUpload.service.js"
 
 import { normalizeImportedResume } from "../services/normalizeImportedResume.js";
+
+import "../components/pdf components/fonts/registerFonts.js"
 
 // Constants
 export const INITIAL_FORM_DATA = {
@@ -103,25 +105,15 @@ export const INITIAL_FORM_DATA = {
   },
 };
 
+
+// default styles
 const INITIAL_STYLES = {
-  fontNameSize: "34px",
-  fontHeaderSize: "28px",
-  fontContentSize: "20px",
-  textColorLeft: "#000000",
-  textColorRight: "#000000",
-  textColorHeader: "#000000",
-  textColorContent: "#000000",
-  backgroundColorLeft: "#ffffff",
-  backgroundColorRight: "#ffffff",
-  backgroundColorHeader: "#ffffff",
-  backgroundColorContent: "#ffffff",
-  bodyBgColor: "#ffffff",
-  skillTabColor: "aqua",
-  textColorSkillTab: "#000000",
-  fontFamilyHeader: "Lucida Console, monospace",
-  fontFamilyContent: "Lucida Console, monospace",
-  fontSize: "16px",
+    themeId: "classicBlue",
+    fontFamily:"Georgia",
+    ...THEME_OPTIONS.classicBlue
 };
+
+
 
 const CvBuilder = ({setGlobalLoading}) => {
   const [searchParams] = useSearchParams();
@@ -166,25 +158,6 @@ const CvBuilder = ({setGlobalLoading}) => {
     handleStylePage('layout1');
   }, []);
 
-  useEffect(() => {
-    // Handle responsive styles
-    const updateStyles = () => {
-      if (window.innerWidth <= 840) {
-        setCustomStyles(prev => ({
-          ...prev,
-          fontNameSize: "16px",
-          fontHeaderSize: "12px",
-          fontContentSize: "10px",
-        }));
-      } else {
-        setCustomStyles(INITIAL_STYLES);
-      }
-    };
-
-    updateStyles();
-    window.addEventListener("resize", updateStyles);
-    return () => window.removeEventListener("resize", updateStyles);
-  }, []);
 
   useEffect(() => {
     // Load existing CV if editing
@@ -196,7 +169,8 @@ const CvBuilder = ({setGlobalLoading}) => {
             visibleSections: fetchedVisibleSections, layout, title } = res.data;
 
           setFormData(fetchedFormData || INITIAL_FORM_DATA);
-          setCustomStyles(fetchedStyles || INITIAL_STYLES);
+          setCustomStyles({ ...INITIAL_STYLES, ...(fetchedStyles || {}) });
+
           setVisibleSections(fetchedVisibleSections || visibleSections);
           setCurrentLayout(layout || 'layout1');
           setCvName(title || '');
@@ -242,7 +216,7 @@ const CvBuilder = ({setGlobalLoading}) => {
       setFormData(normalized);
 
       // clear temp data
-      sessionStorage.removeItem("")
+      sessionStorage.removeItem("importedResume")
     }
     catch(err){
        console.error("Failed to load imported resume", err);
@@ -343,7 +317,8 @@ const CvBuilder = ({setGlobalLoading}) => {
     const blob = await pdf(
       getPdfLayout(currentLayout, {
         ...formData,
-        visibleSections
+        visibleSections,
+        style: customStyles
       })
     ).toBlob();
 
@@ -450,7 +425,7 @@ const CvBuilder = ({setGlobalLoading}) => {
               )}
               {activeTab === "style" && (
                 <div className="edit-style-wrapper">
-
+                    {renderEditStyle()}
                 </div>
               )}
             </div>
@@ -473,7 +448,9 @@ const CvBuilder = ({setGlobalLoading}) => {
               <PDFViewer width="100%" height="600">
                 {getPdfLayout(currentLayout, {
                   ...formData,
-                  visibleSections
+                  visibleSections,
+                  style:customStyles,
+                  
                 })}
               </PDFViewer>
             )}

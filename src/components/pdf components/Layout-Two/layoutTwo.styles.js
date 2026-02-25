@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingBottom: 4,
     borderBottom: "2 solid #3498db",
-    textAlign:"center",
+    textAlign:"left",
   },
 
   block: {
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#666",
     lineHeight: 1.4,
+    fontStyle:"italic"
   },
 
   sectionTitle: {
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
   },
 
   tagText: {
-    fontSize: 9,
+    fontSize: 10,
     color: "#fff",
     lineHeight: 1,   // 🔑 critical
   },
@@ -266,11 +267,16 @@ const styles = StyleSheet.create({
   langItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: '10px'
+    marginBottom: 10
   },
   smallText: {
     fontSize: 11,
     color: "#666",
+  },
+   smallTextLang: {
+    fontSize: 11,
+    color: "#666",
+    fontStyle:"italic"
   },
 });
 

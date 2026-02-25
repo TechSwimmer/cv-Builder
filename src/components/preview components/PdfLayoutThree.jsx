@@ -1,19 +1,32 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import "../../styles/pdfstyles/pdfLayoutThree.css";
 
 
 
 
-const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections }, ref) => {
+const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections, style = {} }) => {
+
+   const ui = {
+    fontFamily: style.fontFamily || "Georgia",
+    fontSize: `${style.baseFontSize || 11}px`,
+    headingColor: style.headingColor || "#1f2937",
+    textColor: style.textColor || "#374151",
+    accentColor: style.accentColor || "#2563eb",
+    pageBg: style.pageBg || "#ffffff",
+    skillBox: style.skillBox || "#2563eb",
+    skillTextColor:style.skillTextColor || "#ffffff"
+  } 
+
+
   return (
 
    
   
-    <div className="pdf3-page" >
+    <div className="pdf3-page" style={{ fontFamily: ui.fontFamily, fontSize: ui.fontSize, color: ui.textColor, backgroundColor: ui.pageBg }}>
        {/* HEADER SECTION */ }
       <div className="pdf3-section pdf3-header" data-block>
-        <h1 className="pdf3-name">{generalInfo.name || "Full Name"}</h1>
-        <div className="pdf3-title">{generalInfo.title || "Professional Title"}</div>
+        <h1 className="pdf3-name" style={{ color: ui.headingColor }}>{generalInfo.name || "Full Name"}</h1>
+        <div className="pdf3-title" style={{ color: ui.accentColor }}>{generalInfo.title || "Professional Title"}</div>
         <div className="pdf3-contact">
           {generalInfo.email && <span>{generalInfo.email}</span>}
           {generalInfo.email && generalInfo.phone && <span>•</span>}
@@ -21,11 +34,11 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
           {generalInfo.location && generalInfo.phone && <span>•</span>}
           {generalInfo.location && <span>{generalInfo.location}</span>}
           <br />
-          {generalInfo.website && <span>{generalInfo.website}</span>}
-          {generalInfo.website && generalInfo.linkedin && <span>•</span>}
-          {generalInfo.linkedin && <span>{generalInfo.linkedin}</span>}
-          {generalInfo.github && generalInfo.linkedin && <span>•</span>}
-          {generalInfo.github && <span>{generalInfo.github}</span>}
+          {generalInfo.website && <span style={{ color: ui.accentColor }}>{generalInfo.website}</span>}
+          {generalInfo.website && generalInfo.linkedin && <span style={{ color: ui.accentColor }}>•</span>}
+          {generalInfo.linkedin && <span style={{ color: ui.accentColor }}>{generalInfo.linkedin}</span>}
+          {generalInfo.github && generalInfo.linkedin && <span style={{ color: ui.accentColor }}>•</span>}
+          {generalInfo.github && <span style={{ color: ui.accentColor }}>{generalInfo.github}</span>}
         </div>
       </div>
 
@@ -33,7 +46,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.summary && summary?.summary && (
           <div className="pdf3-section pdf3-summary" data-block>
-            <h2>Professional Profile</h2>
+            <h2 style={{ color: ui.headingColor }}>Professional Profile</h2>
             <div className="pdf3-summary-content">
               <p>{summary.summary}</p>
             </div>
@@ -45,7 +58,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.experience && experience.length > 0 && (
           <div className="pdf3-section pdf3-experience" data-block>
-            <h2>Work Experience</h2>
+            <h2 style={{ color: ui.headingColor }}>Work Experience</h2>
             <div className="pdf3-experience-list">
               {experience.map((e, i) => (
                 <div key={i} className="pdf3-experience-item">
@@ -82,7 +95,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.education && education.length > 0 && (
           <div className="pdf3-section pdf3-education" data-block>
-            <h2>Education</h2>
+            <h2 style={{ color: ui.headingColor }}>Education</h2>
             <div className="pdf3-education-list">
               {education.map((e, i) => (
                 <div key={i} className="pdf3-education-item">
@@ -120,14 +133,14 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.projects && projects.length > 0 && (
           <div className="pdf3-section pdf3-projects" data-block>
-            <h2>Projects</h2>
+            <h2 style={{ color: ui.headingColor }}>Projects</h2>
             <div className="pdf3-projects-list">
               {projects.map((proj, index) => (
                 <div key={index} className="pdf3-project-item">
                   <div className="pdf3-project-header">
                     <strong>{proj.title || "Project Title"}</strong>
                     {proj.link && (
-                      <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf3-project-link">
+                      <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf3-project-link" style={{ color: ui.accentColor }}>
                         {proj.link}
                       </a>
                     )}
@@ -135,19 +148,19 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                   {proj.description && (
                     <p className="pdf3-project-description">{proj.description}</p>
                   )}
-                  {proj.skillsUsed.length > 0 && (
+                  {proj.skillsUsed?.length > 0 && (
                     <div className="pdf3-project-skills">
                       <strong>Technologies:</strong>
                       <div className="pdf3-skills-list">
                         {proj.skillsUsed.map((skill, i) => (
-                          <span key={i} className="pdf3-skill-tag">{skill}</span>
+                          <span key={i} className="pdf3-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor}}>{skill}</span>
                         ))}
                       </div>
                     </div>
                   )}
                   {proj.keyFeatures?.points?.length > 0 && (
                     <div className="pdf3-project-features">
-                      <strong>{proj?.keyFeatures?.title.trim()}</strong>
+                      <strong>{proj?.keyFeatures?.title?.trim()}</strong>
                       <ul>
                         {proj?.keyFeatures?.points.map((feature, i) => (
                          feature && <li key={i}>{feature}</li>
@@ -166,10 +179,10 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.skills && skills.length > 0 && (
           <div className="pdf3-section pdf3-skills" data-block>
-            <h2>Skills</h2>
+            <h2 style={{ color: ui.headingColor }}>Skills</h2>
             <div className="pdf3-skills-grid">
               {skills.map((s, i) => (
-                <span key={i} className="pdf3-skill-item">{s.skill}</span>
+                <span key={i} className="pdf3-skill-item" style={{ backgroundColor: ui.skillBox, color: ui.skillTextColor }}>{s.skill}</span>
               ))}
             </div>
           </div>
@@ -184,7 +197,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
               {/* HOBBIES */}
               {visibleSections?.hobbies && hobbies.length > 0 && (
                 <div className="pdf3-column">
-                  <h3>Interests</h3>
+                  <h3 style={{ color: ui.headingColor }}>Interests</h3>
                   <div className="pdf3-hobbies-list">
                     {hobbies.map((hobby, index) => (
                       <div key={index} className="pdf3-hobby-item">
@@ -199,7 +212,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
               {/* LANGUAGES */}
               {visibleSections?.languages && languages.length > 0 && (
                 <div className="pdf3-column">
-                  <h3>Languages</h3>
+                  <h3 style={{ color: ui.headingColor }}>Languages</h3>
                   <div className="pdf3-languages-list">
                     {languages.map((lang, index) => (
                       <div key={index} className="pdf3-language-item">
@@ -219,7 +232,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       {
         visibleSections?.custom && custom && (
           <div className="pdf3-section pdf3-custom" data-block>
-            <h2>{custom.title}</h2>
+            <h2 style={{ color: ui.headingColor }}>{custom.title}</h2>
             {custom.type === "text" && <p>{custom.description}</p>}
             {custom.type === "list" && (
               <ul>
@@ -232,7 +245,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
               <ul className="pdf3-custom-links">
                 {custom.links.map((link, i) => (
                   <li key={i}>
-                    <a href={link} target="_blank" rel="noopener noreferrer">
+                    <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
                       {link}
                     </a>
                   </li>
