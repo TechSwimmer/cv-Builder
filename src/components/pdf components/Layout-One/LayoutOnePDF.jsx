@@ -12,7 +12,7 @@ const LayoutOnePDF = ({
   skills,
   languages,
   hobbies,
-  custom,
+  customSections,
   visibleSections,
   style = {}
 }) => {
@@ -28,7 +28,20 @@ const LayoutOnePDF = ({
     skillTextColor: style.skillTextColor || '#ffffff'
   };
 
+  // branding logic
+  const shouldShowBranding = style?.showBranding !== false;
 
+
+  // dates handler
+  const formatDateRange = (startDate, endDate) => {
+    const start = (startDate || "").trim();
+    const end = (endDate || "").trim();
+
+    if (start && end) return `${start} - ${end}`;
+    if (start && !end) return `${start} - Present`;
+    if (!start && end) return `${end}`;
+    return "";
+  };
 
 
   return (
@@ -80,31 +93,34 @@ const LayoutOnePDF = ({
             {visibleSections?.education && education?.length > 0 && (
               <View style={styles.block}>
                 <Text style={[styles.sectionHeader, { color: pdfTheme.headingColor }]}>Education</Text>
-                {education.map((e, i) => (
-                  <View key={i}>
-                    <Text style={[styles.eduDegree, { color: pdfTheme.textColor }]}>{e.degree}</Text>
-                    <Text style={[styles.eduSchool, { color: pdfTheme.textColor }]}>{e.school}</Text>
-                    <Text style={[styles.eduDates, { color: pdfTheme.textColor }]}>
-                      {e.startDate} – {e.endDate || "Present"}
-                    </Text>
-                    {e.location && (
-                      <Text style={[styles.eduLocation, { color: pdfTheme.textColor }]}>{e.location}</Text>
-                    )}
-                    {e.achievements && (
-                      <Text style={[styles.achievementsHead, { color: pdfTheme.headingColor }]}>{e.achievements.title}</Text>
+                {education.map((e, i) => {
+                  const dateText = formatDateRange(e.startDate, e.endDate);
+                  return (
+                    <View key={i}>
+                      <Text style={[styles.eduDegree, { color: pdfTheme.textColor }]}>{e.degree}</Text>
+                      <Text style={[styles.eduSchool, { color: pdfTheme.textColor }]}>{e.school}</Text>
+                      <Text style={[styles.eduDates, { color: pdfTheme.textColor }]}>
+                        {dateText && dateText}
+                      </Text>
+                      {e.location && (
+                        <Text style={[styles.eduLocation, { color: pdfTheme.textColor }]}>{e.location}</Text>
+                      )}
+                      {e.achievements && (
+                        <Text style={[styles.achievementsHead, { color: pdfTheme.headingColor }]}>{e.achievements.title}</Text>
 
-                    )}
-                    {e.achievements?.points
-                      ?.filter(point => point?.trim())
-                      .map((achievement, j) => (
-                        <View key={j} style={styles.bulletRow} wrap={false}>
-                          <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
-                          <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{achievement}</Text>
-                        </View>
-                      ))}
+                      )}
+                      {e.achievements?.points
+                        ?.filter(point => point?.trim())
+                        .map((achievement, j) => (
+                          <View key={j} style={styles.bulletRow} wrap={false}>
+                            <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
+                            <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{achievement}</Text>
+                          </View>
+                        ))}
 
-                  </View>
-                ))}
+                    </View>
+                  )
+                })}
               </View>
             )}
 
@@ -145,34 +161,37 @@ const LayoutOnePDF = ({
             {visibleSections?.experience && experience?.length > 0 && (
               <View style={styles.block}>
                 <Text style={[styles.sectionHeader, { color: pdfTheme.headingColor }]}>Work Experience</Text>
-                {experience.map((e, i) => (
-                  <View key={i}>
-                    <View style={styles.expHeader}>
-                      <Text style={styles.expTitle}>
-                        <Text style={[styles.expPosition, { color: pdfTheme.textColor }]}>{e.position}</Text>
-                        {"\n"}
-                        <Text style={[styles.expCompany, { color: pdfTheme.textColor }]}>{e.company}</Text>
-                      </Text>
-                      <Text style={[styles.expDates, { color: pdfTheme.textColor }]}>
-                        {e.startDate} {" "}–{" "} {e.endDate || "Present"}
-                      </Text>
+                {experience.map((e, i) => {
+                  const dateText = formatDateRange(e.startDate, e.endDate);
+                  return (
+                    <View key={i}>
+                      <View style={styles.expHeader}>
+                        <Text style={styles.expTitle}>
+                          <Text style={[styles.expPosition, { color: pdfTheme.textColor }]}>{e.position}</Text>
+                          {"\n"}
+                          <Text style={[styles.expCompany, { color: pdfTheme.textColor }]}>{e.company}</Text>
+                        </Text>
+                        <Text style={[styles.expDates, { color: pdfTheme.textColor }]}>
+                          {dateText && dateText}
+                        </Text>
+                      </View>
+                      {e.location && (
+                        <Text style={[styles.eduLocation, { color: pdfTheme.textColor }]}>{e.location}</Text>
+                      )}
+                      {e.achievements && (
+                        <Text style={[styles.achievementsHead, { color: pdfTheme.headingColor }]}>{e.achievements.title}</Text>
+                      )}
+                      {e.achievements?.points
+                        ?.filter(point => point?.trim())
+                        .map((achievement, j) => (
+                          <View key={j} style={styles.bulletRow} wrap={false}>
+                            <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
+                            <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{achievement}</Text>
+                          </View>
+                        ))}
                     </View>
-                    {e.location && (
-                      <Text style={[styles.eduLocation, { color: pdfTheme.textColor }]}>{e.location}</Text>
-                    )}
-                    {e.achievements && (
-                      <Text style={[styles.achievementsHead, { color: pdfTheme.headingColor }]}>{e.achievements.title}</Text>
-                    )}
-                    {e.achievements?.points
-                      ?.filter(point => point?.trim())
-                      .map((achievement, j) => (
-                        <View key={j} style={styles.bulletRow} wrap={false}>
-                          <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
-                          <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{achievement}</Text>
-                        </View>
-                      ))}
-                  </View>
-                ))}
+                  )
+                })}
               </View>
             )}
 
@@ -257,24 +276,91 @@ const LayoutOnePDF = ({
                 </View>
               </View>
             )}
-            {visibleSections?.custom && custom && (
+
+            {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
               <>
-                <Text style={[styles.sectionHeader, { color: pdfTheme.headingColor }]}>{custom.title}</Text>
-                {custom.type === "text" && <Text style={[{ color: pdfTheme.textColor }]}>{custom.description}</Text>}
-                {custom.type === "list" &&
-                  custom.listItems.map((item, i) => (
-                    <Text key={i} style={[{ color: pdfTheme.textColor }]}>• {item}</Text>
-                  ))}
-                {custom.type === "links" &&
-                  custom.links.map((link, i) => (
-                    <Link key={i} src={link} style={[styles.link, { color: pdfTheme.accentColor }]}>{link}</Link>
-                  ))}
+                {customSections.map((section, sectionIndex) => {
+                  const content = section?.content || {};
+                  const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
+                  const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
+                  const phone = content.contact?.phone?.trim();
+                  const email = content.contact?.email?.trim();
+
+                  return (
+                    <View key={sectionIndex} style={styles.block}>
+                      {section?.title?.trim() && (
+                        <Text style={[styles.sectionHeader, { color: pdfTheme.headingColor }]}>
+                          {section.title}
+                        </Text>
+                      )}
+
+                      {content.text?.trim() && (
+                        <Text style={[styles.text, { color: pdfTheme.textColor }]}>
+                          {content.text}
+                        </Text>
+                      )}
+
+                      {items.length > 0 && (
+                        <View>
+                          {items.map((item, i) => (
+                            <View key={`item-${sectionIndex}-${i}`} style={styles.bulletRow} wrap={false}>
+                              <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
+                              <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{item}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+
+                      {links.length > 0 && (
+                        <View>
+                          {links.map((link, i) => (
+                            <Link
+                              key={`link-${sectionIndex}-${i}`}
+                              src={link}
+                              style={[styles.link, { color: pdfTheme.accentColor }]}
+                            >
+                              {link}
+                            </Link>
+                          ))}
+                        </View>
+                      )}
+
+                      {(phone || email) && (
+                        <Text style={[styles.text, { color: pdfTheme.textColor }]}>
+                          {phone || ""}
+                          {phone && email ? " • " : ""}
+                          {email || ""}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
               </>
             )}
+
           </View>
 
         </View>
+
       </View>
+      {shouldShowBranding && (
+        <View
+          fixed
+          style={{
+            position: "absolute",
+            right: 14,
+            bottom: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 3
+          }}
+        >
+          <Text style={{ fontSize: 7, color: "#7d838f" }}>Created with</Text>
+          <Link src="https://resume-baker.netlify.app" style={{ fontSize: 7, color: "#6b7280" }}>
+            ResumeBaker
+          </Link>
+        </View>
+      )}
     </PdfDocument>
   );
 };

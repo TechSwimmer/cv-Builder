@@ -13,7 +13,7 @@ const PDFLayoutOne = ((props = {}) => {
     projects = [],
     languages = [],
     hobbies = [],
-    custom,
+    customSections,
     visibleSections = {},
   } = props;
 
@@ -27,6 +27,20 @@ const PDFLayoutOne = ((props = {}) => {
     skillBox: style.skillBox || "#2563eb",
     skillTextColor: style.skillTextColor || "#ffffff"
   }
+
+
+  // dates manager
+  const formatDateRange = (startDate, endDate) => {
+    const start = (startDate || "").trim();
+    const end = (endDate || "").trim();
+
+    if (start && end) return `${start} - ${end}`;
+    if (start && !end) return `${start} - Present`;
+    if (!start && end) return `${end}`;
+    return "";
+  };
+
+
 
   return (
 
@@ -50,30 +64,33 @@ const PDFLayoutOne = ((props = {}) => {
           {/* Education */}
           {visibleSections?.education && education.length > 0 && (
             <>
-              {education.map((e, i) => (
-                <div key={i} className="pdf1-block" data-col="left">
+              {education.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
+                return (
+                  <div key={i} className="pdf1-block" data-col="left">
 
-                  {i === 0 && <h2 data-pdf-text="section-heading" className="section-heading" style={{ color: ui.headingColor }}>Education</h2>}
+                    {i === 0 && <h2 data-pdf-text="section-heading" className="section-heading" style={{ color: ui.headingColor }}>Education</h2>}
 
-                  <div className="edu-item">
-                    <strong>{e.degree}</strong>
-                    <strong>{e.school}</strong>
+                    <div className="edu-item">
+                      <strong>{e.degree}</strong>
+                      <strong>{e.school}</strong>
 
-                    <div className="pdf1-text">{e.startDate} - {e.endDate || "Current"}</div>
-                    {e.location && <p className="pdf1-edu-location">{e.location}</p>}
+                      {dateText && <div>{dateText}</div>}
+                      {e.location && <p className="pdf1-edu-location">{e.location}</p>}
 
-                    {e.achievements?.points?.length > 0 && (
-                      <div className="edu-achievements">
-                        <strong>{e.achievements.title}</strong>
-                        <ul>
-                          {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
-                        </ul>
-                      </div>
-                    )}
+                      {e.achievements?.points?.length > 0 && (
+                        <div className="edu-achievements">
+                          <strong>{e.achievements.title}</strong>
+                          <ul>
+                            {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
-
-                </div>
-              ))}
+                )
+              })}
             </>
           )}
 
@@ -121,31 +138,34 @@ const PDFLayoutOne = ((props = {}) => {
           {/* Experience */}
           {visibleSections?.experience && experience.length > 0 && (
             <>
-              {experience.map((e, i) => (
-                <div key={i} className="pdf1-block" data-col="right">
+              {experience.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
+                return (
+                  <div key={i} className="pdf1-block" data-col="right">
 
-                  {i === 0 && <h2 data-pdf-text="section-heading" className="section-heading" style={{ color: ui.headingColor }}>Work Experience</h2>}
+                    {i === 0 && <h2 data-pdf-text="section-heading" className="section-heading" style={{ color: ui.headingColor }}>Work Experience</h2>}
 
-                  <div className="exp-item">
-                    <span><strong>{e.position}</strong></span>
-                    <span><strong>{e.company}</strong></span>
-                    <div className="pdf1-text">{e.startDate} - {e.endDate || "Current"}</div>
-                    {e.location && (
-                      <div className="pdf1-exp-location">{e.location}</div>
-                    )}
+                    <div className="exp-item">
+                      <span><strong>{e.position}</strong></span>
+                      <span><strong>{e.company}</strong></span>
+                      <div className="pdf1-text"> {dateText && <div>{dateText}</div>}</div>
+                      {e.location && (
+                        <div className="pdf1-exp-location">{e.location}</div>
+                      )}
 
-                    {e.achievements?.points?.length > 0 && (
-                      <div className="exp-achievements">
-                        <strong>{e.achievements.title}</strong>
-                        <ul>
-                          {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
-                        </ul>
-                      </div>
-                    )}
+                      {e.achievements?.points?.length > 0 && (
+                        <div className="exp-achievements">
+                          <strong>{e.achievements.title}</strong>
+                          <ul>
+                            {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
-
-                </div>
-              ))}
+                )
+              })}
             </>
           )}
 
@@ -220,40 +240,64 @@ const PDFLayoutOne = ((props = {}) => {
           )}
 
           {/* Custom Section */}
-          {visibleSections?.custom && custom && (
+          {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
             <div className="pdf1-block" data-col="right">
+              {customSections.map((section, sectionIndex) => {
+                const content = section?.content || {};
+                const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
+                const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
+                const phone = content.contact?.phone?.trim();
+                const email = content.contact?.email?.trim();
 
-              <h2 data-pdf-text="section-heading" className="section-heading" style={{ color: ui.headingColor }}>{custom.title}</h2>
+                return (
+                  <div key={sectionIndex} className="custom-section-block">
+                    {section?.title?.trim() && (
+                      <h2
+                        data-pdf-text="section-heading"
+                        className="section-heading"
+                        style={{ color: ui.headingColor }}
+                      >
+                        {section.title}
+                      </h2>
+                    )}
 
-              {custom.type === "text" && <p>{custom.description}</p>}
+                    {content.text?.trim() && <p>{content.text}</p>}
 
-              {custom.type === "list" && (
-                <ul>
-                  {custom.listItems.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              )}
+                    {items.length > 0 && (
+                      <ul>
+                        {items.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
 
-              {custom.type === "links" && (
-                <ul className="custom-links">
-                  {custom.links.map((link, i) => (
-                    <li key={i}>
-                      <a data-pdf-link={link} href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                    {links.length > 0 && (
+                      <ul className="custom-links">
+                        {links.map((link, i) => (
+                          <li key={i}>
+                            <a
+                              data-pdf-link={link}
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: ui.accentColor }}
+                            >
+                              {link}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
-              {custom.type === "contact" && (
-                <p>
-                  <strong>Phone:</strong> {custom.phone}<br />
-                  <strong>Email:</strong> {custom.email}
-                </p>
-              )}
-
+                    {(phone || email) && (
+                      <p>
+                        {phone && <><strong>Phone:</strong> {phone}<br /></>}
+                        {email && <><strong>Email:</strong> {email}</>}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

@@ -5,9 +5,9 @@ import "../../styles/pdfstyles/pdfDocument.css"
 
 
 
-const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, projects, hobbies, languages, custom, visibleSections, style = {}, }) => {
+const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, projects, hobbies, languages, customSections, visibleSections, style = {}, }) => {
 
-    const ui = {
+  const ui = {
     fontFamily: style.fontFamily || "Georgia",
     fontSize: `${style.baseFontSize || 11}px`,
     headingColor: style.headingColor || "#1f2937",
@@ -15,8 +15,23 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
     accentColor: style.accentColor || "#2563eb",
     pageBg: style.pageBg || "#ffffff",
     skillBox: style.skillBox || "#2563eb",
-    skillTextColor:style.skillTextColor || "#ffffff"
-  } 
+    skillTextColor: style.skillTextColor || "#ffffff"
+  }
+
+
+  // dates manager
+  const formatDateRange = (startDate, endDate) => {
+    const start = (startDate || "").trim();
+    const end = (endDate || "").trim();
+
+    if (start && end) return `${start} - ${end}`;
+    if (start && !end) return `${start} - Present`;
+    if (!start && end) return `${end}`;
+    return "";
+  };
+
+
+
   return (
 
     <div className="pdf2-page" style={{ fontFamily: ui.fontFamily, fontSize: ui.fontSize, color: ui.textColor, backgroundColor: ui.pageBg }}>
@@ -24,23 +39,23 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
       <div className="pdf2-header-section">
         <div className="pdf2-header-content">
           <div className="pdf2-header-left">
-            <h1 className="pdf2-name"  style={{ color: ui.headingColor }}>{generalInfo.name || "Full Name"}</h1>
-            <div className="pdf2-title" style={{ color: ui.accentColor}}>{generalInfo.title || "Professional Title"}</div>
+            <h1 className="pdf2-name" style={{ color: ui.headingColor }}>{generalInfo.name || "Full Name"}</h1>
+            <div className="pdf2-title" style={{ color: ui.accentColor }}>{generalInfo.title || "Professional Title"}</div>
           </div>
           <div className="pdf2-header-right">
             <div className="pdf2-contact-info">
-              
+
               {generalInfo.phone && <div className="pdf2-contact-item"  >{generalInfo.phone}</div>}
               {generalInfo.location && <div className="pdf2-contact-item">{generalInfo.location}</div>}
-              {generalInfo.email && <div className="pdf2-contact-item"  style={{ color: ui.accentColor}}>{generalInfo.email}</div>}
+              {generalInfo.email && <div className="pdf2-contact-item" style={{ color: ui.accentColor }}>{generalInfo.email}</div>}
               {generalInfo.website && <div className="pdf2-contact-item">
-                <a href={generalInfo.website} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.website}</a>
+                <a href={generalInfo.website} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>{generalInfo.website}</a>
               </div>}
               {generalInfo.linkedin && <div className="pdf2-contact-item">
-                <a href={generalInfo.linkedin} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.linkedin}</a>
+                <a href={generalInfo.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>{generalInfo.linkedin}</a>
               </div>}
               {generalInfo.github && <div className="pdf2-contact-item">
-                <a href={generalInfo.github} target="_blank" rel="noopener noreferrer"  style={{ color: ui.accentColor}}>{generalInfo.github}</a>
+                <a href={generalInfo.github} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>{generalInfo.github}</a>
               </div>}
             </div>
           </div>
@@ -53,36 +68,39 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
           {/* EDUCATION */}
           {visibleSections?.education && education.length > 0 && (
             <>
-              {education.map((e, i) => (
-                <div key={i} className="pdf2-block" data-col="left">
+              {education.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
+                  return (
+                    <div key={i} className="pdf2-block" data-col="left">
 
-                  {i === 0 && (
-                    <div className="pdf2-section-head">
-                      <h2  style={{ color: ui.headingColor }}>Education</h2>
-                    </div>
-                  )}
+                      {i === 0 && (
+                        <div className="pdf2-section-head">
+                          <h2 style={{ color: ui.headingColor }}>Education</h2>
+                        </div>
+                      )}
 
-                  <div className="pdf2-education-item">
-                    <div className="pdf2-edu-degree">{e.degree}</div>
-                    <div className="pdf2-edu-school">{e.school}</div>
-                    <div className="pdf2-edu-dates">
-                      {e.startDate} – {e.endDate || 'Present'}
-                    </div>
+                      <div className="pdf2-education-item">
+                        <div className="pdf2-edu-degree">{e.degree}</div>
+                        <div className="pdf2-edu-school">{e.school}</div>
+                        <div className="pdf2-edu-dates">
+                          {dateText && <div>{dateText}</div>}
+                        </div>
 
-                    {e.location && <div className="pdf2-edu-location">{e.location}</div>}
+                        {e.location && <div className="pdf2-edu-location">{e.location}</div>}
 
-                    {e.achievements?.points?.length > 0 && (
-                      <div className="pdf2-edu-achievements">
-                        <div className="pdf2-achievement-title">{e.achievements.title}</div>
-                        <ul>
-                          {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
-                        </ul>
+                        {e.achievements?.points?.length > 0 && (
+                          <div className="pdf2-edu-achievements">
+                            <div className="pdf2-achievement-title">{e.achievements.title}</div>
+                            <ul>
+                              {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
 
-                </div>
-              ))}
+                    </div>
+                  )
+              })}
             </>
           )}
 
@@ -94,7 +112,7 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2  style={{ color: ui.headingColor }}>Languages</h2>
+                      <h2 style={{ color: ui.headingColor }}>Languages</h2>
                     </div>
                   )}
 
@@ -116,7 +134,7 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
 
                   {i === 0 && (
                     <div className="pdf2-section-head">
-                      <h2  style={{ color: ui.headingColor }}>Interests</h2>
+                      <h2 style={{ color: ui.headingColor }}>Interests</h2>
                     </div>
                   )}
 
@@ -138,7 +156,7 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
             <div className="pdf2-block" data-col="right">
 
               <div className="pdf2-section-head">
-                <h2  style={{ color: ui.headingColor }}>Professional Summary</h2>
+                <h2 style={{ color: ui.headingColor }}>Professional Summary</h2>
               </div>
 
               <div className="pdf2-summary-content">
@@ -151,42 +169,45 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
           {/* EXPERIENCE */}
           {visibleSections?.experience && experience.length > 0 && (
             <>
-              {experience.map((e, i) => (
-                <div key={i} className="pdf2-block" data-col="right">
+              {experience.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
+                return (
+                  <div key={i} className="pdf2-block" data-col="right">
 
-                  {i === 0 && (
-                    <div className="pdf2-section-head">
-                      <h2  style={{ color: ui.headingColor }}> Work Experience</h2>
-                    </div>
-                  )}
-
-                  <div className="pdf2-experience-item">
-                    <div className="pdf2-exp-header">
-                      <div className="pdf2-exp-title">
-                        <span><strong>{e.position}</strong></span>
-                        <span className="pdf2-exp-company"><strong>{e.company}</strong></span>
-                      </div>
-                      <div className="pdf2-exp-dates">
-                        {e.startDate} – {e.endDate || "Present"}
-                      </div>
-                    </div>
-                    {e.location && (
-                      <div className="pdf2-exp-location">{e.location}</div>
-                    )}
-
-                    {e.achievements?.points?.length > 0 && (
-                      <div className="pdf2-exp-achievements">
-                        <ul>
-                          {e.achievements.points.map((point, idx) => (
-                            point && <li key={idx}>{point}</li>
-                          ))}
-                        </ul>
+                    {i === 0 && (
+                      <div className="pdf2-section-head">
+                        <h2 style={{ color: ui.headingColor }}> Work Experience</h2>
                       </div>
                     )}
+
+                    <div className="pdf2-experience-item">
+                      <div className="pdf2-exp-header">
+                        <div className="pdf2-exp-title">
+                          <span><strong>{e.position}</strong></span>
+                          <span className="pdf2-exp-company"><strong>{e.company}</strong></span>
+                        </div>
+                        <div className="pdf2-exp-dates">
+                          {dateText && <div>{dateText}</div>}
+                        </div>
+                      </div>
+                      {e.location && (
+                        <div className="pdf2-exp-location">{e.location}</div>
+                      )}
+
+                      {e.achievements?.points?.length > 0 && (
+                        <div className="pdf2-exp-achievements">
+                          <ul>
+                            {e.achievements.points.map((point, idx) => (
+                              point && <li key={idx}>{point}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
-
-                </div>
-              ))}
+                )
+              })}
             </>
           )}
 
@@ -198,14 +219,14 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
 
                   {index === 0 && (
                     <div className="pdf2-section-head">
-                      <h2  style={{ color: ui.headingColor }}>Projects</h2>
+                      <h2 style={{ color: ui.headingColor }}>Projects</h2>
                     </div>
                   )}
                   <div key={index} className="pdf2-project-item">
                     <div className="pdf2-project-header">
                       <div className="pdf2-project-title">{proj.title}</div>
                       {proj.link && (
-                        <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf2-project-link" style={{ color: ui.accentColor}}>
+                        <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf2-project-link" style={{ color: ui.accentColor }}>
                           {proj.link}
                         </a>
                       )}
@@ -218,7 +239,7 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
                         <strong>Technologies:</strong>
                         <div className="pdf2-skills-tags">
                           {proj.skillsUsed.map((skill, i) => (
-                            <span key={i} className="pdf2-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor}}>{skill}</span>
+                            <span key={i} className="pdf2-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor }}>{skill}</span>
                           ))}
                         </div>
                       </div>
@@ -255,12 +276,12 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
             <div className="pdf2-block" data-col="right">
 
               <div className="pdf2-section-head">
-                <h2  style={{ color: ui.headingColor }}>Skills</h2>
+                <h2 style={{ color: ui.headingColor }}>Skills</h2>
               </div>
 
               <div className="pdf2-skills-grid">
                 {skills.map((s, i) => (
-                  <span key={i} className="pdf2-skill-item"  style={{ backgroundColor: ui.skillBox, color: ui.skillTextColor }}>
+                  <span key={i} className="pdf2-skill-item" style={{ backgroundColor: ui.skillBox, color: ui.skillTextColor }}>
                     {s.skill}
                   </span>
                 ))}
@@ -270,34 +291,50 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
           )}
 
           {/* CUSTOM SECTION */}
-          {visibleSections?.custom && custom && (
+          {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
             <div className="pdf2-section" data-col="right">
-              <h2  style={{ color: ui.headingColor }}>{custom.title}</h2>
-              {custom.type === "text" && <p>{custom.description}</p>}
-              {custom.type === "list" && (
-                <ul>
-                  {custom.listItems.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              )}
-              {custom.type === "links" && (
-                <ul className="pdf2-custom-links">
-                  {custom.links.map((link, i) => (
-                    <li key={i}>
-                      <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {custom.type === "contact" && (
-                <div className="pdf2-custom-contact">
-                  <div><strong>Phone:</strong> {custom.phone}</div>
-                  <div><strong>Email:</strong> {custom.email}</div>
-                </div>
-              )}
+              {customSections.map((section, sectionIndex) => {
+                const content = section?.content || {};
+                const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
+                const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
+                const phone = content.contact?.phone?.trim();
+                const email = content.contact?.email?.trim();
+
+                return (
+                  <div key={sectionIndex} className="pdf2-custom-section">
+                    {section?.title?.trim() && <h2 style={{ color: ui.headingColor }}>{section.title}</h2>}
+
+                    {content.text?.trim() && <p>{content.text}</p>}
+
+                    {items.length > 0 && (
+                      <ul>
+                        {items.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {links.length > 0 && (
+                      <ul className="pdf2-custom-links">
+                        {links.map((link, i) => (
+                          <li key={i}>
+                            <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
+                              {link}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {(phone || email) && (
+                      <div className="pdf2-custom-contact">
+                        {phone && <div><strong>Phone:</strong> {phone}</div>}
+                        {email && <div><strong>Email:</strong> {email}</div>}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

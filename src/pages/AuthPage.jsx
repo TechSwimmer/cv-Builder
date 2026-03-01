@@ -17,7 +17,7 @@ const AuthPage = ({ setGlobalLoading }) => {
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [errors, setErrors] = useState({});
 
 

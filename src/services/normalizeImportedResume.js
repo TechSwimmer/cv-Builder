@@ -3,6 +3,51 @@
 export function normalizeImportedResume(data = {}) {
     const toString = (v) => (typeof v === "string" ? v.trim() : "");
 
+    const normalizeCustomSections = (data) => {
+        if (Array.isArray(data.customSections)) {
+            return data.customSections.map((s) => ({
+                title: toString(s?.title),
+                content: {
+                    text: toString(s?.content?.text),
+                    items: Array.isArray(s?.content?.items) ? s.content.items.map(toString).filter(Boolean) : [],
+                    links: Array.isArray(s?.content?.links) ? s.content.links.map(toString).filter(Boolean) : [],
+                    contact: {
+                        phone: toString(s?.content?.contact?.phone),
+                        email: toString(s?.content?.contact?.email),
+                    },
+                },
+            })).filter(
+                (s) =>
+                    s.title ||
+                    s.content.text ||
+                    s.content.items.length ||
+                    s.content.links.length ||
+                    s.content.contact.phone ||
+                    s.content.contact.email
+            );
+        }
+
+        // fallback: migrate old single custom block
+        const c = data.custom;
+        if (!c || typeof c !== "object") return [];
+
+        const content = { text: "", items: [], links: [], contact: { phone: "", email: "" } };
+
+        if (c.type === "text") content.text = toString(c.description);
+        if (c.type === "list") content.items = (Array.isArray(c.listItems) ? c.listItems : []).map(toString).filter(Boolean);
+        if (c.type === "links") content.links = (Array.isArray(c.links) ? c.links : []).map(toString).filter(Boolean);
+        if (c.type === "contact") {
+            content.contact.phone = toString(c.phone);
+            content.contact.email = toString(c.email);
+        }
+
+        if (!(toString(c.title) || content.text || content.items.length || content.links.length || content.contact.phone || content.contact.email)) {
+            return [];
+        }
+
+        return [{ title: toString(c.title), content }];
+    };
+
     const normalizePointsBlock = (block, fallbackTitle = "") => {
         const points = Array.isArray(block)
             ? block.map(toString).filter(Boolean)
@@ -41,7 +86,7 @@ export function normalizeImportedResume(data = {}) {
             location: e.location || "",
             startDate: e.startDate || e.from || e.start || "",
             endDate: e.endDate || e.to || e.end || "",
-            achievements: normalizePointsBlock(e.achievements, "Achievements")
+            achievements: normalizePointsBlock(e.achievements, "")
         })),
 
         experience: (data.experience || []).map(e => ({
@@ -50,7 +95,7 @@ export function normalizeImportedResume(data = {}) {
             location: e.location || "",
             startDate: e.startDate || e.from || e.start || "",
             endDate: e.endDate || e.to || e.end || "",
-            achievements: normalizePointsBlock(e.achievements, "Achievements")
+            achievements: normalizePointsBlock(e.achievements, "")
         })),
 
         skills: (data.skills || []).map(s => ({
@@ -82,14 +127,6 @@ export function normalizeImportedResume(data = {}) {
             description: typeof h === "string" ? "" : h.description || ""
         })),
 
-        custom: data.custom ?? {
-            title: "",
-            type: "text",
-            description: "",
-            listItems: [""],
-            phone: "",
-            email: "",
-            links: [""],
-        }
+        customSections:normalizeCustomSections(data), 
     }
 }

@@ -93,8 +93,8 @@ const FormSection = ({ activeSection, formData, setFormData, visibleSections, se
                 )}
                 {activeSection == 'custom' && (
                     <Custom
-                    data={formData.custom}
-                    setData={(data) => handleDataChange("custom",data)}
+                    data={formData.customSections}
+                    setData={(data) => handleDataChange("customSections",data)}
                     visible={visibleSections.custom}
                     setVisible={(val) => setVisibleSections((prev) => ({...prev,custom:val}))}
                     />

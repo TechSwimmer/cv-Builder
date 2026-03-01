@@ -277,6 +277,10 @@
   height: 50px;
 }
 
+.custom-large-btn{
+  width: 100%;
+}
+
 /* Date Input */
 .date-input {
   display: flex;

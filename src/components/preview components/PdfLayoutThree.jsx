@@ -4,9 +4,9 @@ import "../../styles/pdfstyles/pdfLayoutThree.css";
 
 
 
-const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, custom, visibleSections, style = {} }) => {
+const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, customSections, visibleSections, style = {} }) => {
 
-   const ui = {
+  const ui = {
     fontFamily: style.fontFamily || "Georgia",
     fontSize: `${style.baseFontSize || 11}px`,
     headingColor: style.headingColor || "#1f2937",
@@ -14,16 +14,28 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
     accentColor: style.accentColor || "#2563eb",
     pageBg: style.pageBg || "#ffffff",
     skillBox: style.skillBox || "#2563eb",
-    skillTextColor:style.skillTextColor || "#ffffff"
-  } 
+    skillTextColor: style.skillTextColor || "#ffffff"
+  }
+
+
+  // dates manager
+  const formatDateRange = (startDate, endDate) => {
+    const start = (startDate || "").trim();
+    const end = (endDate || "").trim();
+
+    if (start && end) return `${start} - ${end}`;
+    if (start && !end) return `${start} - Present`;
+    if (!start && end) return `${end}`;
+    return "";
+  };
 
 
   return (
 
-   
-  
+
+
     <div className="pdf3-page" style={{ fontFamily: ui.fontFamily, fontSize: ui.fontSize, color: ui.textColor, backgroundColor: ui.pageBg }}>
-       {/* HEADER SECTION */ }
+      {/* HEADER SECTION */}
       <div className="pdf3-section pdf3-header" data-block>
         <h1 className="pdf3-name" style={{ color: ui.headingColor }}>{generalInfo.name || "Full Name"}</h1>
         <div className="pdf3-title" style={{ color: ui.accentColor }}>{generalInfo.title || "Professional Title"}</div>
@@ -60,32 +72,36 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
           <div className="pdf3-section pdf3-experience" data-block>
             <h2 style={{ color: ui.headingColor }}>Work Experience</h2>
             <div className="pdf3-experience-list">
-              {experience.map((e, i) => (
-                <div key={i} className="pdf3-experience-item">
-                  <div className="pdf3-exp-header">
-                    <div className="pdf3-exp-title">
-                      <strong>{e.position}</strong>
-                      <span className="pdf3-exp-company"> – {e.company}</span>
+              {experience.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
+
+                return (
+                  <div key={i} className="pdf3-experience-item">
+                    <div className="pdf3-exp-header">
+                      <div className="pdf3-exp-title">
+                        <strong>{e.position}</strong>
+                        <span className="pdf3-exp-company"> – {e.company}</span>
+                      </div>
+                      <div className="pdf3-exp-dates">
+                        {dateText && <div>{dateText}</div>}
+                      </div>
+                      {e.location && (
+                        <div className="pdf3-exp-location">{e.location}</div>
+                      )}
+
                     </div>
-                    <div className="pdf3-exp-dates">
-                      {e.startDate} – {e.endDate || "Present"}
-                    </div>
-                    {e.location && (
-                      <div className="pdf3-exp-location">{e.location}</div>
+                    {e.achievements && e.achievements.points.length > 0 && (
+                      <div className="pdf3-exp-achievements">
+                        <ul>
+                          {e.achievements.points.map((point, i) => (
+                            point && <li key={i}>{point}</li>
+                          ))}
+                        </ul>
+                      </div>
                     )}
-                    
                   </div>
-                  {e.achievements && e.achievements.points.length > 0 && (
-                    <div className="pdf3-exp-achievements">
-                      <ul>
-                        {e.achievements.points.map((point, i) => (
-                          point && <li key={i}>{point}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         )
@@ -97,33 +113,38 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
           <div className="pdf3-section pdf3-education" data-block>
             <h2 style={{ color: ui.headingColor }}>Education</h2>
             <div className="pdf3-education-list">
-              {education.map((e, i) => (
-                <div key={i} className="pdf3-education-item">
-                  <div className="pdf3-edu-header">
-                    <div className="pdf3-edu-title">
-                      <strong className="pdf3-edu-degree">{e.degree}</strong>
-                      <strong className="pdf3-edu-school"> – {e.school}</strong>
-                    </div>
+              {education.map((e, i) => {
+                const dateText = formatDateRange(e.startDate, e.endDate)
 
-                  </div>
-                  <div className="pdf3-edu-dates">
-                    {e.startDate} – {e.endDate || "Present"}
-                  </div>
-                  {e.location && (
-                    <div className="pdf3-edu-location">{e.location}</div>
-                  )}
-                 
-                  {e.achievements && e.achievements.points.length > 0 && (
-                    <div className="pdf3-edu-achievements">
-                      <ul>
-                        {e.achievements.points.map((point, i) => (
-                          point && <li key={i}>{point}</li>
-                        ))}
-                      </ul>
+                return (
+                  <div key={i} className="pdf3-education-item">
+                    <div className="pdf3-edu-header">
+                      <div className="pdf3-edu-title">
+                        <strong className="pdf3-edu-degree">{e.degree}</strong>
+                        <strong className="pdf3-edu-school"> – {e.school}</strong>
+                      </div>
+
                     </div>
-                  )}
-                </div>
-              ))}
+                    <div className="pdf3-edu-dates">
+
+                      {dateText && <div>{dateText}</div>}
+                    </div>
+                    {e.location && (
+                      <div className="pdf3-edu-location">{e.location}</div>
+                    )}
+
+                    {e.achievements && e.achievements.points.length > 0 && (
+                      <div className="pdf3-edu-achievements">
+                        <ul>
+                          {e.achievements.points.map((point, i) => (
+                            point && <li key={i}>{point}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         )
@@ -153,7 +174,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                       <strong>Technologies:</strong>
                       <div className="pdf3-skills-list">
                         {proj.skillsUsed.map((skill, i) => (
-                          <span key={i} className="pdf3-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor}}>{skill}</span>
+                          <span key={i} className="pdf3-skill-tag" style={{ backgroundColor: ui.accentColor, color: ui.skillTextColor }}>{skill}</span>
                         ))}
                       </div>
                     </div>
@@ -163,7 +184,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                       <strong>{proj?.keyFeatures?.title?.trim()}</strong>
                       <ul>
                         {proj?.keyFeatures?.points.map((feature, i) => (
-                         feature && <li key={i}>{feature}</li>
+                          feature && <li key={i}>{feature}</li>
                         ))}
                       </ul>
                     </div>
@@ -229,38 +250,59 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
       }
 
       {/* CUSTOM SECTION */}
-      {
-        visibleSections?.custom && custom && (
-          <div className="pdf3-section pdf3-custom" data-block>
-            <h2 style={{ color: ui.headingColor }}>{custom.title}</h2>
-            {custom.type === "text" && <p>{custom.description}</p>}
-            {custom.type === "list" && (
-              <ul>
-                {custom.listItems.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            )}
-            {custom.type === "links" && (
-              <ul className="pdf3-custom-links">
-                {custom.links.map((link, i) => (
-                  <li key={i}>
-                    <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: ui.accentColor }}>
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {custom.type === "contact" && (
-              <div className="pdf3-custom-contact">
-                <div><strong>Phone:</strong> {custom.phone}</div>
-                <div><strong>Email:</strong> {custom.email}</div>
+      {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
+        <div className="pdf3-section pdf3-custom" data-block>
+          {customSections.map((section, sectionIndex) => {
+            const content = section?.content || {};
+            const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
+            const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
+            const phone = content.contact?.phone?.trim();
+            const email = content.contact?.email?.trim();
+
+            return (
+              <div key={sectionIndex} className="pdf3-custom-section">
+                {section?.title?.trim() && (
+                  <h2 style={{ color: ui.headingColor }}>{section.title}</h2>
+                )}
+
+                {content.text?.trim() && <p>{content.text}</p>}
+
+                {items.length > 0 && (
+                  <ul>
+                    {items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+
+                {links.length > 0 && (
+                  <ul className="pdf3-custom-links">
+                    {links.map((link, i) => (
+                      <li key={i}>
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: ui.accentColor }}
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {(phone || email) && (
+                  <div className="pdf3-custom-contact">
+                    {phone && <div><strong>Phone:</strong> {phone}</div>}
+                    {email && <div><strong>Email:</strong> {email}</div>}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )
-      }
+            );
+          })}
+        </div>
+      )}
     </div >
 
   );

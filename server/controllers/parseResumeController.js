@@ -3,7 +3,12 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import { OpenAI } from "openai/client.js";
 import fs from "fs"
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
+import { createRequire } from "module"
+const require = createRequire(import.meta.url);
+const pdfjsDistRoot = path.dirname(require.resolve("pdfjs-dist/package.json"))
+const standardFontsPath = path.join(pdfjsDistRoot, "standard_fonts");
+const standardFontDataUrl = pathToFileURL(standardFontsPath).href + "/";
 
 // import User from "../models/User.js";
 
@@ -20,7 +25,10 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function extractTextFromPDF(buffer) {
     const uint8 = new Uint8Array(buffer);
-    const loadingTask = pdfjsLib.getDocument({ data: uint8 })
+    const loadingTask = pdfjsLib.getDocument({
+        data: uint8,
+        standardFontDataUrl,
+    })
     const pdf = await loadingTask.promise;
 
     let fullText = "";
@@ -44,12 +52,12 @@ function toArray(value) {
 function toString(value) {
     if (typeof value !== "string") return "";
     return value
-    .replace(/â€“|â€”/g, "-")
-    .replace(/â€˜|â€™/g, "'")
-    .replace(/â€œ|â€/g, '"')
-    .replace(/Â/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+        .replace(/â€“|â€”/g, "-")
+        .replace(/â€˜|â€™/g, "'")
+        .replace(/â€œ|â€/g, '"')
+        .replace(/Â/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 function normalizeUrl(url) {
@@ -80,25 +88,104 @@ function normalizeSkillUsed(skillsUsed, techStack) {
 
 
 function normalisePointsBlock(block, fallbackTitle = "") {
-  const titleRaw =
-    block && typeof block === "object"
-      ? toString(block.title || block.heading || block.subheading)
-      : "";
+    const titleRaw =
+        block && typeof block === "object"
+            ? toString(block.title || block.heading || block.subheading)
+            : "";
 
-  let points = [];
-  if (Array.isArray(block)) {
-    points = block.map(toString).filter(Boolean);
-  } else if (block && typeof block === "object") {
-    points = toArray(block.points || block.items || block.bullets)
-      .map(toString)
-      .filter(Boolean);
-  }
+    let points = [];
+    if (Array.isArray(block)) {
+        points = block.map(toString).filter(Boolean);
+    } else if (block && typeof block === "object") {
+        points = toArray(block.points || block.items || block.bullets)
+            .map(toString)
+            .filter(Boolean);
+    }
 
-  if (points.length === 0) {
-    return { title: "", points: [] }; // key improvement
-  }
+    if (points.length === 0) {
+        return { title: "", points: [] }; // key improvement
+    }
 
-  return { title: titleRaw || fallbackTitle, points };
+    return { title: titleRaw || fallbackTitle, points };
+}
+
+
+function normalizeCustomSections(rawSections) {
+    return toArray(rawSections).map((section) => {
+        const title = toString(section?.title);
+
+        const content = {
+            text: "",
+            items: [],
+            links: [],
+            contact: { phone: "", email: "" },
+        };
+
+        // support old AI output: blocks[]
+        if (Array.isArray(section?.blocks)) {
+            section.blocks.forEach((block) => {
+                if (!block || typeof block !== "object") return;
+
+                if (block.type === "text") {
+                    const t = toString(block.content);
+                    if (t) content.text = content.text ? `${content.text}\n${t}` : t;
+                }
+
+                if (block.type === "list") {
+                    const items = toArray(block.items).map(toString).filter(Boolean);
+                    content.items.push(...items);
+                }
+
+
+                if (block.type === "links") {
+                    const links = toArray(block.links).map(normalizeUrl).filter(Boolean);
+                    content.links.push(...links);
+                }
+
+                if (block.type === "contact") {
+                    content.contact.phone = toString(block.phone || content.contact.phone);
+                    content.contact.email = toString(block.email || content.contact.email);
+                }
+
+
+            })
+
+        }
+
+        // support new AI output: content{}
+        if (section?.content && typeof section.content === "object") {
+            content.text = toString(section.content.text) || content.text;
+
+            content.items = [
+                ...content.items,
+                ...toArray(section.content.items).map(toString).filter(Boolean),
+            ];
+            content.links = [
+                ...content.links,
+                ...toArray(section.content.links).map(normalizeUrl).filter(Boolean),
+            ];
+
+            content.contact.phone = toString(section.content.contact?.phone || content.contact.phone);
+            content.contact.email = toString(section.content.contact?.email || content.contact.email);
+        }
+
+        return {
+            title,
+            content: {
+                text: content.text,
+                items: [...new Set(content.items)],
+                links: [...new Set(content.links)],
+                contact: content.contact,
+            },
+        };
+    }).filter((s) =>
+        s.title ||
+        s.content.text ||
+        s.content.items.length ||
+        s.content.links.length ||
+        s.content.contact.phone ||
+        s.content.contact.email
+    );
 }
 
 
@@ -127,7 +214,7 @@ function normalizeResume(ai) {
             startDate: toString(e.startDate || e.from || e.start) || "",
             endDate: toString(e.endDate || e.to || e.end) || "",
             // achievements: { title: "", points: [""] }
-            achievements: normalisePointsBlock(e.achievements, "Achievements")
+            achievements: normalisePointsBlock(e.achievements, "")
         })),
 
         experience: toArray((ai.experience) || []).map(e => ({
@@ -137,7 +224,7 @@ function normalizeResume(ai) {
             startDate: toString(e.startDate || e.from || e.start) || "",
             endDate: toString(e.endDate || e.to || e.end) || "",
             // achievements: { title: "", points: [""] }
-            achievements: normalisePointsBlock(e.achievements, "Achievements")
+            achievements: normalisePointsBlock(e.achievements, "")
         })),
 
         // skills: (ai.skills || []).map(s => ({ skill: s })),
@@ -169,10 +256,57 @@ function normalizeResume(ai) {
 
         })),
 
-        custom: null
+        customSections: normalizeCustomSections(ai.customSections)
+
 
     };
 }
+
+
+function extractCoreCompetenciesFallback(resumeText = "") {
+    const text = String(resumeText || "");
+    if (!text.trim()) return null;
+
+    const startMatch = /Core\s+Competencies/i.exec(text);
+    if (!startMatch) return null;
+
+    const startIdx = startMatch.index + startMatch[0].length;
+    const tail = text.slice(startIdx);
+
+    // Stop when next major section starts
+    const stopMatch = /(Occupational\s+Contour|Work\s+Experience|Academia|Education|Personal\s+Dossier|\bpg\.\s*2\b)/i.exec(tail);
+    const block = (stopMatch ? tail.slice(0, stopMatch.index) : tail).trim();
+    if (!block) return null;
+
+    // Split OCR block into bullet-like items
+    let items = block
+        .split(/[•●▪]+/g)
+        .map((s) => toString(s))
+        .filter(Boolean)
+        .filter((s) => s.length > 20);
+
+    // Fallback split if bullet chars are missing
+    if (items.length === 0) {
+        items = block
+            .split(/(?<=[.?!])\s+/)
+            .map((s) => toString(s))
+            .filter((s) => s.length > 20);
+    }
+
+    items = [...new Set(items)].slice(0, 25);
+    if (items.length === 0) return null;
+
+    return {
+        title: "Core Competencies",
+        content: {
+            text: "",
+            items,
+            links: [],
+            contact: { phone: "", email: "" },
+        },
+    };
+}
+
 
 
 export const parseResume = async (req, res) => {
@@ -250,9 +384,21 @@ export const parseResume = async (req, res) => {
                             }
                         ],
                         "languages": [{"language":"", "proficiency": ""}],
-                        "hobbies": [{"title":"", "description": ""}]
-                    }
-                    
+                        "hobbies": [{"title":"", "description": ""}],
+                        "customSections": [
+                        {
+                            "title": "",
+                            "content": {
+                                "text":"",
+                                "items":[],
+                                "links":[],
+                                "contact":{"phone":"","email":""}
+                            }
+                              
+                        }
+                        
+                    ]
+                
                     Rules:
                     - Do not invent data. If missing use empty string.
                     - Keep dates if present in resume.
@@ -262,13 +408,54 @@ export const parseResume = async (req, res) => {
                     - Extract hobby descriptions when available; if none, use empty string.
                     - Extract languages with proficiency when available.
                     - For website/linkedin/github links, return full URL with protocol (https://...).
+                    - Preserve standalone headed sections like "Core Competencies", "Synopsis", "IT Proficiency", "Personal Dossier" as customSections if they are not fully represented in standard sections.
+                    - If "Core Competencies" appears, create a customSections item with title exactly "Core Competencies" and put its bullet/line content into content.items.
+                    - If "Synopsis" appears, keep concise profile text in summary.summary, and place remaining synopsis lines in a customSections item titled "Synopsis".
+                    - Do not merge "Core Competencies" into skills only; preserve competency statements as custom section content.
 
                     Date formatting rule:
                     - Convert all month-year dates to MM YYYY format.
                     - Example: "MAY 2008" -> "05 2008", "October 2019" -> "10 2019".
                     - Keep "Present" as "Present".
                     - If month is missing and only year exists, keep as YYYY.
-                    `
+                    CRITICAL RULE — DO NOT DROP CONTENT:
+
+                    If ANY section, heading, paragraph, bullet list, or structured information exists in the resume
+                    that does NOT fit into:
+
+                    - generalInfo
+                    - summary
+                    - education
+                    - experience
+                    - skills
+                    - projects
+                    - languages
+                    - hobbies
+
+                    You MUST include it inside customSections.
+
+                    Each custom section must preserve:
+
+                    - original section title
+                    - all text content
+                    - all bullet points
+                    - all links
+
+                    Use blocks structure:
+
+                {
+                    "title": "",
+                    "content": {
+                        "text": "",
+                        "items": [],
+                        "links": [],
+                        "contact": { "phone": "", "email": "" }
+                    }
+                    
+                }
+
+                NEVER discard any resume content.
+                `
                 },
                 {
                     role: "user",
@@ -282,12 +469,26 @@ export const parseResume = async (req, res) => {
         // parse JSON safely
         const parsed = JSON.parse(aiResponse);
         const normalized = normalizeResume(parsed);
+        const fallbackCore = extractCoreCompetenciesFallback(resumeText);
+        if (fallbackCore) {
+            const alreadyHasCore = Array.isArray(normalized.customSections)
+                && normalized.customSections.some((s) => /core\s+competencies/i.test(toString(s?.title)));
+
+
+            if (!alreadyHasCore) {
+                normalized.customSections = [...(normalized.customSections || []), fallbackCore]
+            }
+
+        }
+
 
         if (req.userDoc) {
             req.userDoc.aiUsage.resumeImports += 1;
             await req.userDoc.save();
         }
-
+        console.log(resumeText)
+        console.log("AI customSections payload:", JSON.stringify(parsed.customSections, null, 2));
+        console.log("Normalized customSections payload:", JSON.stringify(normalized.customSections, null, 2));
         res.json(normalized);
     }
     catch (err) {

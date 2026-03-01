@@ -9,7 +9,7 @@ import { pdf } from "@react-pdf/renderer";
 import PDFlayoutOne from "../components/pdf components/Layout-One/LayoutOnePDF.jsx";
 import PDFlayoutTwo from "../components/pdf components/Layout-Two/LayoutTwoPDF.jsx";
 import PDFlayoutThree from "../components/pdf components/Layout-Three/LayoutThreePDF.jsx";
-import { THEME_OPTIONS} from "../components/style components/EditStylePanel.jsx";
+import { THEME_OPTIONS } from "../components/style components/EditStylePanel.jsx";
 
 // Components
 import FormWizard from "../components/form components/FormWizard";
@@ -21,7 +21,7 @@ import EditStyleTwo from "../components/style components/EditStyleTwo";
 import EditStyleThree from "../components/style components/EditStyleThree";
 import SaveCVModal from "../components/navbar components/SaveCVModal";
 
-import { useLocation  } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 // Images
@@ -74,15 +74,15 @@ export const INITIAL_FORM_DATA = {
       title: "",
       points: [""]
     }
-  }],  
+  }],
   projects: [{
     title: "",
     company: "",
     description: "",
     skillsUsed: [],
     keyFeatures: {
-      title:"",
-      points:[""]
+      title: "",
+      points: [""]
     },
     link: "",
   }],
@@ -94,28 +94,21 @@ export const INITIAL_FORM_DATA = {
     language: "",
     proficiency: "",
   }],
-  custom: {
-    title: "",
-    type: "text",
-    description: "",
-    listItems: [""],
-    phone: "",
-    email: "",
-    links: [""],
-  },
+  customSections: [],
 };
 
 
 // default styles
 const INITIAL_STYLES = {
-    themeId: "classicBlue",
-    fontFamily:"Georgia",
-    ...THEME_OPTIONS.classicBlue
+  themeId: "classicBlue",
+  fontFamily: "Georgia",
+  showBranding: true,
+  ...THEME_OPTIONS.classicBlue
 };
 
 
 
-const CvBuilder = ({setGlobalLoading}) => {
+const CvBuilder = ({ setGlobalLoading }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -191,7 +184,11 @@ const CvBuilder = ({setGlobalLoading}) => {
     const token = localStorage.getItem('token');
     setUserName(localStorage.getItem('username'))
     setIsLoggedIn(!!token);
-   
+
+    if (!token) {
+      setCustomStyles((prev) => ({ ...prev, showBranding: true }));
+    }
+
     if (!token && !sessionStorage.getItem('cvAlertShown')) {
       setTimeout(() => {
         alert('You are browsing as a guest. Log in to save or delete CVs.');
@@ -218,11 +215,11 @@ const CvBuilder = ({setGlobalLoading}) => {
       // clear temp data
       sessionStorage.removeItem("importedResume")
     }
-    catch(err){
-       console.error("Failed to load imported resume", err);
+    catch (err) {
+      console.error("Failed to load imported resume", err);
     }
   }, [location.key])
- 
+
 
   // Handlers
   const handleLayoutClick = useCallback((layout) => {
@@ -425,7 +422,31 @@ const CvBuilder = ({setGlobalLoading}) => {
               )}
               {activeTab === "style" && (
                 <div className="edit-style-wrapper">
-                    {renderEditStyle()}
+                  {renderEditStyle()}
+
+                   {/* branding content starts */}
+                  <div style={{ marginTop: 12, fontSize: 13 }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <input
+                        type="checkbox"
+                        checked={customStyles.showBranding !== false}
+                        disabled={!isLoggedIn}
+                        onChange={(e) =>
+                          setCustomStyles((prev) => ({
+                            ...prev,
+                            showBranding: e.target.checked
+                          }))
+                        }
+                      />
+                      Include "Created with ResumeBaker" footer in PDF
+                    </label>
+                    {!isLoggedIn && (
+                      <div style={{ marginTop: 6, color: "#6b7280" }}>
+                        Guest exports always include branding.
+                      </div>
+                    )}
+                  </div>
+                  {/* branding content starts */}
                 </div>
               )}
             </div>
@@ -449,8 +470,8 @@ const CvBuilder = ({setGlobalLoading}) => {
                 {getPdfLayout(currentLayout, {
                   ...formData,
                   visibleSections,
-                  style:customStyles,
-                  
+                  style: customStyles,
+
                 })}
               </PDFViewer>
             )}

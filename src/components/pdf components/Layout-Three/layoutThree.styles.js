@@ -2,6 +2,7 @@ import { StyleSheet } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   page: {
+    position:'relative',
     fontFamily: "Helvetica",
     fontSize: 12,
     lineHeight: 1.5,
@@ -239,12 +240,12 @@ tagText: {
   },
   columnLeft: {
   flex: 1,
-  marginRight: 15,
+ 
 },
 
 columnRight: {
   flex: 1,
-  marginLeft: 15,
+  
 },
 
   smallText: {
