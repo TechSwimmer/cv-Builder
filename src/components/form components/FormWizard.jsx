@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FORM_SECTIONS } from "../../constants/formsection";
 import FormSection from "./FormSection";
 import '../../styles/form styles/FormWizard.css';
@@ -12,7 +12,13 @@ const FormWizard = ({
 }) => {
 
     const [step, setStep] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
 
+    useEffect(() => {
+        const onResize = () => setIsMobile(window.innerWidth <= 900)
+        window.addEventListener("resize", onResize)
+        return () => window.removeEventListener("resize", onResize)
+    }, []);
     const currentSection = FORM_SECTIONS[step];
 
     const next = () => {
@@ -29,6 +35,8 @@ const FormWizard = ({
 
     const progressPercent = Math.round(((step + 1) / FORM_SECTIONS.length) * 100);
 
+
+
     return (
         <div className="form-wizard">
             {/* Main horizontal layout */}
@@ -39,7 +47,7 @@ const FormWizard = ({
                     <div className="milestone-line-container">
                         <div
                             className="milestone-line-fill"
-                            style={{ height: `${progressPercent}%` }}
+                            style={isMobile ? { width: `${progressPercent}%` } : { height: `${progressPercent}%` }}
                         />
 
                         {FORM_SECTIONS.map((_, i) => {
@@ -50,7 +58,11 @@ const FormWizard = ({
                                 <div
                                     key={i}
                                     className={`milestone-dot ${isDone ? "done" : ""} ${isActive ? "active" : ""}`}
-                                    style={{ top: `${(i / (FORM_SECTIONS.length - 1)) * 100}%` }}
+                                    style={
+                                        isMobile
+                                            ? { left: `${(i / (FORM_SECTIONS.length - 1)) * 100}%`, top: "50%" }
+                                            : { top: `${(i / (FORM_SECTIONS.length - 1)) * 100}%` }
+                                    }
                                 >
                                     {isActive && (
                                         <span className="milestone-dot-percent">
@@ -61,7 +73,7 @@ const FormWizard = ({
                             );
                         })}
 
-                        
+
                     </div>
 
 

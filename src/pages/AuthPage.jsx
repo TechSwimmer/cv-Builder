@@ -8,12 +8,13 @@ import ResumeBakerLogo from '../components/navbar components/ResumeBakerLogo.jsx
 
 import { uploadResume } from "../services/resumeUpload.service.js"
 
-
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const AuthPage = ({ setGlobalLoading }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -93,13 +94,15 @@ const AuthPage = ({ setGlobalLoading }) => {
     setShowIntro(true);
   };
 
+  const logosize = window.innerWidth <= 480 ? 36 : 40;
+
   return (
     <div className={`auth-page ${!showIntro ? 'intro-closed' : ''}`}>
 
       {/* Header with branding */}
       <header className='auth-header'>
         <div className='header-content'>
-          <ResumeBakerLogo size={40} />
+          <ResumeBakerLogo size={logosize} />
           <p className='tagline'>Create professional resumes in minutes</p>
         </div>
         <div className='header-buttons'>
@@ -149,7 +152,7 @@ const AuthPage = ({ setGlobalLoading }) => {
             </div>
             <div className="import-resume-box">
               <label className="import-resume-btn">
-                🚀 Upload Resume — Get a Professional Version in 5 Seconds
+                🚀 Upload Resume — Get a Professional Version in Seconds
                 <small>No signup required</small>
 
                 <input
@@ -163,7 +166,7 @@ const AuthPage = ({ setGlobalLoading }) => {
                     if (!result.success) {
                       alert(result.message); // or set local toast/message state
                     }
-                  }}  
+                  }}
                 />
               </label>
 
@@ -217,14 +220,25 @@ const AuthPage = ({ setGlobalLoading }) => {
 
               <div className='input-group'>
                 <label htmlFor='password'>Password</label>
+                <div className='password-field'>
                 <input
                   id='password'
-                  type='password'
+                  type={showPassword ? "text" : "password"}
                   placeholder={isLogin ? 'Enter your password' : 'Create a secure password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={errors.password ? 'error' : ''}
                 />
+                <button
+                  type='button'
+                  className='password-toggle'
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+                </div>
                 {errors.password && <span className='error-msg'>{errors.password}</span>}
               </div>
 

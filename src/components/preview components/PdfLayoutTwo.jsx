@@ -196,6 +196,7 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
 
                       {e.achievements?.points?.length > 0 && (
                         <div className="pdf2-exp-achievements">
+                          <strong>{e.achievements.title}</strong>
                           <ul>
                             {e.achievements.points.map((point, idx) => (
                               point && <li key={idx}>{point}</li>

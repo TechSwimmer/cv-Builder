@@ -50,7 +50,7 @@ nav span {
     justify-content: space-around;
     align-items: center;
     padding-right: 12px;
-    
+    width: 50%;;
 } 
 .dashboard-buttons button,
 .dashboard-buttons .nav-upload {
@@ -107,10 +107,16 @@ nav span {
     color: #fff;
     font-weight: 600;
   }
+  .mobile-menu-toggle:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0.8,0.8);
+    font-weight: 700;
+
+  }
 
   .userinfo-btn-navbar {
     position: absolute;
-    top: 60px;
+   
+    top: 65px;
     right: 8px;
     left: 8px;
     display: none;
@@ -171,5 +177,13 @@ nav span {
   min-width: 100%;
   margin: 0;
   justify-content: center;
+}
+#builder-mobile-actions.userinfo-btn-navbar,
+.db-navbar .dashboard-buttons {
+  position: absolute;
+  top: 100%;      /* key: directly below navbar */
+  left: 0;
+  right: 0;
+  margin: 0;
 }
 }

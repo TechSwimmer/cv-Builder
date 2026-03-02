@@ -1,4 +1,8 @@
 export default function ResumeBakerLogo({ size = 48, color = "#1e293b" }) {
+
+
+  
+
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
       

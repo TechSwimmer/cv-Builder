@@ -61,7 +61,7 @@ export const INITIAL_FORM_DATA = {
     achievements: {
       title: "",
       points: [""]
-    }
+    } 
   }],
   skills: [{ skill: "" }],
   experience: [{

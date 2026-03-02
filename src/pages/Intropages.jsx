@@ -5,7 +5,7 @@ import previewImg from "../images/previewcontent.png";
 const IntroPages = ({ onFinish }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 4;
-
+ 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);

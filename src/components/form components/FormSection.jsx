@@ -108,4 +108,4 @@ const FormSection = ({ activeSection, formData, setFormData, visibleSections, se
 
 }
 
-export default FormSection;
+export default FormSection;   

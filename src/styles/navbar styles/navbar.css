@@ -2,29 +2,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
- 
-  min-width: 110px;
- 
-
+  min-width: 120px;
+  min-height: 38px;   /* add */
+  padding: 0 12px;    /* add */
   border-radius: 6px;
   cursor: pointer;
   user-select: none;
   font: inherit;
+  font-weight: 600;
   white-space: nowrap;
-  
   background-color: #3b82f6;
   color: #fff;
-
   box-shadow:
     0 2px 4px rgba(0,0,0,0.25),
     0 6px 12px rgba(0,0,0,0.15);
-
-  transition:
-    box-shadow .2s ease,
-    transform .15s ease,
-    background-color .2s ease;
-  font-weight: 600;
+  transition: box-shadow .2s ease, transform .15s ease, background-color .2s ease;
 }
 
 .nav-control:hover {
@@ -40,8 +32,6 @@
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
-
-
 
 
 .cv-navbar {
@@ -69,7 +59,7 @@
     margin:5px ;
     
     
-    padding-left: 20px;
+    
     padding-right: 25px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -92,9 +82,19 @@
   
 }
 .userinfo-btn-navbar button {
-   
     background-color: #3b82f6;
-    
+    align-self:center ;
+    font-weight: 600;
+    box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15);
+    transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease,
+    background-color 0.2s ease;
+}
+.userinfo-btn-navbar .nav-control{
+  background-color: #3b82f6;
     align-self:center ;
     
     font-weight: 600;
@@ -107,7 +107,6 @@
     transform 0.15s ease,
     background-color 0.2s ease;
 }
-
 .userinfo-btn-navbar button:hover {
   transform: translateY(-1px);
   box-shadow:
@@ -134,7 +133,7 @@
   width: auto;
 }
 .locked-btn {
-  opacity: 0.8;
+  opacity: 0.9;
   pointer-events: none;
   cursor: not-allowed;
  min-width: 100%;
@@ -144,19 +143,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #3b82f6;
 }
 
 
 .lock-icon {
   position: absolute;
-  top: -5px;
-  left: 2%;
+  top: 4px;
+  left: 50%;
   transform: translateX(-50%);
   font-size: 17px;
-  background-color: aqua;
+  background-color: transparent;
   padding: 2px 6px;
   border-radius: 50%;
   pointer-events: none;
+  opacity: 0.8;
 }
 
 .lock-tooltip {
@@ -261,10 +262,31 @@
 #builder-mobile-actions.userinfo-btn-navbar > button,
 #builder-mobile-actions.userinfo-btn-navbar > .nav-control,
 #builder-mobile-actions.userinfo-btn-navbar > .locked-btn-wrapper,
-#builder-mobile-actions.userinfo-btn-navbar > label {
+#builder-mobile-actions.userinfo-btn-navbar > .nav-control {
   width: 100%;
   min-width: 100%;
   margin: 0;
   justify-content: center;
+}
+.lock-icon {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 17px;
+  background-color:transparent;
+  padding: 2px 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+}
+.userinfo-navbar{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cv-navbar{
+  display: flex;
+  justify-content: space-between;
 }
 }

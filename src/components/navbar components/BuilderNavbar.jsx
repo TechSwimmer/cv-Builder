@@ -85,53 +85,7 @@ const BuilderNavbar = ({
                         id="builder-mobile-actions"
                         className={`userinfo-btn-navbar ${mobileMenuOpen ? "open" : ""}`}
                     >
-                        
-                            <label className='nav-control'>
-                                Import Resume
-                                <input
-                                    type='file'
-                                    accept='pdf'
-                                    hidden
-                                    onChange={async (e) => {
-                                        const file = e.target.files[0];
-                                        if (!file) return;
-                                        const result = await uploadResume(file, navigate, setGlobalLoading);
-                                        if (!result.success) {
-                                            alert(result.message); // or set local toast/message state
-                                        }
-                                        setMobileMenuOpen(false);
-                                    }}
-                                ></input>
-                            </label>
-                            <button className="active" onClick={() => { toggleTab(); setMobileMenuOpen(false); }}>
-                                {activeTab === "style" ? "Edit Content" : "Edit Style"}
-                            </button>
-                            <button
-                                className="back-btn"
-                                onClick={() => { navigateToDashboard('/dashboard'); setMobileMenuOpen(false); }}
-                            >
-                                Dashboard
-                            </button>
-                            <button className="fullscreen-edit-btn" onClick={() => { toggleFullScreen(); setMobileMenuOpen(false); }}>
-                                {showForm === false ? "Edit CV" : "Full Screen"}
-                            </button>
-                            <button onClick={() => { handleDownloadPDF(); setMobileMenuOpen(false); }}>Download PDF</button>
-                            <button onClick={() => { setShowSaveDialog(true); setMobileMenuOpen(false); }}>
-                                Save CV
-                            </button>
 
-
-                        
-                    </div>
-
-                </nav>
-            )}
-            {!isLoggedIn && (
-                <nav className="cv-navbar">
-                    <div className='userinfo-navbar' style={{ backgroundColor: 'aqua' }}>
-                        <ResumeBakerLogo size={40} />
-                    </div>
-                    <div className="userinfo-btn-navbar">
                         <label className='nav-control'>
                             Import Resume
                             <input
@@ -145,23 +99,79 @@ const BuilderNavbar = ({
                                     if (!result.success) {
                                         alert(result.message); // or set local toast/message state
                                     }
+                                    setMobileMenuOpen(false);
                                 }}
                             ></input>
                         </label>
-                        <button className="nav-control" onClick={toggleTab}>
+                        <button className="active" onClick={() => { toggleTab(); setMobileMenuOpen(false); }}>
+                            {activeTab === "style" ? "Edit Content" : "Edit Style"}
+                        </button>
+                        <button
+                            className="back-btn"
+                            onClick={() => { navigateToDashboard('/dashboard'); setMobileMenuOpen(false); }}
+                        >
+                            Dashboard
+                        </button>
+                        <button className="fullscreen-edit-btn" onClick={() => { toggleFullScreen(); setMobileMenuOpen(false); }}>
+                            {showForm === false ? "Edit CV" : "Full Screen"}
+                        </button>
+                        <button onClick={() => { handleDownloadPDF(); setMobileMenuOpen(false); }}>Download PDF</button>
+                        <button onClick={() => { setShowSaveDialog(true); setMobileMenuOpen(false); }}>
+                            Save CV
+                        </button>
+
+
+
+                    </div>
+
+                </nav>
+            )}
+            {!isLoggedIn && (
+                <nav className="cv-navbar">
+                    <div className='userinfo-navbar' style={{ backgroundColor: 'aqua' }}>
+                        <ResumeBakerLogo size={40} />
+                    </div>
+                    <button
+                        className="mobile-menu-toggle"
+                        onClick={() => setMobileMenuOpen((v) => !v)}
+                        aria-expanded={mobileMenuOpen}
+                        aria-controls="builder-mobile-actions"
+                    > 
+                    
+                        ☰ Menu
+                    </button>
+                    <div className={`userinfo-btn-navbar ${mobileMenuOpen ? "open" : ""}`} id="builder-mobile-actions">
+                        <label className='nav-control'>
+                            Import Resume
+                            <input
+                                type='file'
+                                accept='pdf'
+                                hidden
+                                onChange={async (e) => {
+                                    const file = e.target.files[0];
+                                    if (!file) return;
+                                    const result = await uploadResume(file, navigate, setGlobalLoading);
+                                    if (!result.success) {
+                                        alert(result.message); // or set local toast/message state
+                                    }
+                                    setMobileMenuOpen(false);
+                                }}
+                            ></input>
+                        </label>
+                        <button className="nav-control" onClick={() => { toggleTab(); setMobileMenuOpen(false); }}>
                             {activeTab === "style" ? "Edit Content" : "Edit Style"}
                         </button>
                         <LockedButton label="Sign-in to access dashboard">
                             Dashboard
                         </LockedButton>
-                        <button className="nav-control" onClick={toggleFullScreen}>
+                        <button className="nav-control" onClick={() => {toggleFullScreen();setMobileMenuOpen(false);}}>
                             {showForm === false ? "✏️ Edit CV" : "Full Screen"}
                         </button>
-                        <button className="nav-control" onClick={() => handleDownloadPDF()}>Download</button>
+                        <button className="nav-control" onClick={() => {handleDownloadPDF();setMobileMenuOpen(false);}}>Download</button>
                         <LockedButton label="Sign-in to save your CV">
                             Save CV
                         </LockedButton>
-                        <button className='nav-control' onClick={() => backToLandingPage()}>Sign in</button>
+                        <button className='nav-control' onClick={() => {backToLandingPage(); setMobileMenuOpen(false);}}>Sign in</button>
                     </div>
 
                 </nav>

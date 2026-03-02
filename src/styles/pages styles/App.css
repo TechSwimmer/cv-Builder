@@ -103,36 +103,28 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
   position: relative;
   overflow: hidden;
   border: 1px solid var(--color-border);
   min-height: calc(100vh - var(--navbar-height) - 40px);
   overflow-x: hidden;
- 
 }
 
 /* Preview Wrapper - Centers and scales the CV */
 .preview-wrapper {
-  
   flex: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  overflow-y: auto;
-  padding: 10px;
-  position: relative;
+  overflow: auto;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
- 
-  
+  padding: 10px;
 }
+
 .cv-builder-preview-container:not(.full-screen) .preview-wrapper {
-  
   transform-origin: top left;
-  
+  display: flex;
 }
 
 .cv-builder-preview-container.full-screen .preview-wrapper {
@@ -141,8 +133,7 @@ body {
 }
 /* Actual CV Preview - Scaled Down */
 .cv-preview-display {
-  
-  transform-origin: top left;
+  transform-origin: top center;
   min-width: var(--a4-width );
   max-width: var(--a4-width );
   transform: scale(var(--preview-scale));
@@ -152,9 +143,7 @@ body {
   overflow: hidden;
   position: relative;
   margin: 0 auto;
-  display: flex;
-  justify-content: left;
-  align-items: flex-start;
+  display: block;
 }
 
 /* When in full-screen mode (preview tab) */
@@ -269,6 +258,9 @@ body {
 
   .cv-preview-display {
     transform: scale(0.73);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
 
@@ -318,11 +310,14 @@ body {
     padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    
   }
   
   .cv-preview-display {
     transform: scale(0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .preview-actions {
@@ -358,6 +353,9 @@ body {
   
   .cv-preview-display {
     transform: scale(0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .preview-actions {
@@ -392,6 +390,8 @@ body {
   
   .cv-preview-display {
     transform: scale(0.45);
+    align-items: center;
+    justify-content: center;
   }
   
   .preview-actions {

@@ -270,7 +270,7 @@
   font-size: 20px;
 }
 
-
+  
 
 
 .custom-container-form select{
@@ -312,7 +312,7 @@
 }
 
 /* Responsive Design */
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 900px) {
   .form-section > div[class*="container"],
   .form-section > div[class*="section"] {
     padding: 20px;
@@ -339,6 +339,36 @@
   .milestone-bar {
     margin-right: 16px;
   }
+ 
+  .add-rem-edu-btn,
+  .exp-add-rem-btn,
+  .add-rem-proj-btn,
+  .project-key-feature-form,
+  .skill-container-input,
+  .language-entry-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .skills-container-btns button {
+    width: 100%;
+    border-radius: 8px;
+    height: 40px;
+  }
+
+  .toggle-visibility-btn {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+      display: flex;
+  align-items: center;
+  justify-content: space-between;
+  }
+
+  .form-section button:not(.toggle-pill) {
+    width: 100%;
+  }
+
 }
 
 /* Success States */

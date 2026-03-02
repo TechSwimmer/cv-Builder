@@ -33,7 +33,7 @@ const DashboardNavbar = ({
                     aria-controls="builder-mobile-actions"
                 >
                     ☰ Menu
-                </button>
+                </button> 
                 
                     <div
                         id="builder-mobile-actions"

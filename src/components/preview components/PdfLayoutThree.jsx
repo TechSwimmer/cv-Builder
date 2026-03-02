@@ -92,6 +92,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                     </div>
                     {e.achievements && e.achievements.points.length > 0 && (
                       <div className="pdf3-exp-achievements">
+                        <strong>{e.achievements.title}</strong>
                         <ul>
                           {e.achievements.points.map((point, i) => (
                             point && <li key={i}>{point}</li>
@@ -135,6 +136,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
 
                     {e.achievements && e.achievements.points.length > 0 && (
                       <div className="pdf3-edu-achievements">
+                        <strong>{e.achievements.title}</strong>
                         <ul>
                           {e.achievements.points.map((point, i) => (
                             point && <li key={i}>{point}</li>
