@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import API from '../../src/api';
 
@@ -61,7 +61,7 @@ export const INITIAL_FORM_DATA = {
     achievements: {
       title: "",
       points: [""]
-    } 
+    }
   }],
   skills: [{ skill: "" }],
   experience: [{
@@ -124,7 +124,10 @@ const CvBuilder = ({ setGlobalLoading }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [customStyles, setCustomStyles] = useState(INITIAL_STYLES);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-
+  const [pdfPreviewHeight, setPdfPreviewHeight] = useState(600);
+  const [viewportWidth, setViewPortWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  )
   const [visibleSections, setVisibleSections] = useState({
     education: true,
     experience: true,
@@ -220,6 +223,42 @@ const CvBuilder = ({ setGlobalLoading }) => {
     }
   }, [location.key])
 
+
+  // computed height for moile screens
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updatePreviewMetrics = () => {
+      const navbar = document.querySelector(".cv-navbar");
+      const navbarHeight = navbar?.offsetHeight || 65;
+
+      const availableHeight = window.innerHeight - navbarHeight - 16;
+      const nextHeight = Math.max(Math.floor(window.innerHeight * 1), Math.min(availableHeight, window.innerHeight));
+
+      setPdfPreviewHeight(nextHeight);
+      setViewPortWidth(window.innerWidth);
+    }
+
+    updatePreviewMetrics();
+    window.addEventListener("resize", updatePreviewMetrics);
+    window.addEventListener("orientationchange", updatePreviewMetrics)
+
+    return () => {
+      window.removeEventListener("resize", updatePreviewMetrics);
+      window.removeEventListener("orientationchange", updatePreviewMetrics)
+    }
+  }, []);
+
+  // mobile fallbac condition
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(pointer:coarse)").matches
+    )
+
+  const isMobileViewPort = viewportWidth <= 900;
+  const usePdfCtaFallback = activeTab === "preview" && isMobileViewPort && isTouchDevice
 
   // Handlers
   const handleLayoutClick = useCallback((layout) => {
@@ -424,7 +463,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
                 <div className="edit-style-wrapper">
                   {renderEditStyle()}
 
-                   {/* branding content starts */}
+                  {/* branding content starts */}
                   <div style={{ marginTop: 12, fontSize: 13 }}>
                     <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <input
@@ -466,7 +505,12 @@ const CvBuilder = ({ setGlobalLoading }) => {
 
             {/* React-PDF fullscreen preview */}
             {activeTab === "preview" && (
-              <PDFViewer width="100%" height="600">
+              <PDFViewer
+                width="100%"
+                height={pdfPreviewHeight}
+                showToolbar={false}
+                style={{ width: "100%", height: {pdfPreviewHeight}, border: "none" }}
+              >
                 {getPdfLayout(currentLayout, {
                   ...formData,
                   visibleSections,

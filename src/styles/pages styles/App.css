@@ -152,6 +152,9 @@ body {
   max-width: 100%;
   min-width: 100%;
   margin-left: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0;
 }
 
 

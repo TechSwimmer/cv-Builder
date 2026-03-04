@@ -62,6 +62,7 @@
   font-family: inherit;
   transition: all 0.3s ease;
   background: white;
+  color: black;
 }
 
 .form-section input:focus,
@@ -291,7 +292,7 @@
 .date-input-field {
   flex: 1;
 }
-
+ 
 /* Professional Scrollbar */
 .form-section::-webkit-scrollbar {
   width: 6px;
@@ -368,6 +369,7 @@
   .form-section button:not(.toggle-pill) {
     width: 100%;
   }
+
 
 }
 
