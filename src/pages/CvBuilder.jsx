@@ -491,7 +491,14 @@ const CvBuilder = ({ setGlobalLoading }) => {
             </div>
           )}
 
-          <div className={`cv-builder-preview-container ${activeTab === "preview" ? 'full-screen' : ''}`}>
+          <div
+            className={`cv-builder-preview-container ${activeTab === "preview" ? "full-screen" : ""}`}
+            style={
+              activeTab === "preview"
+                ? { height: `${pdfPreviewHeight}px`, minHeight: `${pdfPreviewHeight}px` }
+                : undefined
+            }
+          >
 
             {activeTab !== "preview" && (
               <PreviewDisplay
@@ -505,21 +512,54 @@ const CvBuilder = ({ setGlobalLoading }) => {
 
             {/* React-PDF fullscreen preview */}
             {activeTab === "preview" && (
-              <PDFViewer
-                width="100%"
-                height={pdfPreviewHeight}
-                showToolbar={false}
-                style={{ width: "100%", height: {pdfPreviewHeight}, border: "none" }}
-              >
-                {getPdfLayout(currentLayout, {
-                  ...formData,
-                  visibleSections,
-                  style: customStyles,
-
-                })}
-              </PDFViewer>
+              usePdfCtaFallback ? (
+                <div
+                  style={{
+                    width: "100%",
+                    minHeight: `${pdfPreviewHeight}px`,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 12,
+                    padding: 16,
+                    textAlign: "center",
+                  }}
+                >
+                  <p style={{ margin: 0, color: "#475569", fontSize: 14 }}>
+                    Full-screen PDF preview is not supported on this device.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDownloadPDF}
+                    style={{
+                      background: "#2563eb",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: 8,
+                      padding: "10px 16px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Download PDF
+                  </button>
+                </div>
+              ) : (
+                <PDFViewer
+                  width="100%"
+                  height={pdfPreviewHeight}
+                  showToolbar={false}
+                  style={{ width: "100%", height: `${pdfPreviewHeight}px`, border: "none" }}
+                >
+                  {getPdfLayout(currentLayout, {
+                    ...formData,
+                    visibleSections,
+                    style: customStyles,
+                  })}
+                </PDFViewer>
+              )
             )}
-
 
             <LayoutDrawer
               handleLayoutClick={handleLayoutClick}
