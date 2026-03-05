@@ -21,6 +21,10 @@
 *   **Secure User Accounts:** *JWT-based authentication allows users to save multiple CVs.*
 *   **High quality PDF Export:** *Download your finished CV as a high-quality PDF directly from the browser.*
 
+![Builder screenshot](src/images/builder-shot.png)
+
+![Full-Screen preview shot](src/images/full-screen-preview%20-shot.png)
+
 
 ## 🏗️ Project Architecture
 
@@ -39,14 +43,14 @@
 
 ### Core Engineering Challenges Solved
 
-| Problem                  |Solution                                      |
-| -------------------------|----------------------------------------------|
-| Structured CV editing    | Section-based form model + reusableblocks    |
-| Layout switching         | Dynamic layout selection (3 templates)       |
-| PDF output consistency   | Dedicated PDF layout components per template |
-| AI resume ingestion      | PDF text extraction + JSON normalization     |
-| Guest + user workflows   |  Guest path + JWT auth for save CVs          |
-| User CV persistence      | MongoDB + JWT                                | 
+| Problem                  |Solution                                       |
+| -------------------------|-----------------------------------------------|
+| Structured CV editing    | Section-based form model + reusable blocks    |
+| Layout switching         | Dynamic layout selection (3 templates)        |
+| PDF output consistency   | Dedicated PDF layout components per template  |
+| AI resume ingestion      | PDF text extraction + JSON normalization      |
+| Guest + user workflows   |  Guest path + JWT auth for save CVs           |
+| User CV persistence      | MongoDB + JWT                                 | 
 
 
 ### Backend Overview
@@ -159,11 +163,11 @@ cv-maker/
     *   Frontend will be served on `http://localhost:5173` (or another port).
 
      ```bash
-    # In another terminal run the bacend
+    # In another terminal run the backend
     cd server
     node index.js
     ```
-    *   Backend API will be running on `http://localhost:3001`.
+    *   Backend API will be running on `http://localhost:5000`.
 
 
 ## 📖 Usage Guide
