@@ -40,6 +40,7 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
         skillsUsed: [],
         keyFeatures: { title: "", points: [""] },
         link: "",
+        githubLink:"",
       },
     ]);
   };
@@ -187,6 +188,16 @@ const Projects = ({ projects = [], setProjects, visible, setVisible }) => {
                     placeholder="Add the link to live demo or GitHub"
                     value={project?.link || ""}
                     onChange={(e) => updateProject(index, "link", e.target.value)}
+                  />
+                </div>
+                 <div className="projects-skills">
+                  <label>Github Link :</label>
+                  <input
+                    type="text"
+                    name="link"
+                    placeholder="Add the link to live demo or GitHub"
+                    value={project?.githubLink || ""}
+                    onChange={(e) => updateProject(index, "githubLink", e.target.value)}
                   />
                 </div>
 

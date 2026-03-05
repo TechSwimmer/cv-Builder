@@ -236,6 +236,8 @@ function normalizeResume(ai) {
         projects: toArray(ai.projects || []).map(p => ({
             title: toString(p.name || p.title) || "",
             link: normalizeUrl(p.liveLink || p.link) || "",
+            githubLink: normalizeUrl(p.githubLink || p.repoLink || p.repository || p.codeLink) || "",
+
             description: toString(p.description) || "",
             // skillsUsed: Array.isArray(p.techStack) ? p.techStack.split(",").map(t => t.trim()) : [],
             skillsUsed: normalizeSkillUsed(p.skillsUsed, p.techStack),
@@ -378,6 +380,7 @@ export const parseResume = async (req, res) => {
                             {
                                 "name": "",
                                 "liveLink": "",
+                                "githubLink": "",
                                 "description": "",
                                 "skillsUsed": [],
                                 "keyFeatures": { "title": "", "points": [] }
@@ -412,7 +415,7 @@ export const parseResume = async (req, res) => {
                     - If "Core Competencies" appears, create a customSections item with title exactly "Core Competencies" and put its bullet/line content into content.items.
                     - If "Synopsis" appears, keep concise profile text in summary.summary, and place remaining synopsis lines in a customSections item titled "Synopsis".
                     - Do not merge "Core Competencies" into skills only; preserve competency statements as custom section content.
-
+                    - If a repository/source-code link exists, return it in projects[].githubLink.
                     Date formatting rule:
                     - Convert all month-year dates to MM YYYY format.
                     - Example: "MAY 2008" -> "05 2008", "October 2019" -> "10 2019".

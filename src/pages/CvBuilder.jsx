@@ -85,6 +85,7 @@ export const INITIAL_FORM_DATA = {
       points: [""]
     },
     link: "",
+    githubLink:"",
   }],
   hobbies: [{
     title: "",
@@ -106,6 +107,19 @@ const INITIAL_STYLES = {
   ...THEME_OPTIONS.classicBlue
 };
 
+// section order
+// const DEFAULT_SECTION_ORDER = {
+//   layout1: {
+//     left:["education","language","hobies"],
+//     right:["summary","experience","projects","skills","custom"]
+//   },
+//   layout2: {
+//     left: ["education","language","hobbies"],
+//     right: ["summary","experience", "projects","skills","custom"]
+//   },
+//   layout3: ["summary,experience","education","projects","skills","languages","custom"],
+// }
+
 
 
 const CvBuilder = ({ setGlobalLoading }) => {
@@ -115,7 +129,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   // State
   const [activeTab, setActiveTab] = useState("content");
   const [showForm, setShowForm] = useState(true);
-
+  // const [sectionOrder,setSectionOrder] = useState(DEFAULT_SECTION_ORDER);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [currentLayout, setCurrentLayout] = useState('layout1');
   const [selectedEditStyle, setSelectedEditStyle] = useState('EditStyle');
@@ -170,6 +184,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
           setVisibleSections(fetchedVisibleSections || visibleSections);
           setCurrentLayout(layout || 'layout1');
           setCvName(title || '');
+          // setSectionOrder(res.data.sectionOrder || DEFAULT_SECTION_ORDER);
 
           // Set appropriate edit style component
           handleStylePage(layout || 'layout1');
@@ -327,6 +342,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
         layout: currentLayout,
         customStyles,
         visibleSections,
+        // sectionOrder,
         thumbnail
       };
 
@@ -365,6 +381,13 @@ const CvBuilder = ({ setGlobalLoading }) => {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  // const moveItem = (arr,from,to) => {
+  //   const copy = [...arr];
+  //   const [item] = copy.splice(from,1);
+  //   copy.splice(to,0,item);
+  //   return copy;
+  // }
 
   const updateStyles = useCallback((newStyles) => {
     setCustomStyles(prev => ({ ...prev, ...newStyles }));
@@ -505,6 +528,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
                 ref={previewRef}
                 {...formData}
                 style={customStyles}
+                // sectionOrder={sectionOrder}
                 visibleSections={visibleSections}
                 currentLayout={currentLayout}
               />

@@ -22,7 +22,7 @@ function Education({ data = [], setData, visible, setVisible }) {
     setData(updatedEducation)
   }
 
-  
+
 
   const updateEducation = (index, field, value, nested = false) => {
     const updatedEducation = [...data];

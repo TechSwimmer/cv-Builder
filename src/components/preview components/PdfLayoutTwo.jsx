@@ -70,36 +70,36 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
             <>
               {education.map((e, i) => {
                 const dateText = formatDateRange(e.startDate, e.endDate)
-                  return (
-                    <div key={i} className="pdf2-block" data-col="left">
+                return (
+                  <div key={i} className="pdf2-block" data-col="left">
 
-                      {i === 0 && (
-                        <div className="pdf2-section-head">
-                          <h2 style={{ color: ui.headingColor }}>Education</h2>
-                        </div>
-                      )}
+                    {i === 0 && (
+                      <div className="pdf2-section-head">
+                        <h2 style={{ color: ui.headingColor }}>Education</h2>
+                      </div>
+                    )}
 
-                      <div className="pdf2-education-item">
-                        <div className="pdf2-edu-degree">{e.degree}</div>
-                        <div className="pdf2-edu-school">{e.school}</div>
-                        <div className="pdf2-edu-dates">
-                          {dateText && <div>{dateText}</div>}
-                        </div>
-
-                        {e.location && <div className="pdf2-edu-location">{e.location}</div>}
-
-                        {e.achievements?.points?.length > 0 && (
-                          <div className="pdf2-edu-achievements">
-                            <div className="pdf2-achievement-title">{e.achievements.title}</div>
-                            <ul>
-                              {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
-                            </ul>
-                          </div>
-                        )}
+                    <div className="pdf2-education-item">
+                      <div className="pdf2-edu-degree">{e.degree}</div>
+                      <div className="pdf2-edu-school">{e.school}</div>
+                      <div className="pdf2-edu-dates">
+                        {dateText && <div>{dateText}</div>}
                       </div>
 
+                      {e.location && <div className="pdf2-edu-location">{e.location}</div>}
+
+                      {e.achievements?.points?.length > 0 && (
+                        <div className="pdf2-edu-achievements">
+                          <div className="pdf2-achievement-title">{e.achievements.title}</div>
+                          <ul>
+                            {e.achievements.points.map((p, j) => p && <li key={j}>{p}</li>)}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                  )
+
+                  </div>
+                )
               })}
             </>
           )}
@@ -229,6 +229,11 @@ const PDFLayoutTwo = (({ generalInfo, experience, education, skills, summary, pr
                       {proj.link && (
                         <a href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf2-project-link" style={{ color: ui.accentColor }}>
                           {proj.link}
+                        </a>
+                      )}
+                      {proj.githubLink && (
+                        <a href={proj.githubLink} target="_blank" rel="noopener noreferrer" className="pdf2-project-link" style={{ color: ui.accentColor }}>
+                          GitHub
                         </a>
                       )}
                     </div>

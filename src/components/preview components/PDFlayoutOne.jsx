@@ -40,7 +40,7 @@ const PDFLayoutOne = ((props = {}) => {
     return "";
   };
 
- 
+
 
   return (
 
@@ -183,6 +183,11 @@ const PDFLayoutOne = ((props = {}) => {
                     {proj.link && (
                       <a data-pdf-link={proj.link} href={proj.link} target="_blank" rel="noopener noreferrer" className="pdf1-project-link" style={{ color: ui.accentColor }}>
                         {proj.link}
+                      </a>
+                    )}
+                    {proj.githubLink && (
+                      <a href={proj.githubLink} target="_blank" rel="noopener noreferrer" className="pdf1-project-link" style={{ color: ui.accentColor }}>
+                        GitHub
                       </a>
                     )}
 

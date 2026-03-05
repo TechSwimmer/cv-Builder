@@ -155,6 +155,11 @@ const LayoutThreePDF = ({
               <View key={i} style={styles.projectItem}>
                 <Text style={[styles.projectTitle, { color: pdfTheme.textColor }]}>{p.title}</Text>
                 {p.link && <Link src={p.link} style={[styles.link, { color: pdfTheme.accentColor }]}>{p.link}</Link>}
+                {p.githubLink && (
+                  <Link src={p.githubLink} style={[styles.link, { color: pdfTheme.accentColor }]}>
+                    {p.githubLink}
+                  </Link>
+                )}
                 {p.description && (
                   <Text style={[styles.projectDesc, { color: pdfTheme.textColor }]}>{p.description}</Text>
                 )}
@@ -213,37 +218,6 @@ const LayoutThreePDF = ({
           </View>
         )}
 
-        {/* HOBBIES & LANGUAGES */}
-        {(visibleSections?.hobbies || visibleSections?.languages) && (
-          <>
-            <View style={styles.twoColumn} wrap={false}>
-              {visibleSections?.hobbies && hobbies?.length > 0 && (
-                <View style={styles.columnLeft}>
-                  <Text style={[styles.sectionTitle, { color: pdfTheme.headingColor }]}>Interests</Text>
-                  {hobbies.map((h, i) => (
-                    <View key={i} style={styles.hobbyItem}>
-                      <Text style={[styles.hobbyTitle, { color: pdfTheme.headingColor }]}>{h.title}</Text>
-                      <Text style={[styles.hobbyDescription, { color: pdfTheme.textColor }]}>{h.description}</Text>
-                    </View>
-                  ))}
-                </View>
-              )}
-
-              {visibleSections?.languages && languages?.length > 0 && (
-                <View style={styles.columnRight}>
-                  <Text style={[styles.sectionTitle, { color: pdfTheme.headingColor }]}>Languages</Text>
-                  {languages.map((l, i) => (
-                    <View key={i} style={styles.langItem}>
-                      <Text style={[styles.smallText, { color: pdfTheme.textColor }]}>{l.language}</Text>
-                      <Text style={[styles.smallTextLang, { color: pdfTheme.textColor }]}>{l.proficiency}</Text>
-                    </View>
-                  ))}
-                </View>
-              )}
-            </View>
-          </>
-        )}
-
         {/* CUSTOM */}
         {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 &&
           customSections.map((section, sectionIndex) => {
@@ -296,26 +270,59 @@ const LayoutThreePDF = ({
               </View>
             );
           })}
-       
-      </View>
-       {shouldShowBranding && (
-          <View
-            fixed
-            style={{
-              position: "absolute",
-              right: 14,
-              bottom: 10,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 3
-            }}
-          >
-            <Text style={{ fontSize: 7, color: "#7d838f" }}>Created with</Text>
-            <Link src="https://resume-baker.netlify.app" style={{ fontSize: 7, color: "#6b7280" }}>
-              ResumeBaker
-            </Link>
-          </View>
+
+        {/* HOBBIES & LANGUAGES */}
+        {(visibleSections?.hobbies || visibleSections?.languages) && (
+          <>
+            <View style={styles.twoColumn} wrap={false}>
+              {visibleSections?.hobbies && hobbies?.length > 0 && (
+                <View style={styles.columnLeft}>
+                  <Text style={[styles.sectionTitle, { color: pdfTheme.headingColor }]}>Interests</Text>
+                  {hobbies.map((h, i) => (
+                    <View key={i} style={styles.hobbyItem}>
+                      <Text style={[styles.hobbyTitle, { color: pdfTheme.headingColor }]}>{h.title}</Text>
+                      <Text style={[styles.hobbyDescription, { color: pdfTheme.textColor }]}>{h.description}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+
+              {visibleSections?.languages && languages?.length > 0 && (
+                <View style={styles.columnRight}>
+                  <Text style={[styles.sectionTitle, { color: pdfTheme.headingColor }]}>Languages</Text>
+                  {languages.map((l, i) => (
+                    <View key={i} style={styles.langItem}>
+                      <Text style={[styles.smallText, { color: pdfTheme.textColor }]}>{l.language}</Text>
+                      <Text style={[styles.smallTextLang, { color: pdfTheme.textColor }]}>{l.proficiency}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
+          </>
         )}
+
+
+
+      </View>
+      {shouldShowBranding && (
+        <View
+          fixed
+          style={{
+            position: "absolute",
+            right: 14,
+            bottom: 10,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 3
+          }}
+        >
+          <Text style={{ fontSize: 7, color: "#7d838f" }}>Created with</Text>
+          <Link src="https://resume-baker.netlify.app" style={{ fontSize: 7, color: "#6b7280" }}>
+            ResumeBaker
+          </Link>
+        </View>
+      )}
     </PdfDocument>
   );
 };

@@ -42,7 +42,7 @@ const LayoutOnePDF = ({
     if (!start && end) return `${end}`;
     return "";
   };
- 
+
 
   return (
     <PdfDocument>
@@ -209,6 +209,11 @@ const LayoutOnePDF = ({
                       {p.link && (
                         <Link src={p.link} style={[styles.link, { color: pdfTheme.accentColor }]}>
                           {p.link}
+                        </Link>
+                      )}
+                      {p.githubLink && (
+                        <Link src={p.githubLink} style={[styles.link, { color: pdfTheme.accentColor }]}>
+                          {p.githubLink}
                         </Link>
                       )}
                     </View>

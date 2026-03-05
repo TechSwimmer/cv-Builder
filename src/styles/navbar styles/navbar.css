@@ -48,7 +48,7 @@
   color: #ffffff;
 }
 .userinfo-navbar {
-    min-width: 18vw;
+    min-width: 16vw;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -60,7 +60,8 @@
     
     
     
-    padding-right: 25px;
+    padding-right: 15px;
+    padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
 }

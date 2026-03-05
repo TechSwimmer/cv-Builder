@@ -167,6 +167,11 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                         {proj.link}
                       </a>
                     )}
+                    {proj.githubLink && (
+                      <a href={proj.githubLink} target="_blank" rel="noopener noreferrer" className="pdf3-project-link"  style={{ color: ui.accentColor }}>
+                        GitHub
+                      </a>
+                    )}
                   </div>
                   {proj.description && (
                     <p className="pdf3-project-description">{proj.description}</p>
@@ -212,46 +217,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
         )
       }
 
-      {/* HOBBIES & LANGUAGES - Side by side */}
-      {
-        (visibleSections?.hobbies || visibleSections?.languages) && (
-          <div className="pdf3-section pdf3-hobby-language" data-block>
-            <div className="pdf3-two-column">
-              {/* HOBBIES */}
-              {visibleSections?.hobbies && hobbies.length > 0 && (
-                <div className="pdf3-column">
-                  <h3 style={{ color: ui.headingColor }}>Interests</h3>
-                  <div className="pdf3-hobbies-list">
-                    {hobbies.map((hobby, index) => (
-                      <div key={index} className="pdf3-hobby-item">
-                        <strong>{hobby.title}</strong>
-                        <p>{hobby.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* LANGUAGES */}
-              {visibleSections?.languages && languages.length > 0 && (
-                <div className="pdf3-column">
-                  <h3 style={{ color: ui.headingColor }}>Languages</h3>
-                  <div className="pdf3-languages-list">
-                    {languages.map((lang, index) => (
-                      <div key={index} className="pdf3-language-item">
-                        <div className="pdf3-language-name">{lang.language}</div>
-                        <div className="pdf3-language-level">{lang.proficiency}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )
-      }
-
-      {/* CUSTOM SECTION */}
+          {/* CUSTOM SECTION */}
       {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
         <div className="pdf3-section pdf3-custom" data-block>
           {customSections.map((section, sectionIndex) => {
@@ -305,6 +271,47 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
           })}
         </div>
       )}
+
+      {/* HOBBIES & LANGUAGES - Side by side */}
+      {
+        (visibleSections?.hobbies || visibleSections?.languages) && (
+          <div className="pdf3-section pdf3-hobby-language" data-block>
+            <div className="pdf3-two-column">
+              {/* HOBBIES */}
+              {visibleSections?.hobbies && hobbies.length > 0 && (
+                <div className="pdf3-column">
+                  <h3 style={{ color: ui.headingColor }}>Interests</h3>
+                  <div className="pdf3-hobbies-list">
+                    {hobbies.map((hobby, index) => (
+                      <div key={index} className="pdf3-hobby-item">
+                        <strong>{hobby.title}</strong>
+                        <p>{hobby.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* LANGUAGES */}
+              {visibleSections?.languages && languages.length > 0 && (
+                <div className="pdf3-column">
+                  <h3 style={{ color: ui.headingColor }}>Languages</h3>
+                  <div className="pdf3-languages-list">
+                    {languages.map((lang, index) => (
+                      <div key={index} className="pdf3-language-item">
+                        <div className="pdf3-language-name">{lang.language}</div>
+                        <div className="pdf3-language-level">{lang.proficiency}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )
+      }
+
+  
     </div >
 
   );

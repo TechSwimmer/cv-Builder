@@ -55,7 +55,7 @@ export function normalizeImportedResume(data = {}) {
                 ? (Array.isArray(block.points) ? block.points : []).map(toString).filter(Boolean)
                 : [];
 
-        if (points.length === 0) return { title: "", points: [] };
+        if (points.length === 0) return { title: "", points: [""] };
 
         return {
             title: (block && typeof block === "object" ? toString(block.title) : "") || fallbackTitle,
@@ -106,6 +106,7 @@ export function normalizeImportedResume(data = {}) {
             title: p.title || p.name || "",
             description: p.description || "",
             link: p.link || p.liveLink || p.url || "",
+            githubLink: p.githubLink || p.repoLink || p.repository ||p.codeLink || "",
             skillsUsed: Array.isArray(p.skillsUsed)
                 ? p.skillsUsed
                 : typeof p.techStack === "string"
