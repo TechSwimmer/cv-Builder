@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback, useLayoutEffect } from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import API from '../../src/api';
 
 import html2canvas from "html2canvas";
@@ -21,9 +21,6 @@ import EditStyleTwo from "../components/style components/EditStyleTwo";
 import EditStyleThree from "../components/style components/EditStyleThree";
 import SaveCVModal from "../components/navbar components/SaveCVModal";
 
-import { useLocation } from "react-router-dom";
-
-
 // Images
 import layoutOne from "../images/layout1.png";
 import layoutTwo from "../images/layout2.png";
@@ -31,9 +28,6 @@ import layoutThree from "../images/layout3.png";
 
 // Styles
 import "../styles/pages styles/App.css";
-
-// upload resume function 
-import { uploadResume } from "../services/resumeUpload.service.js"
 
 import { normalizeImportedResume } from "../services/normalizeImportedResume.js";
 
@@ -85,7 +79,7 @@ export const INITIAL_FORM_DATA = {
       points: [""]
     },
     link: "",
-    githubLink:"",
+    githubLink: "",
   }],
   hobbies: [{
     title: "",
@@ -100,11 +94,12 @@ export const INITIAL_FORM_DATA = {
 
 
 // default styles
+const defaultTheme = THEME_OPTIONS.find((t) => t.value = "classicBlue")?.theme || {};
 const INITIAL_STYLES = {
   themeId: "classicBlue",
   fontFamily: "Georgia",
   showBranding: true,
-  ...THEME_OPTIONS.classicBlue
+  ...defaultTheme,
 };
 
 // section order
@@ -167,6 +162,25 @@ const CvBuilder = ({ setGlobalLoading }) => {
     setSelectedEditStyle('EditStyle');
     handleStylePage('layout1');
   }, []);
+
+  // screen scrolling managed 
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+  // screen scrolling managed 
+  useEffect(() => {
+    if (activeTab === "preview") {
+      const wrapper = document.querySelector(".preview-wrapper");
+      if (wrapper) {
+        wrapper.scrollTop = 0;
+        wrapper.scrollLeft = 0;
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+  }, [activeTab]);
 
 
   useEffect(() => {
@@ -398,10 +412,6 @@ const CvBuilder = ({ setGlobalLoading }) => {
     setActiveTab("preview");
   };
 
-  const handleEditClick = () => {
-    setShowForm(true);
-    setActiveTab('content');
-  };
 
   // Component renderers
   const renderEditStyle = () => {

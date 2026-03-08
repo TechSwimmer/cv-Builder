@@ -2,6 +2,11 @@ import React from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
 import PdfDocument from "../pdfDocument.jsx";
 import styles from "./layoutOne.styles";
+import formatDateRange from "../../../utils/formatDateRange.js";
+import getTheme from "../../../utils/getTheme.js"
+
+import { prepareCustomSection } from "../../../utils/sections/prepareCustomSection";
+
 
 const LayoutOnePDF = ({
   generalInfo,
@@ -17,31 +22,11 @@ const LayoutOnePDF = ({
   style = {}
 }) => {
 
-  const pdfTheme = {
-    fontFamily: style.fontFamily || "Helvetica",
 
-    headingColor: style.headingColor || "#1f2937",
-    textColor: style.textColor || "#374151",
-    accentColor: style.accentColor || "#2563eb",
-    pageBg: style.pageBg || "#ffffff",
-    skillBox: style.skillBox || "#2563eb",
-    skillTextColor: style.skillTextColor || '#ffffff'
-  };
 
+  const pdfTheme = getTheme(style);
   // branding logic
   const shouldShowBranding = style?.showBranding !== false;
-
-
-  // dates handler
-  const formatDateRange = (startDate, endDate) => {
-    const start = (startDate || "").trim();
-    const end = (endDate || "").trim();
-
-    if (start && end) return `${start} - ${end}`;
-    if (start && !end) return `${start} - Present`;
-    if (!start && end) return `${end}`;
-    return "";
-  };
 
 
   return (
@@ -285,29 +270,26 @@ const LayoutOnePDF = ({
             {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
               <>
                 {customSections.map((section, sectionIndex) => {
-                  const content = section?.content || {};
-                  const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
-                  const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
-                  const phone = content.contact?.phone?.trim();
-                  const email = content.contact?.email?.trim();
+                  const s = prepareCustomSection(section);
+                  if (!s.hasContent) return null;
 
                   return (
                     <View key={sectionIndex} style={styles.block}>
-                      {section?.title?.trim() && (
+                      {s?.title && (
                         <Text style={[styles.sectionHeader, { color: pdfTheme.headingColor }]}>
-                          {section.title}
+                          {s.title}
                         </Text>
                       )}
 
-                      {content.text?.trim() && (
+                      {s.text && (
                         <Text style={[styles.text, { color: pdfTheme.textColor }]}>
-                          {content.text}
+                          {s.text}
                         </Text>
                       )}
 
-                      {items.length > 0 && (
+                      {s.items.length > 0 && (
                         <View>
-                          {items.map((item, i) => (
+                          {s.items.map((item, i) => (
                             <View key={`item-${sectionIndex}-${i}`} style={styles.bulletRow} wrap={false}>
                               <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
                               <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{item}</Text>
@@ -316,9 +298,9 @@ const LayoutOnePDF = ({
                         </View>
                       )}
 
-                      {links.length > 0 && (
+                      {s.links.length > 0 && (
                         <View>
-                          {links.map((link, i) => (
+                          {s.links.map((link, i) => (
                             <Link
                               key={`link-${sectionIndex}-${i}`}
                               src={link}
@@ -330,11 +312,11 @@ const LayoutOnePDF = ({
                         </View>
                       )}
 
-                      {(phone || email) && (
+                      {(s.contact.phone || s.contact.email) && (
                         <Text style={[styles.text, { color: pdfTheme.textColor }]}>
-                          {phone || ""}
-                          {phone && email ? " • " : ""}
-                          {email || ""}
+                          {s.contact.phone || ""}
+                          {s.contact.phone && s.contact.email ? " • " : ""}
+                          {s.contact.email || ""}
                         </Text>
                       )}
                     </View>

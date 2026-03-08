@@ -1,39 +1,16 @@
 import React from "react";
 import "../../styles/pdfstyles/pdfLayoutThree.css";
+import formatDateRange from "../../utils/formatDateRange.js";
+import getTheme from "../../utils/getTheme.js"
 
-
+import { prepareCustomSection } from "../../utils/sections/prepareCustomSection.js";
 
 
 const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, projects, hobbies, languages, customSections, visibleSections, style = {} }) => {
 
-  const ui = {
-    fontFamily: style.fontFamily || "Georgia",
-    fontSize: `${style.baseFontSize || 11}px`,
-    headingColor: style.headingColor || "#1f2937",
-    textColor: style.textColor || "#374151",
-    accentColor: style.accentColor || "#2563eb",
-    pageBg: style.pageBg || "#ffffff",
-    skillBox: style.skillBox || "#2563eb",
-    skillTextColor: style.skillTextColor || "#ffffff"
-  }
-
-
-  // dates manager
-  const formatDateRange = (startDate, endDate) => {
-    const start = (startDate || "").trim();
-    const end = (endDate || "").trim();
-
-    if (start && end) return `${start} - ${end}`;
-    if (start && !end) return `${start} - Present`;
-    if (!start && end) return `${end}`;
-    return "";
-  };
-
+  const ui = getTheme(style);
 
   return (
-
-
-
     <div className="pdf3-page" style={{ fontFamily: ui.fontFamily, fontSize: ui.fontSize, color: ui.textColor, backgroundColor: ui.pageBg }}>
       {/* HEADER SECTION */}
       <div className="pdf3-section pdf3-header" data-block>
@@ -168,7 +145,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                       </a>
                     )}
                     {proj.githubLink && (
-                      <a href={proj.githubLink} target="_blank" rel="noopener noreferrer" className="pdf3-project-link"  style={{ color: ui.accentColor }}>
+                      <a href={proj.githubLink} target="_blank" rel="noopener noreferrer" className="pdf3-project-link" style={{ color: ui.accentColor }}>
                         GitHub
                       </a>
                     )}
@@ -217,35 +194,32 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
         )
       }
 
-          {/* CUSTOM SECTION */}
+      {/* CUSTOM SECTION */}
       {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 && (
         <div className="pdf3-section pdf3-custom" data-block>
           {customSections.map((section, sectionIndex) => {
-            const content = section?.content || {};
-            const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
-            const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
-            const phone = content.contact?.phone?.trim();
-            const email = content.contact?.email?.trim();
+            const s = prepareCustomSection(section);
+            if (!s.hasContent) return null;
 
             return (
               <div key={sectionIndex} className="pdf3-custom-section">
-                {section?.title?.trim() && (
-                  <h2 style={{ color: ui.headingColor }}>{section.title}</h2>
+                {s.title && (
+                  <h2 style={{ color: ui.headingColor }}>{s.title}</h2>
                 )}
 
-                {content.text?.trim() && <p>{content.text}</p>}
+                {s.text && <p>{s.text}</p>}
 
-                {items.length > 0 && (
+                {s.items.length > 0 && (
                   <ul>
-                    {items.map((item, i) => (
+                    {s.items.map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>
                 )}
 
-                {links.length > 0 && (
+                {s.links.length > 0 && (
                   <ul className="pdf3-custom-links">
-                    {links.map((link, i) => (
+                    {s.links.map((link, i) => (
                       <li key={i}>
                         <a
                           href={link}
@@ -260,10 +234,13 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
                   </ul>
                 )}
 
-                {(phone || email) && (
+                {(s.contact.phone || s.contact.email) && (
                   <div className="pdf3-custom-contact">
-                    {phone && <div><strong>Phone:</strong> {phone}</div>}
-                    {email && <div><strong>Email:</strong> {email}</div>}
+                  <p>
+                    {s.contact.phone}
+                    {s.contact.phone && s.contact.email ? " • " : ""}
+                    {s.contact.email}
+                  </p>
                   </div>
                 )}
               </div>
@@ -311,7 +288,7 @@ const PDFLayoutThree = (({ generalInfo, summary, experience, education, skills, 
         )
       }
 
-  
+
     </div >
 
   );

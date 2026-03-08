@@ -2,6 +2,11 @@ import React from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
 import PdfDocument from "../pdfDocument";
 import styles from "./layoutThree.styles";
+import formatDateRange from "../../../utils/formatDateRange.js";
+import getTheme from "../../../utils/getTheme.js"
+
+import { prepareCustomSection } from "../../../utils/sections/prepareCustomSection";
+
 
 const LayoutThreePDF = ({
   generalInfo,
@@ -17,32 +22,14 @@ const LayoutThreePDF = ({
   style = {}
 }) => {
 
-  const pdfTheme = {
-    fontFamily: style.fontFamily || "Helvetica",
 
-    headingColor: style.headingColor || "#1f2937",
-    textColor: style.textColor || "#374151",
-    accentColor: style.accentColor || "#2563eb",
-    pageBg: style.pageBg || "#ffffff",
-    skillBox: style.skillBox || "#2563eb",
-    skillTextColor: style.skillTextColor || '#ffffff'
-  };
 
+  const pdfTheme = getTheme(style);
 
   // branding logic  
   const shouldShowBranding = style?.showBranding !== false;
 
 
-  // dates handler
-  const formatDateRange = (startDate, endDate) => {
-    const start = (startDate || "").trim();
-    const end = (endDate || "").trim();
-
-    if (start && end) return `${start} - ${end}`;
-    if (start && !end) return `${start} - Present`;
-    if (!start && end) return `${end}`;
-    return "";
-  };
 
 
   return (
@@ -221,36 +208,33 @@ const LayoutThreePDF = ({
         {/* CUSTOM */}
         {visibleSections?.custom && Array.isArray(customSections) && customSections.length > 0 &&
           customSections.map((section, sectionIndex) => {
-            const content = section?.content || {};
-            const items = Array.isArray(content.items) ? content.items.filter((i) => i?.trim()) : [];
-            const links = Array.isArray(content.links) ? content.links.filter((l) => l?.trim()) : [];
-            const phone = content.contact?.phone?.trim();
-            const email = content.contact?.email?.trim();
+            const s = prepareCustomSection(section);
+            if (!s.hasContent) return null;
 
             return (
               <View key={sectionIndex} style={{ marginTop: 10 }}>
-                {section?.title?.trim() && (
+                {s.title && (
                   <Text style={[styles.sectionTitle, { color: pdfTheme.headingColor }]}>
-                    {section.title}
+                    {s.title}
                   </Text>
                 )}
 
-                {content.text?.trim() && (
+                {s.text && (
                   <Text style={[styles.summaryText, { color: pdfTheme.textColor }]}>
-                    {content.text}
+                    {s.text}
                   </Text>
                 )}
 
-                {items.length > 0 &&
-                  items.map((item, itemIndex) => (
+                {s.items.length > 0 &&
+                  s.items.map((item, itemIndex) => (
                     <View key={`item-${sectionIndex}-${itemIndex}`} style={styles.bulletRow} wrap={false}>
                       <Text style={[styles.bulletSymbol, { color: pdfTheme.textColor }]}>•</Text>
                       <Text style={[styles.bulletText, { color: pdfTheme.textColor }]}>{item}</Text>
                     </View>
                   ))}
 
-                {links.length > 0 &&
-                  links.map((link, linkIndex) => (
+                {s.links.length > 0 &&
+                  s.links.map((link, linkIndex) => (
                     <Link
                       key={`link-${sectionIndex}-${linkIndex}`}
                       src={link}
@@ -260,11 +244,11 @@ const LayoutThreePDF = ({
                     </Link>
                   ))}
 
-                {(phone || email) && (
+                {(s.contact.phone || s.contact.email) && (
                   <Text style={[styles.smallText, { color: pdfTheme.textColor }]}>
-                    {phone || ""}
-                    {phone && email ? " • " : ""}
-                    {email || ""}
+                    {s.contact.phone || ""}
+                    {s.contact.phone && s.contact.email ? " • " : ""}
+                    {s.contact.email || ""}
                   </Text>
                 )}
               </View>

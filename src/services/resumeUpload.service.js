@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import API from "../api"
 
-const API_URL =  import.meta.env.VITE_API_URL || "http://localhost:5000" ;
+// const API_URL =  import.meta.env.VITE_API_URL || "http://localhost:5000" ;
 
 export async function uploadResume (file, navigate,setLoading) {
 
@@ -14,7 +14,7 @@ export async function uploadResume (file, navigate,setLoading) {
         formData.append("resume", file);
         
         const res = await API.post(
-            `${API_URL}/api/ai/parse-resume`,
+            "/api/ai/parse-resume",
             formData,
             { headers: { "Content-Type": "multipart/form-data"}}
         );

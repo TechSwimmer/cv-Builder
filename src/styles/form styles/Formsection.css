@@ -271,9 +271,20 @@
   font-size: 20px;
 }
 
-  
-
-
+.custom-actions-row{
+  display: flex;
+  justify-content: space-between;
+}
+.custom-inline-actions{
+  display: flex;
+}
+.custom-section-block{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.add-custom-btn, .rem-custom-btn{
+  width: 100%;
+}
 .custom-container-form select{
   height: 50px;
 }

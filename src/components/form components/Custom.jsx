@@ -100,101 +100,81 @@ const Custom = ({ data = [], setData, visible, setVisible }) => {
 
   const addListItem = (sectionIndex) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                items: [...section.content.items, ""],
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const items = section.content.items.length ? [...section.content.items] : [""];
+        return {
+          ...section,
+          content: { ...section.content, items: [...items, ""] },
+        };
+      })
     );
   };
 
   const updateListItem = (sectionIndex, itemIndex, value) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                items: section.content.items.map((item, k) =>
-                  k === itemIndex ? value : item
-                ),
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const items = section.content.items.length ? [...section.content.items] : [""];
+        items[itemIndex] = value;
+        return {
+          ...section,
+          content: { ...section.content, items },
+        };
+      })
     );
   };
 
   const removeListItem = (sectionIndex, itemIndex) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                items: section.content.items.filter((_, k) => k !== itemIndex),
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const items = (section.content.items || []).filter((_, k) => k !== itemIndex);
+        return {
+          ...section,
+          content: { ...section.content, items: items.length ? items : [""] },
+        };
+      })
     );
   };
 
   const addLink = (sectionIndex) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                links: [...section.content.links, ""],
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const links = section.content.links.length ? [...section.content.links] : [""];
+        return {
+          ...section,
+          content: { ...section.content, links: [...links, ""] },
+        };
+      })
     );
   };
 
   const updateLink = (sectionIndex, linkIndex, value) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                links: section.content.links.map((link, k) =>
-                  k === linkIndex ? value : link
-                ),
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const links = section.content.links.length ? [...section.content.links] : [""];
+        links[linkIndex] = value;
+        return {
+          ...section,
+          content: { ...section.content, links },
+        };
+      })
     );
   };
 
   const removeLink = (sectionIndex, linkIndex) => {
     updateSections((prev) =>
-      prev.map((section, i) =>
-        i === sectionIndex
-          ? {
-              ...section,
-              content: {
-                ...section.content,
-                links: section.content.links.filter((_, k) => k !== linkIndex),
-              },
-            }
-          : section
-      )
+      prev.map((section, i) => {
+        if (i !== sectionIndex) return section;
+        const links = (section.content.links || []).filter((_, k) => k !== linkIndex);
+        return {
+          ...section,
+          content: { ...section.content, links: links.length ? links : [""] },
+        };
+      })
     );
   };
 
@@ -203,12 +183,12 @@ const Custom = ({ data = [], setData, visible, setVisible }) => {
       prev.map((section, i) =>
         i === sectionIndex
           ? {
-              ...section,
-              content: {
-                ...section.content,
-                contact: { ...section.content.contact, [field]: value },
-              },
-            }
+            ...section,
+            content: {
+              ...section.content,
+              contact: { ...section.content.contact, [field]: value },
+            },
+          }
           : section
       )
     );
@@ -242,17 +222,7 @@ const Custom = ({ data = [], setData, visible, setVisible }) => {
                 onChange={(e) => updateTitle(sectionIndex, e.target.value)}
               />
 
-              <div className="custom-actions-row">
-                <button type="button" onClick={() => addListItem(sectionIndex)}>
-                  + List Item
-                </button>
-                <button type="button" onClick={() => addLink(sectionIndex)}>
-                  + Link
-                </button>
-                <button type="button" onClick={() => removeSection(sectionIndex)}>
-                  Remove Section
-                </button>
-              </div>
+
 
               <div className="custom-block">
                 <textarea
@@ -261,43 +231,59 @@ const Custom = ({ data = [], setData, visible, setVisible }) => {
                   onChange={(e) => updateText(sectionIndex, e.target.value)}
                 />
 
-                {section.content.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="custom-inline-actions">
-                    <input
-                      type="text"
-                      placeholder="List item"
-                      value={item}
-                      onChange={(e) =>
-                        updateListItem(sectionIndex, itemIndex, e.target.value)
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeListItem(sectionIndex, itemIndex)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                {(section.content.items.length ? section.content.items : [""]).map((item, itemIndex, arr) => {
+                  const isLast = itemIndex === arr.length - 1;
+                  const isEmpty = !item?.trim();
 
-                {section.content.links.map((link, linkIndex) => (
-                  <div key={linkIndex} className="custom-inline-actions">
-                    <input
-                      type="text"
-                      placeholder="https://..."
-                      value={link}
-                      onChange={(e) =>
-                        updateLink(sectionIndex, linkIndex, e.target.value)
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeLink(sectionIndex, linkIndex)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                  return (
+                    <div key={itemIndex} className="custom-inline-actions">
+                      <input
+                        type="text"
+                        placeholder="List item"
+                        value={item}
+                        onChange={(e) => updateListItem(sectionIndex, itemIndex, e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        disabled={isLast && isEmpty}
+                        onClick={() =>
+                          isLast
+                            ? addListItem(sectionIndex)
+                            : removeListItem(sectionIndex, itemIndex)
+                        }
+                      >
+                        {isLast ? "Add" : "Remove"}
+                      </button>
+                    </div>
+                  );
+                })}
+
+                {(section.content.links.length ? section.content.links : [""]).map((link, linkIndex, arr) => {
+                  const isLast = linkIndex === arr.length - 1;
+                  const isEmpty = !link?.trim();
+
+                  return (
+                    <div key={linkIndex} className="custom-inline-actions">
+                      <input
+                        type="text"
+                        placeholder="https://..."
+                        value={link}
+                        onChange={(e) => updateLink(sectionIndex, linkIndex, e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        disabled={isLast && isEmpty}
+                        onClick={() =>
+                          isLast
+                            ? addLink(sectionIndex)
+                            : removeLink(sectionIndex, linkIndex)
+                        }
+                      >
+                        {isLast ? "Add" : "Remove"}
+                      </button>
+                    </div>
+                  );
+                })}
 
                 <div className="custom-inline-actions">
                   <input
@@ -318,16 +304,27 @@ const Custom = ({ data = [], setData, visible, setVisible }) => {
                   />
                 </div>
               </div>
+              <div className="custom-actions-row">
+                <button type="button" className="rem-custom-btn" onClick={() => removeSection(sectionIndex)}>
+                  Remove Section
+                </button>
+
+              </div>
             </div>
+
           ))}
 
-          <button type="button" onClick={addSection}>
+
+
+          <button type="button" className="add-custom-btn" onClick={addSection}>
             + Add Section
           </button>
+
+
         </>
       )}
     </div>
-    
+
   );
 };
 

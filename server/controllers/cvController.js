@@ -81,10 +81,10 @@ export const updateCv = async (req, res) => {
         if (!cv || cv.user.toString() !== req.user._id.toString())
             return res.status(403).json({ message: 'Unauthorized' });
 
-        const { formData, layout, customStyles, visibleSections,title,thumbnail } = req.body;
+        const { data, layout, customStyles, visibleSections,title,thumbnail } = req.body;
 
         cv.title = title || cv.title;
-        cv.formData = formData;
+        cv.data = data;
         cv.layout = layout;
         cv.customStyles = customStyles;
         cv.visibleSections = visibleSections;

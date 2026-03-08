@@ -9,7 +9,7 @@ const FONT_OPTIONS = [
   { label: "Calibri", value: "Calibri" },
   { label: "Cambria", value: "Cambria"}
 ];
-
+  
 export const THEME_OPTIONS = [
   {
     label: "Classic Blue",

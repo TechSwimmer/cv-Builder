@@ -23,13 +23,14 @@ export const checkAiQuota = async (req, res, next) => {
         await user.save();
 
     }
-
-    const FREE_LIMIT = 3;
-    if(!user.isPremium && user.aiUsage.resumeImports >= FREE_LIMIT){
-        return res.status(403).json({
-            error:"Daily AI limit reached. Upgrade to premium."
-        });
-    }
+    
+    // code that will be used if premium field added to user models
+    // const FREE_LIMIT = 3;
+    // if(!user.isPremium && user.aiUsage.resumeImports >= FREE_LIMIT){
+    //     return res.status(403).json({
+    //         error:"Daily AI limit reached. Upgrade to premium."
+    //     });
+    // }
 
    req.userDoc = user;
 

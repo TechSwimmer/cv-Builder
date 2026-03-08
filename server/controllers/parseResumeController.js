@@ -87,7 +87,7 @@ function normalizeSkillUsed(skillsUsed, techStack) {
 }
 
 
-function normalisePointsBlock(block, fallbackTitle = "") {
+function normalizePointsBlock(block, fallbackTitle = "") {
     const titleRaw =
         block && typeof block === "object"
             ? toString(block.title || block.heading || block.subheading)
@@ -103,7 +103,7 @@ function normalisePointsBlock(block, fallbackTitle = "") {
     }
 
     if (points.length === 0) {
-        return { title: "", points: [] }; // key improvement
+        return { title: "", points: [""] }; // key improvement
     }
 
     return { title: titleRaw || fallbackTitle, points };
@@ -214,7 +214,7 @@ function normalizeResume(ai) {
             startDate: toString(e.startDate || e.from || e.start) || "",
             endDate: toString(e.endDate || e.to || e.end) || "",
             // achievements: { title: "", points: [""] }
-            achievements: normalisePointsBlock(e.achievements, "")
+            achievements: normalizePointsBlock(e.achievements, "")
         })),
 
         experience: toArray((ai.experience) || []).map(e => ({
@@ -224,7 +224,7 @@ function normalizeResume(ai) {
             startDate: toString(e.startDate || e.from || e.start) || "",
             endDate: toString(e.endDate || e.to || e.end) || "",
             // achievements: { title: "", points: [""] }
-            achievements: normalisePointsBlock(e.achievements, "")
+            achievements: normalizePointsBlock(e.achievements, "")
         })),
 
         // skills: (ai.skills || []).map(s => ({ skill: s })),
@@ -241,7 +241,7 @@ function normalizeResume(ai) {
             description: toString(p.description) || "",
             // skillsUsed: Array.isArray(p.techStack) ? p.techStack.split(",").map(t => t.trim()) : [],
             skillsUsed: normalizeSkillUsed(p.skillsUsed, p.techStack),
-            keyFeatures: normalisePointsBlock(
+            keyFeatures: normalizePointsBlock(
                 p.keyFeatures || p.features || p.highlights,
                 "Key Features"
             )
@@ -345,16 +345,31 @@ export const parseResume = async (req, res) => {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             temperature: 0,
+            response_format: { type: "json_object" },
             messages: [
                 {
                     role: "system",
                     content: `
-                    You convert resumes into structured JSON.
-                    Return ONLY valid JSON.
-                    Structure must match:
-                    {
-                        "generalInfo": { "name": "", "email": "", "phone": "", "location": "", "linkedin": "", "github": "", "website": "", "title": "" },
+                        You convert resumes into structured JSON.
+
+                        Return ONLY valid JSON.
+
+                        Schema:
+
+                        {
+                            "generalInfo": {
+                            "name": "",
+                            "email": "",
+                            "phone": "",
+                            "location": "",
+                            "linkedin": "",
+                            "github": "",
+                            "website": "",
+                            "title": ""
+                        },
+
                         "summary": { "summary": "" },
+
                         "education": [
                             {
                                 "institution": "",
@@ -365,6 +380,7 @@ export const parseResume = async (req, res) => {
                                 "achievements": { "title": "", "points": [] }
                             }
                         ],
+
                         "experience": [
                             {
                                 "jobTitle": "",
@@ -375,7 +391,9 @@ export const parseResume = async (req, res) => {
                                 "achievements": { "title": "", "points": [] }
                             }
                         ],
+
                         "skills": [],
+
                         "projects": [
                             {
                                 "name": "",
@@ -386,78 +404,47 @@ export const parseResume = async (req, res) => {
                                 "keyFeatures": { "title": "", "points": [] }
                             }
                         ],
-                        "languages": [{"language":"", "proficiency": ""}],
-                        "hobbies": [{"title":"", "description": ""}],
+
+                        "languages": [
+                            { "language": "", "proficiency": "" }
+                        ],
+
+                        "hobbies": [
+                            { "title": "", "description": "" }
+                        ],
+
                         "customSections": [
-                        {
-                            "title": "",
-                            "content": {
-                                "text":"",
-                                "items":[],
-                                "links":[],
-                                "contact":{"phone":"","email":""}
+                            {
+                                "title": "",
+                                "content": {
+                                "text": "",
+                                "items": [],
+                                "links": [],
+                                "contact": { "phone": "", "email": "" }
+                                }
                             }
-                              
-                        }
-                        
-                    ]
-                
-                    Rules:
-                    - Do not invent data. If missing use empty string.
-                    - Keep dates if present in resume.
-                    - If bullets exist under project / education / experience, keep them in points.
-                    - If heading or sub-heading is missing for project / education / experience but bullet points or ordered or unordered list exists in them then infer a concise heading from point content.
-                    - If unknown, use empty string or empty array.  
-                    - Extract hobby descriptions when available; if none, use empty string.
-                    - Extract languages with proficiency when available.
-                    - For website/linkedin/github links, return full URL with protocol (https://...).
-                    - Preserve standalone headed sections like "Core Competencies", "Synopsis", "IT Proficiency", "Personal Dossier" as customSections if they are not fully represented in standard sections.
-                    - If "Core Competencies" appears, create a customSections item with title exactly "Core Competencies" and put its bullet/line content into content.items.
-                    - If "Synopsis" appears, keep concise profile text in summary.summary, and place remaining synopsis lines in a customSections item titled "Synopsis".
-                    - Do not merge "Core Competencies" into skills only; preserve competency statements as custom section content.
-                    - If a repository/source-code link exists, return it in projects[].githubLink.
-                    Date formatting rule:
-                    - Convert all month-year dates to MM YYYY format.
-                    - Example: "MAY 2008" -> "05 2008", "October 2019" -> "10 2019".
-                    - Keep "Present" as "Present".
-                    - If month is missing and only year exists, keep as YYYY.
-                    CRITICAL RULE — DO NOT DROP CONTENT:
-
-                    If ANY section, heading, paragraph, bullet list, or structured information exists in the resume
-                    that does NOT fit into:
-
-                    - generalInfo
-                    - summary
-                    - education
-                    - experience
-                    - skills
-                    - projects
-                    - languages
-                    - hobbies
-
-                    You MUST include it inside customSections.
-
-                    Each custom section must preserve:
-
-                    - original section title
-                    - all text content
-                    - all bullet points
-                    - all links
-
-                    Use blocks structure:
-
-                {
-                    "title": "",
-                    "content": {
-                        "text": "",
-                        "items": [],
-                        "links": [],
-                        "contact": { "phone": "", "email": "" }
-                    }
-                    
+                ]
                 }
 
-                NEVER discard any resume content.
+                Rules:
+
+                - Do NOT invent information.
+                - If information is missing, return empty strings or empty arrays.
+                - Preserve bullet points under experience, education, or projects.
+                - Extract technologies into skillsUsed when present.
+                - Extract repository links into githubLink when available.
+                - Convert dates to MM YYYY format when month exists.
+                - Keep "Present" unchanged.
+                - If summary already contains synopsis, still preserve additional synopsis lines in customSections when not duplicated.
+                - Do not wrap JSON in markdown/code fences.
+                - Return website/linkedin/github/liveLink/githubLink as full URLs with https:// when possible.
+                - Do not merge Core Competencies into skills only; preserve competency statements in customSections.
+                Important:
+
+                If a section exists in the resume that does NOT match the standard schema,
+                preserve it inside customSections with its original title and content.
+
+                Never discard resume content.
                 `
                 },
                 {
@@ -466,7 +453,7 @@ export const parseResume = async (req, res) => {
                 },
             ],
         });
-
+ 
         const aiResponse = completion.choices[0].message.content;
 
         // parse JSON safely
@@ -489,7 +476,7 @@ export const parseResume = async (req, res) => {
             req.userDoc.aiUsage.resumeImports += 1;
             await req.userDoc.save();
         }
-        console.log(resumeText)
+        // console.log(resumeText)
         console.log("AI customSections payload:", JSON.stringify(parsed.customSections, null, 2));
         console.log("Normalized customSections payload:", JSON.stringify(normalized.customSections, null, 2));
         res.json(normalized);

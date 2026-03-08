@@ -130,4 +130,4 @@ export function normalizeImportedResume(data = {}) {
 
         customSections:normalizeCustomSections(data), 
     }
-}
+} 

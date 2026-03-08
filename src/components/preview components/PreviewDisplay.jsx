@@ -16,7 +16,8 @@ const PreviewDisplay = forwardRef(({currentLayout, visibleSections, style = {}, 
     const updateWidth = () => setWrapperWidth(el.clientWidth)
 
     updateWidth();
-
+    el.scrollTop = 0;
+    el.scrollLeft = 0;
     const observer = new ResizeObserver(updateWidth);
     observer.observe(el);
 

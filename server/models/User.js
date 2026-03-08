@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         resumeImports: { type: Number, default: 0 },
         lastReset: { type: Date, default: Date.now }
     },
-
+ 
     // email verification implementation (latest unpushed to repo)
     isEmailVerified: { type: Boolean, default: false},
     emailVerificationTokenHash: { type: String, default:null },
