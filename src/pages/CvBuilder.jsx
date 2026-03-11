@@ -20,7 +20,7 @@ import EditStyle from "../components/style components/EditStyle";
 import EditStyleTwo from "../components/style components/EditStyleTwo";
 import EditStyleThree from "../components/style components/EditStyleThree";
 import SaveCVModal from "../components/navbar components/SaveCVModal";
-
+import Feedback from "../components/feedback/Feedback.jsx";
 // Images
 import layoutOne from "../images/layout1.png";
 import layoutTwo from "../images/layout2.png";
@@ -134,6 +134,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   const [customStyles, setCustomStyles] = useState(INITIAL_STYLES);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [pdfPreviewHeight, setPdfPreviewHeight] = useState(600);
+  const [showFeedback, setShowFeedback] = useState(false);
   const [viewportWidth, setViewPortWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   )
@@ -393,7 +394,25 @@ const CvBuilder = ({ setGlobalLoading }) => {
     a.href = url;
     a.download = `${cvName || "resume"}.pdf`;
     a.click();
+
     URL.revokeObjectURL(url);
+
+    // show feedback after download trigger (delayed)
+    const feedbackFlag = sessionStorage.getItem("feedbackPromptedAfterDownload");
+    if (!feedbackFlag) {
+      setTimeout(() => {
+        setShowFeedback(true);
+        sessionStorage.setItem("feedbackPromptedAfterDownload", "1");
+      }, 250);
+    }
+
+
+    // fire-and-forget metric update (don't block UI)
+    if (!import.meta.env.DEV) {
+      API.post("/api/metrics/download").catch((err) => {
+        console.error("Failed to update download metric:", err?.response?.data || err.message);
+      });
+    }
   };
 
   // const moveItem = (arr,from,to) => {
@@ -616,6 +635,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
         />
       )}
 
+      <Feedback open={showFeedback} onClose={() => setShowFeedback(false)} />
 
     </>
   );

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/pages styles/AuthPage.css';
 import '../styles/pages styles/IntroStyles.css'
 import IntroPages from './Intropages.jsx';
 import API from "../api.js";
 import ResumeBakerLogo from '../components/navbar components/ResumeBakerLogo.jsx';
-
+import AppFooter from "../components/common/AppFooter.jsx"
+import Feedback from '../components/feedback/Feedback.jsx';
 import { uploadResume } from "../services/resumeUpload.service.js"
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -20,7 +21,17 @@ const AuthPage = ({ setGlobalLoading }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [cvDownloads, setCvDownloads] = useState(0);
+  const [showFeedback, setShowFeedback] = useState(false);
+  useEffect(() => {
+    let mounted = true;
+    API.get("/api/metrics/public")
+      .then((res) => {
+        if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
+      })
+      .catch(() => { });
+    return () => { mounted = false; };
+  }, []);
 
 
   const navigate = useNavigate();
@@ -106,6 +117,7 @@ const AuthPage = ({ setGlobalLoading }) => {
           <p className='tagline'>Create professional resumes in minutes</p>
         </div>
         <div className='header-buttons'>
+          
           {!showIntro && (
             <button className='intro-toggle' onClick={showIntroAgain}>
               Show Tutorial
@@ -113,9 +125,10 @@ const AuthPage = ({ setGlobalLoading }) => {
           )}
         </div>
       </header>
-
+         
       <div className='auth-layout'>
         {/* Left Panel - Introduction/Tutorial */}
+        
         {showIntro && (
           <div className='intro-panel'>
             <div className='intro-header'>
@@ -140,8 +153,11 @@ const AuthPage = ({ setGlobalLoading }) => {
 
         {/* Right Panel - Authentication Form */}
         <div className={`auth-panel ${!showIntro ? 'centered' : ''}`}>
-          <div className='auth-card'>
+           
+          <div className='auth-card'> 
+            
             <div className='card-header'>
+              <div className="download-counter">Created {cvDownloads} CVs. </div>
               <h2>{isLogin ? 'Welcome Back' : 'Create Your Account'}</h2>
               <p>
                 {isLogin
@@ -221,23 +237,23 @@ const AuthPage = ({ setGlobalLoading }) => {
               <div className='input-group'>
                 <label htmlFor='password'>Password</label>
                 <div className='password-field'>
-                <input
-                  id='password'
-                  type={showPassword ? "text" : "password"}
-                  placeholder={isLogin ? 'Enter your password' : 'Create a secure password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={errors.password ? 'error' : ''}
-                />
-                <button
-                  type='button'
-                  className='password-toggle'
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  aria-pressed={showPassword}
-                >
-                  {showPassword ? '🙈' : '👁️'}
-                </button>
+                  <input
+                    id='password'
+                    type={showPassword ? "text" : "password"}
+                    placeholder={isLogin ? 'Enter your password' : 'Create a secure password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={errors.password ? 'error' : ''}
+                  />
+                  <button
+                    type='button'
+                    className='password-toggle'
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? '🙈' : '👁️'}
+                  </button>
                 </div>
                 {errors.password && <span className='error-msg'>{errors.password}</span>}
               </div>
@@ -314,15 +330,8 @@ const AuthPage = ({ setGlobalLoading }) => {
         </div>
       </div>
 
-      <footer className='auth-footer-global'>
-        <p>© 2024 ResumeBaker. All rights reserved.</p>
-        <div className='footer-links'>
-          <a href='#privacy'>Privacy Policy</a>
-          <a href='#terms'>Terms of Service</a>
-          <a href='#help'>Help Center</a>
-          <a href='#contact'>Contact Us</a>
-        </div>
-      </footer>
+      <AppFooter onFeedbackClick={() => setShowFeedback(true)}/>
+      <Feedback open={showFeedback} onClose={() => setShowFeedback(false)} />
     </div>
   );
 };

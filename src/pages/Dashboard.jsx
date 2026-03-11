@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api.js';
 import { useNavigate } from 'react-router-dom';
+
 import '../styles/pages styles/dashboard.css';
 import DashboardNavbar from '../components/navbar components/DashboardNavbar.jsx';
-
+import AppFooter from '../components/common/AppFooter.jsx';
+import Feedback from '../components/feedback/Feedback.jsx';
 
 import { 
   FiEdit2, 
@@ -20,6 +22,8 @@ const Dashboard = ({setGlobalLoading}) => {
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState(''); // Added this line
+    const [showFeedback, setShowFeedback] = useState(false);
+
     const [stats, setStats] = useState({
         total: 0,
         lastCreated: null,
@@ -321,6 +325,9 @@ const Dashboard = ({setGlobalLoading}) => {
                     {message}
                 </div>
             )}
+            <AppFooter onFeedbackClick={() => setShowFeedback(true)}/>
+            <Feedback open={showFeedback} onClose={() => setShowFeedback(false)} />
+
         </div>
     );
 };

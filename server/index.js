@@ -8,9 +8,11 @@ dotenv.config();
 import authRoutes from './routes/Auth.js'
 import cvRoutes from './routes/Cv.js'
 import parseResumeRoute from "./routes/parseResumeRoute.js"
+import metricsRoute from "./routes/metricsRoute.js"
+import feedbackRoute from "./routes/feedbackRoute.js";
 
 
-
+ 
 const app =  express();
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +31,9 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/cv', cvRoutes);
 app.use("/api/ai", parseResumeRoute);
+app.use("/api/metrics",metricsRoute);
+app.use("/api/feedback", feedbackRoute);
+
 
 app.get('/', (req, res) => {
     res.send('CV builder Backend is live');

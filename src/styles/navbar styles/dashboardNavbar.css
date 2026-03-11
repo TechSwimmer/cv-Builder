@@ -74,6 +74,23 @@ nav span {
   color: white;
   font: inherit;
   font-weight: bold;
+  
+}
+.download-counter{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px; 
+   background: #3b82f6;
+  color: white;
+  
+    font: inherit;
+  font-weight: bold;
+    box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15);
+     border-radius: 6px;
+  
 }
 .nav-upload:hover{
    transform: translateY(-1px);
@@ -186,4 +203,8 @@ nav span {
   right: 0;
   margin: 0;
 }
+.download-counter{
+  width: 100%;
+}
+
 }
