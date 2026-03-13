@@ -162,14 +162,14 @@ const AuthPage = ({ setGlobalLoading }) => {
               <p>
                 {isLogin
                   ? 'Sign in to access your saved resumes'
-                  : 'Join thousands who landed jobs with professional resumes'
+                  : 'Build and customize your resume quickly with flexible templates'
                 }
               </p>
             </div>
             <div className="import-resume-box">
               <label className="import-resume-btn">
                 🚀 Upload Resume — Get a Professional Version in Seconds
-                <small>No signup required</small>
+                <small>No signup required (Guest mode)</small>
 
                 <input
                   type="file"
@@ -324,8 +324,9 @@ const AuthPage = ({ setGlobalLoading }) => {
           </div>
 
           <div className='testimonial'>
-            <p>"ResumeBaker helped me create a professional CV that got me interviews at top companies!"</p>
-            <div className='author'>- Sarah M., Software Engineer</div>
+            <h4>Guest mode available</h4>
+            <p>Resumes are not stored unless you create an account and choose to save them.</p>
+            
           </div>
         </div>
       </div>
