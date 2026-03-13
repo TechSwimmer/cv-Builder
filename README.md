@@ -200,6 +200,7 @@ cv-maker/
 *   Portfolio: https://techdevnikhil.netlify.app
 *   LinkedIn: https://www.linkedin.com/in/techdevnikhil/
 *   GitHub: https://github.com/TechSwimmer
+*   Launched on Product Hunt: https://www.producthunt.com/products/resumebaker
 
 ## 📄 License
 
