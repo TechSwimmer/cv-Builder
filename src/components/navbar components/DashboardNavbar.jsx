@@ -10,12 +10,10 @@ import { uploadResume } from "../../services/resumeUpload.service.js"
 import API from '../../api.js';
 
 const DashboardNavbar = ({
-    username,
     handleLogout,
     setGlobalLoading
 }) => {
     const navigate = useNavigate();
-    username = localStorage.getItem('username')
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [cvDownloads, setCvDownloads] = useState(0);

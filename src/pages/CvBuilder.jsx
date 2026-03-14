@@ -9,7 +9,7 @@ import { pdf } from "@react-pdf/renderer";
 import PDFlayoutOne from "../components/pdf components/Layout-One/LayoutOnePDF.jsx";
 import PDFlayoutTwo from "../components/pdf components/Layout-Two/LayoutTwoPDF.jsx";
 import PDFlayoutThree from "../components/pdf components/Layout-Three/LayoutThreePDF.jsx";
-import { THEME_OPTIONS } from "../components/style components/EditStylePanel.jsx";
+import { THEME_OPTIONS } from "../constants/themes.js";
 
 // Components
 import FormWizard from "../components/form components/FormWizard";
@@ -34,7 +34,7 @@ import { normalizeImportedResume } from "../services/normalizeImportedResume.js"
 import "../components/pdf components/fonts/registerFonts.js"
 
 // Constants
-export const INITIAL_FORM_DATA = {
+const INITIAL_FORM_DATA = {
   generalInfo: {
     name: "",
     email: "",
@@ -92,9 +92,20 @@ export const INITIAL_FORM_DATA = {
   customSections: [],
 };
 
+const INITIAL_VISIBLE_SECTIONS = {
+  education: true,
+  experience: true,
+  projects: true,
+  skills: true,
+  summary: true,
+  hobbies: true,
+  languages: true,
+  custom: true,
+};
+
 
 // default styles
-const defaultTheme = THEME_OPTIONS.find((t) => t.value = "classicBlue")?.theme || {};
+const defaultTheme = THEME_OPTIONS.find((t) => t.value === "classicBlue")?.theme || {};
 const INITIAL_STYLES = {
   themeId: "classicBlue",
   fontFamily: "Georgia",
@@ -138,16 +149,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   const [viewportWidth, setViewPortWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   )
-  const [visibleSections, setVisibleSections] = useState({
-    education: true,
-    experience: true,
-    projects: true,
-    skills: true,
-    summary: true,
-    hobbies: true,
-    languages: true,
-    custom: true,
-  });
+  const [visibleSections, setVisibleSections] = useState(INITIAL_VISIBLE_SECTIONS);
 
   const location = useLocation();
 
@@ -158,11 +160,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   const token = localStorage.getItem('token');
 
   // Effects
-  useEffect(() => {
-    // Set initial layout and style
-    setSelectedEditStyle('EditStyle');
-    handleStylePage('layout1');
-  }, []);
+
 
   // screen scrolling managed 
   useEffect(() => {
@@ -184,33 +182,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   }, [activeTab]);
 
 
-  useEffect(() => {
-    // Load existing CV if editing
-    if (cvId && token) {
-      const loadCV = async () => {
-        try {
-          const res = await API.get(`/api/cv/${cvId}`);
-          const { formData: fetchedFormData, customStyles: fetchedStyles,
-            visibleSections: fetchedVisibleSections, layout, title } = res.data;
 
-          setFormData(fetchedFormData || INITIAL_FORM_DATA);
-          setCustomStyles({ ...INITIAL_STYLES, ...(fetchedStyles || {}) });
-
-          setVisibleSections(fetchedVisibleSections || visibleSections);
-          setCurrentLayout(layout || 'layout1');
-          setCvName(title || '');
-          // setSectionOrder(res.data.sectionOrder || DEFAULT_SECTION_ORDER);
-
-          // Set appropriate edit style component
-          handleStylePage(layout || 'layout1');
-        } catch (err) {
-          console.error('Failed to load CV:', err);
-          alert('Failed to load CV. Please try again.');
-        }
-      };
-      loadCV();
-    }
-  }, [cvId, token]);
 
   useEffect(() => {
     // Check authentication
@@ -319,6 +291,41 @@ const CvBuilder = ({ setGlobalLoading }) => {
     setSelectedEditStyle(styleMap[layout] || 'EditStyle');
   }, []);
 
+  
+  useEffect(() => {
+    // Set initial layout and style
+    setSelectedEditStyle('EditStyle');
+    handleStylePage('layout1');
+  }, [handleStylePage]);
+
+    useEffect(() => {
+    // Load existing CV if editing
+    if (cvId && token) {
+      const loadCV = async () => {
+        try {
+          const res = await API.get(`/api/cv/${cvId}`);
+          const { formData: fetchedFormData, customStyles: fetchedStyles,
+            visibleSections: fetchedVisibleSections, layout, title } = res.data;
+
+          setFormData(fetchedFormData || INITIAL_FORM_DATA);
+          setCustomStyles({ ...INITIAL_STYLES, ...(fetchedStyles || {}) });
+
+          setVisibleSections(fetchedVisibleSections || INITIAL_VISIBLE_SECTIONS);
+          setCurrentLayout(layout || 'layout1');
+          setCvName(title || '');
+          // setSectionOrder(res.data.sectionOrder || DEFAULT_SECTION_ORDER);
+
+          // Set appropriate edit style component
+          handleStylePage(layout || 'layout1');
+        } catch (err) {
+          console.error('Failed to load CV:', err);
+          alert('Failed to load CV. Please try again.');
+        }
+      };
+      loadCV();
+    }
+  }, [cvId, token, handleStylePage]);
+
   const generateThumbnail = useCallback(async () => {
     const element = previewRef.current;
     if (!element) return null;
@@ -426,12 +433,6 @@ const CvBuilder = ({ setGlobalLoading }) => {
     setCustomStyles(prev => ({ ...prev, ...newStyles }));
   }, []);
 
-  const handleSubmit = () => {
-    setShowForm(false);
-    setActiveTab("preview");
-  };
-
-
   // Component renderers
   const renderEditStyle = () => {
     const styleComponents = {
@@ -485,16 +486,12 @@ const CvBuilder = ({ setGlobalLoading }) => {
           setActiveTab={setActiveTab}
           currentLayout={currentLayout}
           isLoggedIn={isLoggedIn}
-          handleLayoutClick={handleLayoutClick}
           handleDownloadPDF={handleDownloadPDF}
-          showSaveDialog={showSaveDialog}
           setShowSaveDialog={setShowSaveDialog}
           showForm={showForm}
           setShowForm={setShowForm}
           navigateToDashboard={navigate}
           username={username}
-          setUserName={setUserName}
-          onSubmit={handleSubmit}
           setGlobalLoading={setGlobalLoading}
         />
 

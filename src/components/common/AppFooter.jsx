@@ -1,10 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "../../styles/Footer.css"
 
 const AppFooter = ({ onFeedbackClick }) => {
-  const navigate = useNavigate();
-
   return (
     <footer className="auth-footer-global">
     

@@ -5,7 +5,6 @@ import '../../styles/layout styles/layout.css'
 
 const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images, closeDrawer }) => {
 
-  const [showSlider, setShowSlider] = useState(false);
   const [isMobile, setIsMobile] = useState(() => window.matchMedia("(max-width:840px)").matches);
  
 
@@ -15,8 +14,6 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
     const mq = window.matchMedia("(max-width:840px)");;
     const handler = (e) => {
       setIsMobile(e.matches);
-      // close slider on breakpoint change (prevents weird states)
-      setShowSlider(false);
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -26,7 +23,6 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
   const onEnter = useCallback(
     (e) => {
       if (!isMobile) {
-        setShowSlider(true);
         handleMouseEnter?.(e);
       }
     },
@@ -36,23 +32,15 @@ const Layout = ({ handleLayoutClick, handleMouseEnter, handleMouseLeave, images,
   const onLeave = useCallback(
     (e) => {
       if (!isMobile) {
-        setShowSlider(false);
         handleMouseLeave?.(e);
       }
     },
     [isMobile, handleMouseLeave]
   );
 
-  // Mobile click toggle 
-
-  const toggleSlider = useCallback(() => {
-    if (isMobile) setShowSlider((s) => !s);
-  }, [isMobile])
-
   const selectLayout = (layout) => {
     handleLayoutClick(layout);
     closeDrawer?.();
-    setShowSlider(false)
   };
 
 

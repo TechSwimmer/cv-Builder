@@ -3,14 +3,14 @@ import React from "react";
 import animationData from "../../assets/Text generation loop.json";
 import "../../styles/resumeLoading.css"
 
-const ResumeLoading = () => {
+const messages = [
+    "Extracting resume content...",
+    "Structuring education, experience etc...",
+    "Formatting into a professional layout...",
+    "Finalizing your CV..."
+]
 
-    const messages = [
-        "Extracting resume content...",
-        "Structuring education, experience etc...",
-        "Formatting into a professional layout...",
-        "Finalizing your CV..."
-    ]
+const ResumeLoading = () => {
 
     const [index, setIndex] = React.useState(0);
 

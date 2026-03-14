@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import '../../styles/navbar styles/navbar.css'
@@ -29,16 +29,12 @@ const BuilderNavbar = ({
     handleStylePage,
     currentLayout,
     isLoggedIn,
-    handleLayoutClick,
     handleDownloadPDF,
-    showSaveDialog,
     setShowSaveDialog,
     showForm,
     setShowForm,
     navigateToDashboard,
     username,
-    setUserName,
-    onSubmit,
     setGlobalLoading
 }) => {
 
@@ -125,7 +121,7 @@ const BuilderNavbar = ({
                     </div>
 
                 </nav>
-            )}
+            )} 
             {!isLoggedIn && (
                 <nav className="cv-navbar">
                     <div className='userinfo-navbar' style={{ backgroundColor: 'aqua' }}>

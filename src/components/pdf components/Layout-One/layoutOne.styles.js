@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
     marginTop: 8,
-    textTransform: "uppercase",
     borderBottom: "1 solid #ccc",
     
     paddingBottom: 4,

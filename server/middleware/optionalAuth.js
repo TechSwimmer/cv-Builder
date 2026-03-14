@@ -12,8 +12,8 @@ export const optionalAuth = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await User.findById(decoded.id)
     }
-    catch(err) {
-
+    catch {
+        // Invalid/expired token should not block public access.
     }
     next();
 };

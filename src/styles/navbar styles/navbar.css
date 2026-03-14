@@ -58,7 +58,7 @@
     
     margin:5px ;
     
-    
+     
     
     padding-right: 15px;
     padding-left: 15px;
@@ -290,4 +290,14 @@
   display: flex;
   justify-content: space-between;
 }
+}
+
+@media (min-width: 900px) and (max-width: 1115px) {
+  .userinfo-btn-navbar {
+    
+    font-size: .8rem;
+  }
+  .userinfo-navbar h2 {
+    font-size: 1rem;
+  }
 }

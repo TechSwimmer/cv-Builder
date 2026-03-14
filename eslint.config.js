@@ -30,4 +30,10 @@ export default [
       ],
     },
   },
+  {
+    files: ['server/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ]

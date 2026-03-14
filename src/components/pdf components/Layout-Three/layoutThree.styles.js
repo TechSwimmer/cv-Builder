@@ -163,11 +163,6 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
 
-  bullet: {
-    fontSize: 11,
-    marginLeft: 10,
-    marginBottom: 2,
-  },
   bulletRow: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -203,11 +198,6 @@ tagText: {
   color: "#fff",
   lineHeight: 1,   // 🔑 critical
 },
-
-  tagRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
 
   /* ===== SKILLS ===== */
   skillsGrid: {

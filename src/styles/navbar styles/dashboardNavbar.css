@@ -50,7 +50,7 @@ nav span {
     justify-content: space-around;
     align-items: center;
     padding-right: 12px;
-    width: 50%;;
+    width: 65%;;
 } 
 .dashboard-buttons button,
 .dashboard-buttons .nav-upload {
@@ -60,7 +60,7 @@ nav span {
   min-height: 38px;
   padding: 0 12px;
   margin: 0 10px;
-  min-width: 120px;
+  min-width: 140px;
   border-radius: 6px;
   cursor: pointer;
   box-shadow:
@@ -202,9 +202,24 @@ nav span {
   left: 0;
   right: 0;
   margin: 0;
+ 
 }
+
 .download-counter{
   width: 100%;
 }
 
+}
+@media (min-width: 900px) and (max-width: 1115px) {
+  .userinfo-btn-navbar {
+    
+    font-size: .8rem;
+    font-weight: 200;
+    
+  }
+  .dashboard-buttons{
+    font-size: .8rem;
+    font-weight: 200;
+  }
+  
 }
