@@ -16,7 +16,7 @@ export async function uploadResume (file, navigate,setLoading) {
             formData,
             { headers: { "Content-Type": "multipart/form-data"}}
         );
-
+ 
         // save temporarily
         sessionStorage.setItem("importedResume", JSON.stringify(res.data));
 

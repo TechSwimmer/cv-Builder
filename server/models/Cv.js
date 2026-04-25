@@ -23,7 +23,7 @@ const cvSchema = new mongoose.Schema({
         hobbies: { type: Boolean, default: true },
         languages: { type: Boolean, default: true },
         custom: { type: Boolean, default: true },
-    },
+    }, 
     thumbnail: String,
 
     createdAt: {

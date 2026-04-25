@@ -190,7 +190,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
     setUserName(localStorage.getItem('username'))
     setIsLoggedIn(!!token);
 
-    if (!token) {
+    if (!token) { 
       setCustomStyles((prev) => ({ ...prev, showBranding: true }));
     }
 
@@ -299,7 +299,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
   }, [handleStylePage]);
 
     useEffect(() => {
-    // Load existing CV if editing
+    // Load existing CV if editing 
     if (cvId && token) {
       const loadCV = async () => {
         try {
@@ -484,6 +484,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
         <BuilderNavbar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          handleStylePage={handleStylePage}
           currentLayout={currentLayout}
           isLoggedIn={isLoggedIn}
           handleDownloadPDF={handleDownloadPDF}

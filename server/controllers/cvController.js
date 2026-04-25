@@ -89,7 +89,7 @@ export const updateCv = async (req, res) => {
         cv.customStyles = customStyles;
         cv.visibleSections = visibleSections;
         cv.thumbnail = thumbnail;
-
+ 
         await cv.save();
         res.status(200).json(cv);
     }
