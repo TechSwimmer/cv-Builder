@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/pages styles/AuthPage.css';
 import '../styles/pages styles/IntroStyles.css'
@@ -23,14 +23,23 @@ const AuthPage = ({ setGlobalLoading }) => {
   const [errors, setErrors] = useState({});
   const [cvDownloads, setCvDownloads] = useState(0);
   const [showFeedback, setShowFeedback] = useState(false);
+
   useEffect(() => {
+
     let mounted = true;
-    API.get("/api/metrics/public")
-      .then((res) => {
-        if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
-      })
-      .catch(() => { });
-    return () => { mounted = false; };
+    let timeforCvStat = setTimeout(() => {
+      API.get("/api/metrics/public")
+        .then((res) => {
+          if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
+        })
+        .catch(() => { });
+      return () => { mounted = false; };
+    }, 1200);
+    
+    return () =>{
+      mounted = false;
+      clearTimeout(timeforCvStat);
+    }
   }, []);
 
 
@@ -117,7 +126,7 @@ const AuthPage = ({ setGlobalLoading }) => {
           <p className='tagline'>Create professional resumes in minutes</p>
         </div>
         <div className='header-buttons'>
-          
+
           {!showIntro && (
             <button className='intro-toggle' onClick={showIntroAgain}>
               Show Tutorial
@@ -125,10 +134,10 @@ const AuthPage = ({ setGlobalLoading }) => {
           )}
         </div>
       </header>
-         
+
       <div className='auth-layout'>
         {/* Left Panel - Introduction/Tutorial */}
-        
+
         {showIntro && (
           <div className='intro-panel'>
             <div className='intro-header'>
@@ -153,9 +162,9 @@ const AuthPage = ({ setGlobalLoading }) => {
 
         {/* Right Panel - Authentication Form */}
         <div className={`auth-panel ${!showIntro ? 'centered' : ''}`}>
-           
-          <div className='auth-card'> 
-            
+
+          <div className='auth-card'>
+
             <div className='card-header'>
               <div className="download-counter">Created {cvDownloads} CVs. </div>
               <h2>{isLogin ? 'Welcome Back' : 'Create Your Account'}</h2>
@@ -326,12 +335,12 @@ const AuthPage = ({ setGlobalLoading }) => {
           <div className='testimonial'>
             <h4>Guest mode available</h4>
             <p>Resumes are not stored unless you create an account and choose to save them.</p>
-            
+
           </div>
         </div>
       </div>
 
-      <AppFooter onFeedbackClick={() => setShowFeedback(true)}/>
+      <AppFooter onFeedbackClick={() => setShowFeedback(true)} />
       <Feedback open={showFeedback} onClose={() => setShowFeedback(false)} />
     </div>
   );
