@@ -20,12 +20,18 @@ const DashboardNavbar = ({
 
     useEffect(() => {
         let mounted = true;
-        API.get("/api/metrics/public")
+        const timeforCvStat =  setTimeout(() => {
+            API.get("/api/metrics/public")
             .then((res) => {
                 if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
             })
             .catch(() => { });
         return () => { mounted = false; };
+        },1000)
+        return (() => {
+            mounted = false;
+            clearTimeout(timeforCvStat);
+        })
     }, []);
 
 

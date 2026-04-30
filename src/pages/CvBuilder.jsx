@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, useLayoutEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback, useLayoutEffect, Suspense, lazy } from "react";
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import API from '../../src/api';
 
@@ -12,13 +12,13 @@ import PDFlayoutThree from "../components/pdf components/Layout-Three/LayoutThre
 import { THEME_OPTIONS } from "../constants/themes.js";
 
 // Components
-import FormWizard from "../components/form components/FormWizard";
+// import FormWizard from "../components/form components/FormWizard";
 import BuilderNavbar from "../components/navbar components/BuilderNavbar";
-import PreviewDisplay from "../components/preview components/PreviewDisplay";
-import LayoutDrawer from "../components/layout components/layoutDrawer";
-import EditStyle from "../components/style components/EditStyle";
-import EditStyleTwo from "../components/style components/EditStyleTwo";
-import EditStyleThree from "../components/style components/EditStyleThree";
+// import PreviewDisplay from "../components/preview components/PreviewDisplay";
+// import LayoutDrawer from "../components/layout components/layoutDrawer";
+// import EditStyle from "../components/style components/EditStyle";
+// import EditStyleTwo from "../components/style components/EditStyleTwo";
+// import EditStyleThree from "../components/style components/EditStyleThree";
 import SaveCVModal from "../components/navbar components/SaveCVModal";
 import Feedback from "../components/feedback/Feedback.jsx";
 // Images
@@ -26,12 +26,20 @@ import layoutOne from "../images/layout1.png";
 import layoutTwo from "../images/layout2.png";
 import layoutThree from "../images/layout3.png";
 
+
 // Styles
 import "../styles/pages styles/App.css";
 
 import { normalizeImportedResume } from "../services/normalizeImportedResume.js";
 
 import "../components/pdf components/fonts/registerFonts.js"
+
+const FormWizard = lazy(() => import("../components/form components/FormWizard"));
+const PreviewDisplay = lazy(() => import("../components/preview components/PreviewDisplay"));
+const LayoutDrawer = lazy(() => import("../components/layout components/layoutDrawer"));
+const EditStyle = lazy(() => import("../components/style components/EditStyle"));
+const EditStyleTwo = lazy(() => import("../components/style components/EditStyleTwo"));
+const EditStyleThree = lazy(() => import("../components/style components/EditStyleThree"));
 
 // Constants
 const INITIAL_FORM_DATA = {
@@ -501,18 +509,21 @@ const CvBuilder = ({ setGlobalLoading }) => {
             <div className="cv-builder-form-container">
               {activeTab === "content" && (
                 <div className="form-wizard-wrapper">
+                  <Suspense fallback={<div>Loading form...</div>}>
                   <FormWizard
                     formData={formData}
                     setFormData={setFormData}
                     visibleSections={visibleSections}
                     setVisibleSections={setVisibleSections}
                   />
+                  </Suspense>
                 </div>
               )}
               {activeTab === "style" && (
                 <div className="edit-style-wrapper">
+                  <Suspense fallback={<div>Loading styles...</div>}>
                   {renderEditStyle()}
-
+                  </Suspense>
                   {/* branding content starts */}
                   <div style={{ marginTop: 12, fontSize: 13 }}>
                     <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -551,6 +562,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
           >
 
             {activeTab !== "preview" && (
+              <Suspense fallback={<div>Loading preview...</div>}>
               <PreviewDisplay
                 ref={previewRef}
                 {...formData}
@@ -559,6 +571,7 @@ const CvBuilder = ({ setGlobalLoading }) => {
                 visibleSections={visibleSections}
                 currentLayout={currentLayout}
               />
+              </Suspense>
             )}
 
             {/* React-PDF fullscreen preview */}
@@ -611,14 +624,14 @@ const CvBuilder = ({ setGlobalLoading }) => {
                 </PDFViewer>
               )
             )}
-
+            <Suspense fallback={null}>
             <LayoutDrawer
               handleLayoutClick={handleLayoutClick}
               images={{ layoutOne, layoutTwo, layoutThree }}
               currentImage={currentLayout === 'layout1' ? layoutOne :
                 currentLayout === 'layout2' ? layoutTwo : layoutThree}
             />
-
+            </Suspense>
 
           </div>
         </div>
