@@ -1,4 +1,5 @@
 
+import React, {Suspense, lazy} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import ResumeLoading from './components/animations/ResumeLoading';
@@ -20,6 +21,7 @@ function App() {
       {globalLoading && (
         <ResumeLoading/>
         )}
+        <Suspense fallback={<div style={{ padding: 16 }}>Loading...</div>}>
       <Routes>
        
         <Route path='/' element={<AuthPage setGlobalLoading={setGlobalLoading}/>}/>
@@ -27,6 +29,7 @@ function App() {
         
         <Route path="/dashboard" element={<Dashboard setGlobalLoading={setGlobalLoading}/>} /> 
       </Routes>
+      </Suspense>
       </div>
     </BrowserRouter>
   );
