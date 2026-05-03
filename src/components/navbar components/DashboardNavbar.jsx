@@ -34,9 +34,9 @@ const DashboardNavbar = ({
             <nav className='db-navbar'>
                 <nav>
                     <ResumeBakerLogo size={40} />
-                    
+
                 </nav>
-                
+
                 <button
                     className="mobile-menu-toggle"
                     onClick={() => setMobileMenuOpen((v) => !v)}
@@ -45,12 +45,14 @@ const DashboardNavbar = ({
                 >
                     ☰ Menu
                 </button>
-                 
+
                 <div
                     id="builder-mobile-actions"
                     className={`userinfo-btn-navbar ${mobileMenuOpen ? "open" : ""} dashboard-buttons`}
                 >
-                   <div className="download-counter">Created {cvDownloads} CVs. </div>
+                    <div className='download-counter'>
+                        Created {String(cvDownloads).padStart(2, "0")} CVs.
+                    </div>
                     <label className='nav-upload'>
                         Import Resume
                         <input

@@ -35,8 +35,8 @@ const AuthPage = ({ setGlobalLoading }) => {
         .catch(() => { });
       return () => { mounted = false; };
     }, 1200);
-    
-    return () =>{
+
+    return () => {
       mounted = false;
       clearTimeout(timeforCvStat);
     }
@@ -166,7 +166,9 @@ const AuthPage = ({ setGlobalLoading }) => {
           <div className='auth-card'>
 
             <div className='card-header'>
-              <div className="download-counter">Created {cvDownloads} CVs. </div>
+              <div className='download-counter'>
+                Created {String(cvDownloads).padStart(2, "0")} CVs.
+              </div>
               <h2>{isLogin ? 'Welcome Back' : 'Create Your Account'}</h2>
               <p>
                 {isLogin
