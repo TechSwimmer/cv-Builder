@@ -19,19 +19,21 @@ const DashboardNavbar = ({
     const [cvDownloads, setCvDownloads] = useState(0);
 
     useEffect(() => {
+
         let mounted = true;
-        const timeforCvStat =  setTimeout(() => {
+        let timeforCvStat = setTimeout(() => {
             API.get("/api/metrics/public")
-            .then((res) => {
-                if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
-            })
-            .catch(() => { });
-        return () => { mounted = false; };
-        },1000)
-        return (() => {
+                .then((res) => {
+                    if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
+                })
+                .catch(() => { });
+            return () => { mounted = false; };
+        }, 2500);
+
+        return () => {
             mounted = false;
             clearTimeout(timeforCvStat);
-        })
+        }
     }, []);
 
 
