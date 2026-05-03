@@ -34,7 +34,7 @@ const AuthPage = ({ setGlobalLoading }) => {
         })
         .catch(() => { });
       return () => { mounted = false; };
-    }, 1200);
+    }, 2500);
 
     return () => {
       mounted = false;
