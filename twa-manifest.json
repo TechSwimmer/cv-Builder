@@ -1,0 +1,49 @@
+{
+  "packageId": "com.resumebaker.app",
+  "host": "resume-baker.netlify.app",
+  "name": "ResumeBaker",
+  "launcherName": "ResumeBaker",
+  "display": "standalone",
+  "themeColor": "#2563EB",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://resume-baker.netlify.app/icons/resumeBaker.png",
+  "maskableIconUrl": "https://resume-baker.netlify.app/icons/resumeBaker.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "F:\\current-cvBuilder\\cv-maker\\android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://resume-baker.netlify.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://resume-baker.netlify.app/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [
+    {"value" : "A9:65:7B:67:C9:71:D5:D5:6B:28:B1:C7:D8:57:24:83:ED:A9:F2:4D:31:6A:10:FD:07:60:49:1A:7C:33:32:C1"}
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1"
+}
