@@ -33,3 +33,7 @@ src/.env*
 !.env.example
 !server/.env.example
 !src/.env.example
+
+*.keystore
+*.jks
+android.keystore
