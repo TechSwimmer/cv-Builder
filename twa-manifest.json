@@ -20,8 +20,8 @@
     "path": "F:\\current-cvBuilder\\cv-maker\\android.keystore",
     "alias": "android"
   },
-  "appVersionName": "1",
-  "appVersionCode": 1,
+  "appVersionName": "2",
+  "appVersionCode": 2,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://resume-baker.netlify.app/manifest.webmanifest",
@@ -37,7 +37,9 @@
   "minSdkVersion": 21,
   "orientation": "portrait",
   "fingerprints": [
-    {"value" : "A9:65:7B:67:C9:71:D5:D5:6B:28:B1:C7:D8:57:24:83:ED:A9:F2:4D:31:6A:10:FD:07:60:49:1A:7C:33:32:C1"}
+    {
+      "value": "A9:65:7B:67:C9:71:D5:D5:6B:28:B1:C7:D8:57:24:83:ED:A9:F2:4D:31:6A:10:FD:07:60:49:1A:7C:33:32:C1"
+    }
   ],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
@@ -45,5 +47,5 @@
   "fileHandlers": [],
   "launchHandlerClientMode": "",
   "displayOverride": [],
-  "appVersion": "1"
+  "appVersion": "2"
 }
