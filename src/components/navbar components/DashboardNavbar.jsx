@@ -16,27 +16,42 @@ const DashboardNavbar = ({
     const navigate = useNavigate();
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [cvDownloads, setCvDownloads] = useState(0);
+    const [deletingAccount, setDeletingAccount] = useState(false);
+    // const [cvDownloads, setCvDownloads] = useState(0);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        let mounted = true;
-        let timeforCvStat = setTimeout(() => {
-            API.get("/api/metrics/public")
-                .then((res) => {
-                    if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
-                })
-                .catch(() => { });
-            return () => { mounted = false; };
-        }, 2500);
+    //     let mounted = true;
+    //     let timeforCvStat = setTimeout(() => {
+    //         API.get("/api/metrics/public")
+    //             .then((res) => {
+    //                 if (mounted) setCvDownloads(res.data?.cvDownloads || 0);
+    //             })
+    //             .catch(() => { });
+    //         return () => { mounted = false; };
+    //     }, 2500);
 
-        return () => {
-            mounted = false;
-            clearTimeout(timeforCvStat);
-        }
-    }, []);
+    //     return () => {
+    //         mounted = false;
+    //         clearTimeout(timeforCvStat);
+    //     }
+    // }, []);
 
+    const deleteAccount = () => {
+        if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
 
+        setDeletingAccount(true);
+        API.delete("/api/auth/delete-account")
+            .then(() => {
+                handleLogout();
+                alert("Your account has been deleted.");
+            })
+            .catch((err) => {
+                console.error("Account deletion error:", err);
+                alert("An error occurred while deleting your account. Please try again later.");
+            })
+            .finally(() => setDeletingAccount(false));
+    };
     return (
         <>
             <nav className='db-navbar'>
@@ -58,9 +73,9 @@ const DashboardNavbar = ({
                     id="builder-mobile-actions"
                     className={`userinfo-btn-navbar ${mobileMenuOpen ? "open" : ""} dashboard-buttons`}
                 >
-                    <div className='download-counter'>
+                    {/* <div className='download-counter'>
                         Created {String(cvDownloads).padStart(2, "0")} CVs.
-                    </div>
+                    </div> */}
                     <label className='nav-upload'>
                         Import Resume
                         <input
@@ -84,6 +99,12 @@ const DashboardNavbar = ({
                         onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                     >
                         Logout
+                    </button>
+                    <button
+                        onClick={() => { deleteAccount(); setMobileMenuOpen(false); }}
+                        disabled={deletingAccount}
+                    >
+                        {deletingAccount ? "Deleting..." : "Delete account"}
                     </button>
                 </div>
 
